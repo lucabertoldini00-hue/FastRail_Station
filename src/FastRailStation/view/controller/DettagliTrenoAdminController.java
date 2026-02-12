@@ -1,4 +1,4 @@
-package view.controller;
+package FastRailStation.view.controller;
 
 public class DettagliTrenoAdminController {
 }

@@ -1,4 +1,4 @@
-package model;
+package FastRailStation.model;
 
 public class GestioneTreni {
 }
