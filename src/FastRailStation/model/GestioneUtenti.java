@@ -2,8 +2,8 @@ package FastRailStation.model;
 
 import java.util.ArrayList;
 
-import FastRailStation.SalvataggioDati.LeggiDati;
-import FastRailStation.SalvataggioDati.ScriviDati;
+import FastRailStation.salvataggioDati.LeggiDati;
+import FastRailStation.salvataggioDati.ScriviDati;
 
 public class GestioneUtenti {
     private static GestioneUtenti instance;
