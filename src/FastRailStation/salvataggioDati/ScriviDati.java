@@ -1,4 +1,4 @@
-package FastRailStation.SalvataggioDati;
+package FastRailStation.salvataggioDati;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

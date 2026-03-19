@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import FastRailStation.SalvataggioDati.LeggiDati;
-import FastRailStation.SalvataggioDati.ScriviDati;
+import FastRailStation.salvataggioDati.LeggiDati;
+import FastRailStation.salvataggioDati.ScriviDati;
 
 public class GestioneTreni
 {
