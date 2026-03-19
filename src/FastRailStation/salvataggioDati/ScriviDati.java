@@ -79,7 +79,7 @@ public class ScriviDati
 
     public void scriviTreniFine(ObservableList<Treno> treni)
     {
-        try (FileWriter writer = new FileWriter("./src/mainFolder/salvataggioDati/treni.csv"))
+        try (FileWriter writer = new FileWriter("./src/FastRailStation/salvataggioDati/treni.csv"))
         {
             writer.write("Modello,Provenienza,Destinazione,Compagnia,Codice,NumMax,GiornoArrivo,OraArrivo,GiornoPartenza,OraPartenza,Intervallo,Stato,PostiOccupati,Ritardo,InizioManutenzione,FineManutenzione,Deposito\n");
 

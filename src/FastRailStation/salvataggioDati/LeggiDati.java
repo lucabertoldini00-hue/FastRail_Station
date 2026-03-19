@@ -106,7 +106,7 @@ public class LeggiDati {
         ObservableList<Treno> aerei = FXCollections.observableArrayList();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        try (BufferedReader reader = new BufferedReader(new FileReader("./src/FastRailStation/SalvataggioDati/treni.csv"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("./src/FastRailStation/salvataggioDati/treni.csv"))) {
             String line;
             reader.readLine(); // Salta la prima riga (intestazione)
             while ((line = reader.readLine()) != null) {

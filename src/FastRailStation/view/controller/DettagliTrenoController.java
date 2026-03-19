@@ -29,18 +29,18 @@ public class DettagliTrenoController
     {
         nomeTreno.setText(treno.getModello());
         lblModello.setText(treno.getModello());
-        lblProvenienza.setText(treno.getProvenienzaString());
+        lblProvenienza.setText(treno.getProvenienza());
         lblPostiTotali.setText(String.valueOf(treno.getPostiMassimi()));
         lblGiornoPartenza.setText(treno.getGiornoPartenzaString());
-        lblRitardo.setText(String.valueOf(treno.getRitardoInt()));
+        lblRitardo.setText(String.valueOf(treno.getRitardo()));
         lblCompagnia.setText(treno.getCompagnia());
-        lblDestinazione.setText(treno.getDestinazioneString());
+        lblDestinazione.setText(treno.getDestinazione());
         lblBinario.setText(String.valueOf(treno.getBinario()));
         lblOrarioArrivo.setText(treno.getOraArrivoString());
         lblGiornoArrivo.setText(treno.getGiornoArrivoString());
         lblOrarioPartenza.setText(treno.getOraPartenzaString());
-        lblPostiOccupati.setText(String.valueOf(treno.getNumeroPostiOccupatiInt()));
-        lblTerminal.setText(String.valueOf(treno.getTerminalInt()));
+        lblPostiOccupati.setText(String.valueOf(treno.getNumeroPostiOccupati()));
+        lblTerminal.setText(String.valueOf(treno.getBinario()));
 
         // Chiamo metodo che imposta l'immagine del treno corretto
         setImage(treno.getModello(), treno.getCompagnia());

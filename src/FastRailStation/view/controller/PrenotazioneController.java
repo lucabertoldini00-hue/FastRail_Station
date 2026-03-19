@@ -173,10 +173,10 @@ public class PrenotazioneController
                         treni.setStato("In partenza");
                     } else if (treni.isInAttesa()) {
                         treni.setStato("In attesa");
-                    } else if (treni.isInManutenzione()) {
+                    } else if (treni.isInManutenzione(true)) {
                         treni.setStato("In manutenzione");
                     }
-                    if (treni.isInManutenzione()) {
+                    if (treni.isInManutenzione(true)) {
                         changepartenza(txtDestinazione.getText());
                         treni.setInManutenzione(false);
                         //riaggiorno la tabella

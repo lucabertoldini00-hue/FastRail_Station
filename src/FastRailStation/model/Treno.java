@@ -165,7 +165,7 @@ public class Treno {
     public boolean isInPartenza() { return inPartenza; }
     public void setInPartenza(boolean b) { this.inPartenza = b; }
 
-    public boolean isInManutenzione() { return inManutenzione; }
+    public boolean isInManutenzione(boolean b) { return inManutenzione; }
     public void setInManutenzione(boolean b) { this.inManutenzione = b; }
 
     public boolean isInCorsa() { return inCorsa; }

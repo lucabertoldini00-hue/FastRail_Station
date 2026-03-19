@@ -59,7 +59,7 @@ public class PwChangeController
 
     private void cambiaPassword()
     {
-        ArrayList<Utenti> listaUtenti = new ArrayList<Utenti>();
+        ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
         listaUtenti = gestioneUtenti.getUtenti();
         boolean utenteTtrovato = false;
         for(int i = 0; i < listaUtenti.size(); i++)
