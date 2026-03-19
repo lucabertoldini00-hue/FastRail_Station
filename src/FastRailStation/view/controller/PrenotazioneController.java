@@ -168,9 +168,9 @@ public class PrenotazioneController
             Platform.runLater(() -> {
                 for (Treno treni : gestioneTreni.getElencoLista()) {
                     if (treni.isInCorsa()) {
-                        treni.setStato("In arrivo");
+                        treni.setStato("In corsa");
                     } else if (treni.isInArrivo()) {
-                        treni.setStato("In partenza");
+                        treni.setStato("In arrivo");
                     } else if (treni.isInAttesa()) {
                         treni.setStato("In attesa");
                     } else if (treni.isInManutenzione()) {
