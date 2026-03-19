@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import FastRailStation.model.Treno;
 import FastRailStation.model.GestioneUtenti;
+import FastRailStation.model.GestioneTreni;
 
 public class PrenotazioneController
 {
@@ -78,7 +79,7 @@ public class PrenotazioneController
 
     //per tenere controllato se si è loggati
     GestioneUtenti gestioneUtenti = GestioneUtenti.getInstance();
-    GestioneTreni gestioneAerei = GestioneTreni.getInstance();
+    GestioneTreni gestioneTreni = GestioneTreni.getInstance();
 
     public void initialize()
     {
@@ -128,7 +129,7 @@ public class PrenotazioneController
         colCompagnia.setCellValueFactory(cellData -> cellData.getValue().getCompagniaProperty());
         colStato.setCellValueFactory(cellData -> cellData.getValue().getStatoProperty());
 
-        tblVoli.setItems(gestioneAerei.getElencoListaPartenze());
+        tblVoli.setItems(gestioneTreni.getElencoListaPartenze());
     }
 
 
@@ -166,18 +167,18 @@ public class PrenotazioneController
         synchronized (gestioneTreni.getElencoLista()) {
             Platform.runLater(() -> {
                 for (Treno treni : gestioneTreni.getElencoLista()) {
-                    if (treni.isInVolo()) {
+                    if (treni.isInCorsa()) {
                         treni.setStato("In arrivo");
-                    } else if (treni.isInPartenza()) {
+                    } else if (treni.isInArrivo()) {
                         treni.setStato("In partenza");
                     } else if (treni.isInAttesa()) {
                         treni.setStato("In attesa");
                     } else if (treni.isInManutenzione()) {
                         treni.setStato("In manutenzione");
                     }
-                    if (treni.isAggiornato()) {
+                    if (treni.isInManutenzione()) {
                         changepartenza(txtDestinazione.getText());
-                        treni.setAggiornato(false);
+                        treni.setInManutenzione(false);
                         //riaggiorno la tabella
                     }
                 }
@@ -187,13 +188,13 @@ public class PrenotazioneController
 
     @FXML
     public void changeData() {
-        gestioneAerei.setDataPartenza(dpDataPartenza.getValue());
+        gestioneTreni.setDataPartenza(dpDataPartenza.getValue());
     }
 
     public void changepartenza(String newValue)
     {
-        gestioneAerei.setDataPartenza(dpDataPartenza.getValue());
-        gestioneAerei.aggiornaPartenza(newValue.toLowerCase());
+        gestioneTreni.setDataPartenza(dpDataPartenza.getValue());
+        gestioneTreni.aggiornaPartenza(newValue.toLowerCase());
     }
 
     private void checkLogin()
@@ -213,10 +214,10 @@ public class PrenotazioneController
         if (controllaTutto())
         {
             segnala.setText(testoConferma);
-            trenoSelezionato.setNumeroPostiOccupati(trenoSelezionato.getNumeroPostiOccupatiInt() + nAdulti + nBambini);
+            trenoSelezionato.setNumeroPostiOccupati(trenoSelezionato.getNumeroPostiOccupati() + nAdulti + nBambini);
             segnala.setStyle("-fx-text-fill: black;");
             resetCampi();
-            gestioneAerei.scriviDati();
+            gestioneTreni.scriviDati();
 
             PauseTransition pause = new PauseTransition(Duration.seconds(2));
             lblPrezzo.setText("0");
@@ -244,7 +245,7 @@ public class PrenotazioneController
             {
                 if (cbClasse.getValue() != null)
                 {
-                    if (trenoSelezionato.getPostiMassimi() >= (trenoSelezionato.getNumeroPostiOccupatiInt() + nAdulti + nBambini))
+                    if (trenoSelezionato.getPostiMassimi() >= (trenoSelezionato.getNumeroPostiOccupati() + nAdulti + nBambini))
                     {
                         return true;
                     }
