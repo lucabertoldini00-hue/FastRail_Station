@@ -1,358 +1,85 @@
 package FastRailStation.view.controller;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import FastRailStation.model.Treno;
 import FastRailStation.model.GestioneTreni;
 import FastRailStation.model.GestioneUtenti;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class UserMainController {
 
-    @FXML private Label orologio;
-    @FXML private ToggleButton tglPartenze;
-    @FXML private ToggleButton tglArrivi;
-    @FXML private Button btnHome;
-    @FXML private Button btnAccedi;
+    @FXML private Label navHome;
+    @FXML private Label navArrivi;
+    @FXML private Label navPartenze;
+    @FXML private Label navPrenota;
+    @FXML private Label navProfilo;
 
-    // Tabella partenze
-    @FXML private TableView<Treno> tableArrivi;
-    @FXML private TableColumn<Treno, LocalTime> colOrarioArrivo;
-    @FXML private TableColumn<Treno, Integer> colRitardoArrivi;
-    @FXML private TableColumn<Treno, String> colProvenienza;
-    @FXML private TableColumn<Treno, String> colCodiceArrivi;
-    @FXML private TableColumn<Treno, Integer> colGateArrivi;
-    @FXML private TableColumn<Treno, String> colCompagniaArrivi;
-    @FXML private TableColumn<Treno, String> colStatoArrivi;
-    // Tabella arrivi
-    @FXML private TableView<Treno> tablePartenze;
-    @FXML private TableColumn<Treno, LocalTime> colOrarioPartenza;
-    @FXML private TableColumn<Treno, Integer> colRitardoPartenze;
-    @FXML private TableColumn<Treno, String> colDestinazione;
-    @FXML private TableColumn<Treno, String> colCodicePartenze;
-    @FXML private TableColumn<Treno, Integer> colGatePartenze;
-    @FXML private TableColumn<Treno, String> colCompagniaPartenze;
-    @FXML private TableColumn<Treno, String> colStatoPartenze;
+    private boolean partenzeSelected = false;
 
-    @FXML private StackPane stackPaneTable;
-    @FXML private AnchorPane anchPanePartenze;
-    @FXML private AnchorPane anchPaneArrivi;
+    private final GestioneTreni  gestioneTreni  = GestioneTreni.getInstance();
+    private final GestioneUtenti gestioneUtenti = GestioneUtenti.getInstance();
 
-    @FXML private TextField cercaTxfield;
-    @FXML private DatePicker dataDtpk;
-    @FXML private Button cercaBtn;
-
-    private boolean partenzeSelected;
-
-    //per tenere controllato se si è loggati
-    GestioneUtenti gestioneUtenti = GestioneUtenti.getInstance();
-    GestioneTreni gestioneAerei = GestioneTreni.getInstance();
-
-    // Var per la finestra dei dettagli dell'aereo
-    private Stage infoStage; // Memorizza il riferimento alla finestra delle informazioni aperta
-
-    // Metodi per impostare i valori di ricerca
-    public void setCercaTxt(String cercaText) {
-        // Imposto la textfield con il testo di ricerca
-        cercaTxfield.setText(cercaText);
-        //cercaAerei();
+    /**
+     * Called by LoginController / SignInController before the scene is shown
+     * to pre-select arrivals (false) or departures (true) tab.
+     */
+    public void setPartenzeSelected(boolean partenze) {
+        this.partenzeSelected = partenze;
     }
 
-    public void setDataPartenze(LocalDate dataPartenze) {
-        // Imposto il datepicker con la data di ricerca
-        dataDtpk.setValue(dataPartenze);
-        changeData();
-    }
-
-    // Metodo per impostare quali valori devono essere visualizzati (arrivi o partenze)
-    public void setPartenzeSelected(boolean partenzeSelected) {
-        this.partenzeSelected = partenzeSelected;
-    }
-
-    // Inizializzazione
     @FXML
     private void initialize() {
+        // Pre-load the correct table based on which tab was requested
+        if (partenzeSelected)
+            gestioneTreni.setDataPartenza(LocalDate.now());
+        else
+            gestioneTreni.setDataArrivo(LocalDate.now());
 
-        startClockUpdateAnimation();
-        checkLogin();
-        initializeTable();
-        setupRowSelectionListener();
-
-        if (dataDtpk.getValue() == null) {
-            dataDtpk.setValue(LocalDate.now());
-        }
-
-        changeData();
-
-        // Evento ToggleButton Partenze se selezionato disattiva l'altro ToggleButton e se deselezionato lo riattiva
-        tglPartenze.setOnAction(e -> {
-            if (tglPartenze.isSelected()) {
-                tglArrivi.setSelected(false);
-                partenzeSelected = true;
-            } else {
-                tglArrivi.setSelected(true);
-                partenzeSelected = false;
-            }
-        });
-
-        tglArrivi.setOnAction(e -> {
-            if (tglArrivi.isSelected()) {
-                tglPartenze.setSelected(false);
-                partenzeSelected = false;
-            } else {
-                tglPartenze.setSelected(true);
-                partenzeSelected = true;
-            }
-        });
-
-        dataDtpk.valueProperty().addListener((observable, oldValue, newValue) -> {
-            cercaAereiGiusto(cercaTxfield.getText());
-        });
-
-        cercaTxfield.textProperty().addListener((observable, oldValue, newValue) -> {
-            cercaAereiGiusto(newValue);
-        });
-
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(60), event -> {
-            // Chiamare il metodo per aggiornare le tabelle
-            aggiornaStato();
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE); // Esegui all'infinito
-        timeline.play();
-
-    }
-
-    private void setupRowSelectionListener() {
-        // Aggiunge un listener di selezione alla tabella degli arrivi
-        tableArrivi.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                handleDoubleClick(newSelection);
-            }
-        });
-
-        // Aggiunge un listener di selezione alla tabella delle partenze
-        tablePartenze.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                handleDoubleClick(newSelection);
-            }
-        });
-    }
-
-    //considerare che il metodo setMainModel non viene chiamato
-    private void initializeTable() {
-        // Inizializzazione delle colonne della tabella delle partenze
-        colOrarioArrivo.setCellValueFactory(cellData -> cellData.getValue().getOraArrivoProperty());
-        colRitardoArrivi.setCellValueFactory(cellData -> cellData.getValue().getRitardoProperty().asObject());
-        colProvenienza.setCellValueFactory(cellData -> cellData.getValue().getProvenienzaProperty());
-        colCodiceArrivi.setCellValueFactory(cellData -> cellData.getValue().getCodiceProperty());
-        colGateArrivi.setCellValueFactory(cellData -> cellData.getValue().getBinarioProperty().asObject());
-        colCompagniaArrivi.setCellValueFactory(cellData -> cellData.getValue().getCompagniaProperty());
-        colStatoArrivi.setCellValueFactory(cellData -> cellData.getValue().getStatoProperty());
-
-        // Inizializzazione delle colonne della tabella degli arrivi
-        colOrarioPartenza.setCellValueFactory(cellData -> cellData.getValue().getOraPartenzaProperty());
-        colRitardoPartenze.setCellValueFactory(cellData -> cellData.getValue().getRitardoProperty().asObject());
-        colDestinazione.setCellValueFactory(cellData -> cellData.getValue().getDestinazioneProperty());
-        colCodicePartenze.setCellValueFactory(cellData -> cellData.getValue().getCodiceProperty());
-        colGatePartenze.setCellValueFactory(cellData -> cellData.getValue().getBinarioProperty().asObject());
-        colCompagniaPartenze.setCellValueFactory(cellData -> cellData.getValue().getCompagniaProperty());
-        colStatoPartenze.setCellValueFactory(cellData -> cellData.getValue().getStatoProperty());
-
-        tableArrivi.setItems(gestioneAerei.getElencoListaArrivi());
-        tablePartenze.setItems(gestioneAerei.getElencoListaPartenze());
-
-    }
-
-    public void aggiornaStato() {
-        synchronized (gestioneAerei.getElencoLista()) {
-            Platform.runLater(() -> {
-                for (Treno treni : gestioneAerei.getElencoLista()) {
-                    if (treni.isInCorsa()) {
-                        treni.setStato("In corsa");
-                    } else if (treni.isInPartenza()) {
-                        treni.setStato("In partenza");
-                    } else if (treni.isInAttesa()) {
-                        treni.setStato("In attesa");
-                    } else if (treni.isInManutenzione(true)) {
-                        treni.setStato("In manutenzione");
-                    }
-                    if (treni.isInManutenzione(true)) {
-                        cercaAereiGiusto(cercaTxfield.getText());
-                        treni.isInManutenzione(true);
-                        //riaggiorno la tabella
-                    }
-                }
-            });
-        }
-    }
-
-
-    private void startClockUpdateAnimation() {
-        // Animazione per l'orologio
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                // Deve avere questo formato: ore:minuti:secondi
-                orologio.setText(String.format("%02d:%02d:%02d",
-                        java.time.LocalTime.now().getHour(),
-                        java.time.LocalTime.now().getMinute(),
-                        java.time.LocalTime.now().getSecond()));
-
-                if (partenzeSelected) {
-                    tglPartenze.setSelected(true);
-                    tglArrivi.setSelected(false);
-
-                    // Visualizza la tabella delle partenze
-                    stackPaneTable.getChildren().clear();
-                    stackPaneTable.getChildren().add(anchPanePartenze);
-
-                } else {
-                    tglPartenze.setSelected(false);
-                    tglArrivi.setSelected(true);
-
-                    // Visualizza la tabella degli arrivi
-                    stackPaneTable.getChildren().clear();
-                    stackPaneTable.getChildren().add(anchPaneArrivi);
-                }
-            }
-        };
-        // Avvio l'animazione
-        timer.start();
-    }
-
-    @FXML
-    public void changeData() {
-        gestioneAerei.setDataArrivo(dataDtpk.getValue());
-        gestioneAerei.setDataPartenza(dataDtpk.getValue());
-    }
-
-    // Metodo per il tasto Cerca
-    @FXML
-    public void cercaAerei() {
-
-    }
-
-    @FXML
-    public void cercaAereiGiusto(String newValue) {
-
-        changeData();
-
-        if (partenzeSelected) {
-            gestioneAerei.aggiornaPartenza(newValue.toLowerCase());
-        }
-        else {
-            gestioneAerei.aggiornaArrivo(newValue.toLowerCase());
-        }
-
-    }
-
-
-
-    private void checkLogin() {
-        if (gestioneUtenti.isLogged()) {
-            btnAccedi.setText(gestioneUtenti.getUtenti().get(gestioneUtenti.getIndice()).getNome());
-            btnAccedi.setDisable(true);
-            btnAccedi.setOpacity(1);
-        }
-    }
-
-    // Metodo per il tasto Home
-    @FXML
-    private void handleBtnHome() {
-        try {
-            // Carica la seconda GUI (FXML)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../guiFolder/userGui.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("User GUI");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            // Chiudi la prima GUI (Finestra)
-            Stage primaryStage = (Stage) btnHome.getScene().getWindow();
-            primaryStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Metodo per il tasto Accedi
-    @FXML
-    private void handleBtnAccedi() {
-        try {
-            if (partenzeSelected){
-                gestioneUtenti.setSchermataPrecedente("UserMainPageP");
-            } else {
+        // Wire navigation labels
+        if (navHome != null)
+            navHome.setOnMouseClicked(e -> navigateTo("../GUI/user.fxml", "FastRail Station"));
+        if (navArrivi != null)
+            navArrivi.setOnMouseClicked(e -> {
                 gestioneUtenti.setSchermataPrecedente("UserMainPageA");
-            }
-            // Carica la seconda GUI (FXML)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../guiFolder/loginGui.fxml"));
+                navigateTo("../GUI/userMain.fxml", "Arrivi");
+            });
+        if (navPartenze != null)
+            navPartenze.setOnMouseClicked(e -> {
+                gestioneUtenti.setSchermataPrecedente("UserMainPageP");
+                navigateTo("../GUI/userMain.fxml", "Partenze");
+            });
+        if (navPrenota != null)
+            navPrenota.setOnMouseClicked(e -> {
+                gestioneUtenti.setSchermataPrecedente("PrenotaPage");
+                navigateTo("../GUI/prenotazione.fxml", "Prenotazione");
+            });
+        if (navProfilo != null)
+            navProfilo.setOnMouseClicked(e -> navigateTo("../GUI/login.fxml", "Login"));
+    }
+
+    private void navigateTo(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Login GUI");
+            stage.setTitle(title);
             stage.setScene(new Scene(root));
             stage.show();
-
-            // Chiudi la prima GUI (Finestra)
-            Stage primaryStage = (Stage) btnHome.getScene().getWindow();
-            primaryStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            Stage current = getCurrentStage();
+            if (current != null) current.close();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
-    // Metodo per gestire il doppio click
-    private void handleDoubleClick(Treno aereo) {
-        if (infoStage != null && infoStage.isShowing()) {
-            // Chiudi la finestra delle informazioni esistente se è già aperta
-            infoStage.close();
-        }
-
-        try {
-            // Carica la seconda GUI (FXML)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../guiFolder/dettagliAereoGui.fxml"));
-            Parent root = loader.load();
-            infoStage = new Stage();
-            infoStage.setTitle("Dettagli Aereo");
-            infoStage.setScene(new Scene(root));
-
-            // Passo l'aereo alla seconda GUI
-            DettagliTrenoController controller = loader.getController();
-            controller.setTreno(aereo);
-
-            // Aggiungi un listener per gestire la chiusura della finestra delle
-            // informazioni
-            infoStage.setOnCloseRequest(event -> infoStage = null);
-
-            // Imposta le coordinate della finestra
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            double xOffset = 20; // spostamento orizzontale
-            double yOffset = 20; // spostamento verticale
-            infoStage.setX(primaryScreenBounds.getMinX() + xOffset);
-            infoStage.setY(primaryScreenBounds.getMinY() + yOffset);
-
-            infoStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private Stage getCurrentStage() {
+        if (navHome != null && navHome.getScene() != null)
+            return (Stage) navHome.getScene().getWindow();
+        if (navArrivi != null && navArrivi.getScene() != null)
+            return (Stage) navArrivi.getScene().getWindow();
+        return null;
     }
-
-
 }

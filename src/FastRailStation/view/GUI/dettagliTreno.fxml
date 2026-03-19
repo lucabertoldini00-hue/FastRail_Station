@@ -9,44 +9,62 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FastRailStation.view.controller.DettagliTrenoController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="473.0" prefWidth="713.0"
+            stylesheets="@../../../../../../FastRail_Station/src/FastRailStation/view/GUI/styles.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="FastRailStation.view.controller.DettagliTrenoController">
 
     <top>
         <AnchorPane prefHeight="85.0" prefWidth="674.0" BorderPane.alignment="CENTER">
             <children>
-                <GridPane layoutX="110.0" layoutY="23.0" prefHeight="144.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+                          prefHeight="144.0" prefWidth="600.0">
                     <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="113.0" prefWidth="139.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="574.0"/>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                           maxWidth="200.0" minWidth="113.0" prefWidth="139.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"
+                                           minWidth="10.0" prefWidth="574.0"/>
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="522.0" text="Nome treno" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                            <GridPane.margin>
-                                <Insets right="20.0"/>
-                            </GridPane.margin>
+                        <!-- Train name in top-right -->
+                        <Label fx:id="nomeTreno" alignment="CENTER_RIGHT"
+                               prefHeight="60.0" prefWidth="522.0"
+                               GridPane.columnIndex="1"
+                               GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                            <GridPane.margin><Insets right="20.0"/></GridPane.margin>
                         </Label>
-                        <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="76.0" text="Home" textAlignment="CENTER"/>
+                        <!-- Clock top-left -->
+                        <Label fx:id="orologio" text="00:00:00"/>
                     </children>
                 </GridPane>
             </children>
         </AnchorPane>
     </top>
 
+    <!-- Train image pane -->
     <left>
         <AnchorPane prefHeight="388.0" prefWidth="423.0" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane layoutX="15.0" layoutY="45.0" prefHeight="348.0" prefWidth="384.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="20.0"/>
+                <AnchorPane fx:id="anchImage"
+                            AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
+                            AnchorPane.rightAnchor="36.0"  AnchorPane.topAnchor="20.0"/>
             </children>
         </AnchorPane>
     </left>
 
+    <!-- Detail labels -->
     <center>
         <AnchorPane prefHeight="398.0" prefWidth="290.0" BorderPane.alignment="CENTER">
             <children>
-                <GridPane layoutX="102.0" layoutY="34.0" prefHeight="320.0" prefWidth="184.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <GridPane AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0"
+                          AnchorPane.rightAnchor="10.0"  AnchorPane.topAnchor="10.0"
+                          prefHeight="320.0" prefWidth="184.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="100.0" prefWidth="155.0"/>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="115.0"/>
@@ -66,30 +84,33 @@
                         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
+                        <!-- Labels column (left) -->
                         <Label text="Modello treno"/>
-                        <Label text="Compagnia ferroviaria" GridPane.rowIndex="9"/>
-                        <Label text="Provenienza" GridPane.rowIndex="1"/>
-                        <Label text="Destinazione" GridPane.rowIndex="2"/>
-                        <Label text="Posti totali" GridPane.rowIndex="10"/>
-                        <Label text="Posti occupati" GridPane.rowIndex="11"/>
-                        <Label text="Binario" GridPane.rowIndex="3"/>
-                        <Label text="Giorno arrivo" GridPane.rowIndex="4"/>
-                        <Label text="Ora arrivo" GridPane.rowIndex="7"/>
-                        <Label text="Giorno Partenza" GridPane.rowIndex="5"/>
-                        <Label text="Ora partenza" GridPane.rowIndex="6"/>
-                        <Label text="Ritardo" GridPane.rowIndex="8"/>
-                        <Label text="Label" GridPane.columnIndex="1"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+                        <Label text="Provenienza"     GridPane.rowIndex="1"/>
+                        <Label text="Destinazione"    GridPane.rowIndex="2"/>
+                        <Label text="Binario"         GridPane.rowIndex="3"/>
+                        <Label text="Giorno arrivo"   GridPane.rowIndex="4"/>
+                        <Label text="Giorno partenza" GridPane.rowIndex="5"/>
+                        <Label text="Ora partenza"    GridPane.rowIndex="6"/>
+                        <Label text="Ora arrivo"      GridPane.rowIndex="7"/>
+                        <Label text="Ritardo"         GridPane.rowIndex="8"/>
+                        <Label text="Compagnia"       GridPane.rowIndex="9"/>
+                        <Label text="Posti totali"    GridPane.rowIndex="10"/>
+                        <Label text="Posti occupati"  GridPane.rowIndex="11"/>
+
+                        <!-- Values column (right) — fx:id linked to controller -->
+                        <Label fx:id="lblModello"        GridPane.columnIndex="1"/>
+                        <Label fx:id="lblProvenienza"    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Label fx:id="lblDestinazione"   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label fx:id="lblBinario"        GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <Label fx:id="lblGiornoArrivo"   GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        <Label fx:id="lblGiornoPartenza" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        <Label fx:id="lblOrarioPartenza" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <Label fx:id="lblOrarioArrivo"   GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                        <Label fx:id="lblRitardo"        GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                        <Label fx:id="lblCompagnia"      GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+                        <Label fx:id="lblPostiTotali"    GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+                        <Label fx:id="lblPostiOccupati"  GridPane.columnIndex="1" GridPane.rowIndex="11"/>
                     </children>
                 </GridPane>
             </children>

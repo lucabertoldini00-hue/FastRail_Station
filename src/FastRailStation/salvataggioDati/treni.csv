@@ -1,13 +1,13 @@
 Modello,Provenienza,Destinazione,Compagnia,Codice,NumMax,GiornoArrivo,OraArrivo,GiornoPartenza,OraPartenza,Intervallo,Stato,PostiOccupati,Ritardo,InizioManutenzione,FineManutenzione,Deposito
-Frecciarossa 1000,Milano Centrale,Roma Termini,Trenitalia,FR100,457,19/03/2026,20:45:00,19/03/2026,21:00:00,3,In attesa,0,0
-Italo EVO,Torino Porta Nuova,Napoli Centrale,Italo,IT200,480,20/03/2026,10:30:00,20/03/2026,13:45:00,2,In attesa,0,0
-Regionale Veloce,Venezia Santa Lucia,Bologna Centrale,Trenitalia,RV301,600,19/03/2026,10:40:00,19/03/2026,20:00:00,2,In attesa,0,0
-EuroCity ETR610,Milano Centrale,Zurigo HB,SBB,EC789,430,19/03/2026,13:00:00,19/03/2026,14:40:00,1,In attesa,0,0
-Frecciargento,Genova Piazza Principe,Roma Termini,Trenitalia,FA123,500,19/03/2026,21:45:00,19/03/2026,13:15:00,1,In attesa,0,0
-Intercity Notte,Roma Termini,Reggio Calabria Centrale,Trenitalia,ICN456,520,20/03/2026,11:30:00,20/03/2026,13:00:00,2,In attesa,0,0
-Frecciarossa 500,Firenze Santa Maria Novella,Milano Centrale,Trenitalia,FR789,460,19/03/2026,16:00:00,19/03/2026,19:45:00,1,In attesa,0,0
-Italo AGV,Roma Termini,Venezia Mestre,Italo,IT890,450,19/03/2026,20:45:00,19/03/2026,23:30:00,1,In attesa,0,0
-EuroNight,Vienna Hbf,Venezia Santa Lucia,OBB,EN123,520,21/03/2026,16:30:00,20/03/2026,20:15:00,3,In attesa,0,0
-Regionale,Como San Giovanni,Milano Centrale,Trenord,R123,700,20/03/2026,08:45:00,20/03/2026,11:30:00,2,In attesa,0,0
-Intercity,Milano Centrale,Trieste Centrale,Trenitalia,IC321,580,20/03/2026,19:00:00,20/03/2026,12:45:00,2,In attesa,0,0
-Frecciarossa 1000,Roma Termini,Milano Centrale,Trenitalia,FR892,457,19/03/2026,22:00:00,20/03/2026,10:25:00,1,In attesa,0,0
+Frecciarossa 1000,Milano Centrale,Roma Termini,Trenitalia,FR100,457,19/03/2026,07:00:00,19/03/2026,07:15:00,1,In partenza,120,0,,,
+Italo EVO,Torino Porta Nuova,Napoli Centrale,Italo,IT200,480,19/03/2026,08:30:00,19/03/2026,08:45:00,1,In partenza,0,0,,,
+Regionale Veloce,Venezia Santa Lucia,Bologna Centrale,Trenitalia,RV301,600,19/03/2026,09:10:00,19/03/2026,09:25:00,1,In partenza,0,0,,,
+EuroCity ETR610,Milano Centrale,Zurigo HB,SBB,EC789,430,19/03/2026,10:00:00,19/03/2026,10:20:00,1,In partenza,0,0,,,
+Frecciargento,Genova Piazza Principe,Roma Termini,Trenitalia,FA123,500,19/03/2026,11:00:00,19/03/2026,11:15:00,1,In partenza,0,0,,,
+Intercity Notte,Roma Termini,Reggio Calabria Centrale,Trenitalia,ICN456,520,19/03/2026,11:30:00,19/03/2026,11:45:00,1,In partenza,0,0,,,
+Frecciarossa 500,Firenze Santa Maria Novella,Milano Centrale,Trenitalia,FR789,460,19/03/2026,12:00:00,19/03/2026,12:15:00,1,In partenza,0,0,,,
+Italo AGV,Roma Termini,Venezia Mestre,Italo,IT890,450,19/03/2026,13:30:00,19/03/2026,13:45:00,1,In partenza,0,0,,,
+EuroNight,Vienna Hbf,Venezia Santa Lucia,OBB,EN123,520,19/03/2026,14:00:00,19/03/2026,14:20:00,1,In partenza,0,0,,,
+Regionale,Como San Giovanni,Milano Centrale,Trenord,R123,700,19/03/2026,15:00:00,19/03/2026,15:15:00,1,In partenza,0,0,,,
+Intercity,Milano Centrale,Trieste Centrale,Trenitalia,IC321,580,19/03/2026,16:00:00,19/03/2026,16:20:00,1,In partenza,0,0,,,
+Frecciarossa 1000,Roma Termini,Milano Centrale,Trenitalia,FR892,457,19/03/2026,18:00:00,19/03/2026,18:20:00,1,In partenza,340,0,,,

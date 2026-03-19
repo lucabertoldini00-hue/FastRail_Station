@@ -1,0 +1,479 @@
+/* ═══════════════════════════════════════════════════════════
+   FastRail Station — Application Stylesheet
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Global ─────────────────────────────────────────────── */
+.root {
+    -fx-background-color: #0d1b2a;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* ── Header / Navigation Bar ─────────────────────────────── */
+.header-nav {
+    -fx-background-color: #112240;
+    -fx-border-color: #1e3a5f;
+    -fx-border-width: 0 0 2 0;
+}
+
+.logo-text {
+    -fx-text-fill: #64ffda;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.nav-item {
+    -fx-text-fill: #a8b2d8;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+    -fx-min-width: 80px;
+}
+
+.nav-item:hover {
+    -fx-text-fill: #64ffda;
+    -fx-background-color: rgba(100, 255, 218, 0.08);
+    -fx-background-radius: 6;
+}
+
+.nav-item-active {
+    -fx-text-fill: #64ffda;
+    -fx-border-color: transparent transparent #64ffda transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+/* ── Home screen ─────────────────────────────────────────── */
+.main-title {
+    -fx-text-fill: #ccd6f6;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}
+
+.search-form-container {
+    -fx-background-color: #112240;
+    -fx-background-radius: 12;
+    -fx-border-color: #1e3a5f;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 20;
+}
+
+.form-label {
+    -fx-text-fill: #8892b0;
+    -fx-font-size: 12px;
+}
+
+.station-display {
+    -fx-text-fill: #ccd6f6;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.swap-icon {
+    -fx-text-fill: #64ffda;
+}
+
+.station-input {
+    -fx-background-color: #0d1b2a;
+    -fx-text-fill: #ccd6f6;
+    -fx-border-color: #1e3a5f;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1;
+    -fx-padding: 6 10 6 10;
+    -fx-prompt-text-fill: #4a5568;
+}
+
+.station-input:focused {
+    -fx-border-color: #64ffda;
+}
+
+.search-button {
+    -fx-background-color: #64ffda;
+    -fx-text-fill: #0d1b2a;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 8 18 8 18;
+}
+
+.search-button:hover {
+    -fx-background-color: #4ac9b0;
+}
+
+/* ── Generic text fields ──────────────────────────────────── */
+.text-field, .password-field {
+    -fx-background-color: #1a2744;
+    -fx-text-fill: #ccd6f6;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1;
+    -fx-padding: 8 12 8 12;
+    -fx-prompt-text-fill: #4a5568;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #64ffda;
+}
+
+/* ── Generic buttons ──────────────────────────────────────── */
+.button {
+    -fx-background-color: #64ffda;
+    -fx-text-fill: #0d1b2a;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 10 24 10 24;
+}
+
+.button:hover {
+    -fx-background-color: #4ac9b0;
+}
+
+.button:pressed {
+    -fx-background-color: #38a890;
+}
+
+/* ── Login / Register / PwChange screens ─────────────────── */
+.login-root, BorderPane {
+    -fx-background-color: #0d1b2a;
+}
+
+/* ── Labels ──────────────────────────────────────────────── */
+.label {
+    -fx-text-fill: #ccd6f6;
+}
+
+.timeLabel {
+    -fx-text-fill: #64ffda;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Courier New", monospace;
+}
+
+.titleLabel {
+    -fx-text-fill: #ccd6f6;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.labelCustom1 {
+    -fx-text-fill: #a8b2d8;
+    -fx-font-size: 13px;
+}
+
+/* ── Error / Success feedback labels ─────────────────────── */
+.error-label {
+    -fx-text-fill: #ff6b6b;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+}
+
+.success-label {
+    -fx-text-fill: #64ffda;
+    -fx-font-size: 13px;
+}
+
+/* ── Hyperlinks ───────────────────────────────────────────── */
+.hyperlink {
+    -fx-text-fill: #64ffda;
+    -fx-border-color: transparent;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #4ac9b0;
+    -fx-underline: true;
+}
+
+/* ── ComboBox ─────────────────────────────────────────────── */
+.combo-box {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #ccd6f6;
+    -fx-background-color: #1a2744;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #64ffda;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #2d4270;
+}
+
+/* ── DatePicker ───────────────────────────────────────────── */
+.date-picker {
+    -fx-background-color: #1a2744;
+}
+
+.date-picker .text-field {
+    -fx-text-fill: #ccd6f6;
+    -fx-background-color: #1a2744;
+}
+
+/* ── TableView ────────────────────────────────────────────── */
+.table-view {
+    -fx-background-color: #112240;
+    -fx-border-color: #1e3a5f;
+    -fx-border-radius: 8;
+    -fx-table-cell-border-color: #1e3a5f;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #0d1b2a;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #64ffda;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #112240;
+    -fx-text-fill: #ccd6f6;
+    -fx-border-color: #1e3a5f;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #0f1e35;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: rgba(100, 255, 218, 0.15);
+    -fx-border-color: #64ffda;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: rgba(100, 255, 218, 0.07);
+    -fx-cursor: hand;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #ccd6f6;
+    -fx-font-size: 13px;
+    -fx-padding: 8 12 8 12;
+}
+
+/* ── Prenotazione sidebar buttons ─────────────────────────── */
+.plusButton, .minusButton {
+    -fx-background-color: #1e3a5f;
+    -fx-text-fill: #64ffda;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 2 10 2 10;
+}
+
+.plusButton:hover, .minusButton:hover {
+    -fx-background-color: #2d4270;
+}
+
+.prenotaButton {
+    -fx-background-color: #64ffda;
+    -fx-text-fill: #0d1b2a;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.prenotaButton:hover {
+    -fx-background-color: #4ac9b0;
+}
+
+.accediButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64ffda;
+    -fx-border-color: #64ffda;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-padding: 6 14 6 14;
+}
+
+.accediButton:hover {
+    -fx-background-color: rgba(100, 255, 218, 0.1);
+}
+
+.customDatePicker {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.customTextField {
+    -fx-background-color: #1a2744;
+    -fx-text-fill: #ccd6f6;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10 6 10;
+    -fx-prompt-text-fill: #4a5568;
+}
+
+.customTextField:focused {
+    -fx-border-color: #64ffda;
+}
+
+.customComboBox {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+/* ── Admin detail fields ──────────────────────────────────── */
+.text-field-ModAero {
+    -fx-background-color: #1a2744;
+    -fx-text-fill: #ccd6f6;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 4 8 4 8;
+    -fx-prompt-text-fill: #4a5568;
+}
+
+.combo-box-ModAereo {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.date-picker-ModAero {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+/* ── Admin action buttons ─────────────────────────────────── */
+.pagesButtonInternal {
+    -fx-background-color: #1e3a5f;
+    -fx-text-fill: #64ffda;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.pagesButtonInternal:hover {
+    -fx-background-color: #2d4270;
+}
+
+.pagesButtonDx {
+    -fx-background-color: #64ffda;
+    -fx-text-fill: #0d1b2a;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.pagesButtonDx:hover {
+    -fx-background-color: #4ac9b0;
+}
+
+.cancellaButton {
+    -fx-background-color: #3d1515;
+    -fx-text-fill: #ff6b6b;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.cancellaButton:hover {
+    -fx-background-color: #5c1e1e;
+}
+
+/* ── Scroll bars ──────────────────────────────────────────── */
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #2d4270;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:horizontal .track {
+    -fx-background-color: #112240;
+}
+
+/* ── CheckBox / RadioButton ───────────────────────────────── */
+.check-box .text, .radio-button .text {
+    -fx-text-fill: #a8b2d8;
+}
+
+.check-box .box {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #2d4270;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #64ffda;
+}
+
+.radio-button .radio {
+    -fx-background-color: #1a2744;
+    -fx-border-color: #2d4270;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: #64ffda;
+}
+
+/* ── Separator ────────────────────────────────────────────── */
+.separator .line {
+    -fx-border-color: #1e3a5f;
+}
+
+/* ── Confirmation dialog overlay ─────────────────────────── */
+.confirm-overlay {
+    -fx-background-color: rgba(13, 27, 42, 0.92);
+}
+
+.confirm-card {
+    -fx-background-color: #112240;
+    -fx-border-color: #64ffda;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(100,255,218,0.15), 24, 0, 0, 0);
+}
+
+.confirm-title {
+    -fx-text-fill: #64ffda;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.confirm-detail {
+    -fx-text-fill: #a8b2d8;
+    -fx-font-size: 13px;
+}
+
+.confirm-code {
+    -fx-text-fill: #ccd6f6;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Courier New", monospace;
+    -fx-background-color: #0d1b2a;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16 8 16;
+}

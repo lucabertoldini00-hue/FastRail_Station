@@ -1,97 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="736.0" prefWidth="707.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FastRailStation.view.controller.SigninController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="780.0" prefWidth="707.0"
+            stylesheets="@../../../../../../FastRail_Station/src/FastRailStation/view/GUI/styles.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="FastRailStation.view.controller.SignInController">
 
     <center>
-        <GridPane alignment="CENTER" vgap="12" BorderPane.alignment="CENTER">
-
+        <GridPane alignment="CENTER" vgap="10" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints percentWidth="10" />
-                <ColumnConstraints percentWidth="40" />
-                <ColumnConstraints percentWidth="5" />
-                <ColumnConstraints percentWidth="40" />
-                <ColumnConstraints percentWidth="10" />
+                <ColumnConstraints percentWidth="10"/>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="5"/>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="5"/>
             </columnConstraints>
-
             <rowConstraints>
-                <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="18.0" />
-                <RowConstraints maxHeight="93.0" minHeight="86.0" prefHeight="93.0" />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints vgrow="ALWAYS" />
+                <RowConstraints maxHeight="25.0"  minHeight="10.0" prefHeight="18.0"/>  <!-- 0 spacer -->
+                <RowConstraints maxHeight="93.0"  minHeight="86.0" prefHeight="86.0"/>  <!-- 1 title -->
+                <RowConstraints prefHeight="24.0"/>  <!-- 2 "hai già un account?" -->
+                <RowConstraints prefHeight="18.0"/>  <!-- 3 field labels row 1 -->
+                <RowConstraints prefHeight="34.0"/>  <!-- 4 fields row 1 -->
+                <RowConstraints prefHeight="18.0"/>  <!-- 5 field labels row 2 -->
+                <RowConstraints prefHeight="34.0"/>  <!-- 6 fields row 2 -->
+                <RowConstraints prefHeight="18.0"/>  <!-- 7 field labels row 3 -->
+                <RowConstraints prefHeight="34.0"/>  <!-- 8 fields row 3 -->
+                <RowConstraints prefHeight="18.0"/>  <!-- 9 field labels row 4 -->
+                <RowConstraints prefHeight="34.0"/>  <!-- 10 fields row 4 -->
+                <RowConstraints prefHeight="18.0"/>  <!-- 11 field labels row 5 -->
+                <RowConstraints prefHeight="34.0"/>  <!-- 12 fields row 5 -->
+                <RowConstraints prefHeight="18.0"/>  <!-- 13 field labels row 6 -->
+                <RowConstraints prefHeight="34.0"/>  <!-- 14 fields row 6 -->
+                <RowConstraints prefHeight="30.0"/>  <!-- 15 checkbox privacy -->
+                <RowConstraints prefHeight="50.0"/>  <!-- 16 register button -->
+                <RowConstraints prefHeight="30.0"/>  <!-- 17 error label -->
+                <RowConstraints vgrow="ALWAYS"/>     <!-- 18 spacer -->
             </rowConstraints>
 
-            <Label prefHeight="81.0" prefWidth="370.0" text="Registrati" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                <font>
-                    <Font name="System Bold" size="55.0" />
-                </font>
+            <!-- Title -->
+            <Label prefHeight="81.0" prefWidth="370.0" text="Registrati"
+                   textAlignment="CENTER" textFill="WHITE"
+                   GridPane.columnIndex="1" GridPane.columnSpan="3"
+                   GridPane.halignment="CENTER" GridPane.rowIndex="1"
+                   GridPane.valignment="CENTER">
+                <font><Font name="System Bold" size="50.0"/></font>
             </Label>
 
-            <Label text="Hai già un account?" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <Hyperlink text="Accedi" textFill="#73eedc" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+            <!-- Already have account? -->
+            <Label text="Hai già un account?" textFill="WHITE"
+                   GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+            <Hyperlink fx:id="vaiAccedi" text="Accedi" textFill="#73eedc"
+                       onAction="#handleAccedi"
+                       GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2"/>
 
-            <Label text="Nome" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Cognome" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <TextField promptText="Nome" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField promptText="Cognome" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <!-- Nome / Cognome -->
+            <Label text="Nome"    textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Cognome" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+            <TextField fx:id="inserimentoNome"    promptText="Nome"
+                       GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <TextField fx:id="inserimentoCognome" promptText="Cognome"
+                       GridPane.columnIndex="3" GridPane.rowIndex="4"/>
 
-            <Label text="E-mail" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Data di nascita" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <TextField promptText="Email@Dominio.com" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <DatePicker prefHeight="31.0" prefWidth="294.0" promptText="La mia data di nascita" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <!-- E-mail / Data di nascita -->
+            <Label text="E-mail"          textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            <Label text="Data di nascita" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+            <TextField fx:id="inserimentoMail" promptText="email@dominio.com"
+                       GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            <DatePicker fx:id="selezionaData" prefHeight="34.0" prefWidth="294.0"
+                        promptText="La mia data di nascita"
+                        GridPane.columnIndex="3" GridPane.rowIndex="6"/>
 
-            <Label text="Password" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label text="Ripeti Password" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-            <PasswordField promptText="La mia Password" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <PasswordField promptText="La mia Password" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+            <!-- Password / Ripeti -->
+            <Label text="Password"        textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+            <Label text="Ripeti password" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="7"/>
+            <PasswordField fx:id="inserimentoPassword"  promptText="La mia password"
+                           GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+            <PasswordField fx:id="ripetizionePassword"  promptText="Ripeti la password"
+                           GridPane.columnIndex="3" GridPane.rowIndex="8"/>
 
-            <Label text="Cellulare" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <Label text="Nazione" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-            <TextField promptText="+39 111 222 3333" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <TextField promptText="La mia nazione" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+            <!-- Cellulare / Nazione -->
+            <Label text="Cellulare" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+            <Label text="Nazione"   textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="9"/>
+            <TextField fx:id="inserimentoTelefono" promptText="+39 111 222 3333"
+                       GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+            <TextField fx:id="inserimentoNazione"  promptText="La mia nazione"
+                       GridPane.columnIndex="3" GridPane.rowIndex="10"/>
 
-            <Label text="Città" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <Label text="Indirizzo" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="11" />
-            <TextField promptText="La mia città" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-            <TextField promptText="Il mio indirizzo" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+            <!-- Città / Indirizzo -->
+            <Label text="Città"    textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+            <Label text="Indirizzo" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="11"/>
+            <TextField fx:id="inserimentoCitta"    promptText="La mia città"
+                       GridPane.columnIndex="1" GridPane.rowIndex="12"/>
+            <TextField fx:id="inserimentoIndirizzo" promptText="Il mio indirizzo"
+                       GridPane.columnIndex="3" GridPane.rowIndex="12"/>
 
-            <Label text="Codice Carta di Credito" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-            <Label text="Data di scadenza" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="13" />
-            <TextField promptText="Il mio codice" GridPane.columnIndex="1" GridPane.rowIndex="14" />
-            <TextField promptText="Data di scadenza" GridPane.columnIndex="3" GridPane.rowIndex="14" />
+            <!-- Carta / Scadenza -->
+            <Label text="Codice carta di credito" textFill="WHITE"
+                   GridPane.columnIndex="1" GridPane.rowIndex="13"/>
+            <Label text="Data di scadenza" textFill="WHITE"
+                   GridPane.columnIndex="3" GridPane.rowIndex="13"/>
+            <TextField fx:id="inserimentoCarta"   promptText="1234 5678 9012 3456"
+                       GridPane.columnIndex="1" GridPane.rowIndex="14"/>
+            <TextField fx:id="inserimentoScadenza" promptText="MM/AA"
+                       GridPane.columnIndex="3" GridPane.rowIndex="14"/>
 
-            <RadioButton prefHeight="30.0" prefWidth="399.0" text="Acconsento alle normative Privacy e Sicurezza" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="15" />
-            <Button prefHeight="43.0" prefWidth="253.0" text="Registrati" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="16">
-                <font>
-                    <Font size="21.0" />
-                </font>
+            <!-- Privacy — CheckBox so it resets per session and is not sticky -->
+            <CheckBox fx:id="acconsenteNormative"
+                      text="Acconsento alle normative Privacy e Sicurezza"
+                      GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="15"/>
+
+            <!-- Register button -->
+            <Button fx:id="registrati" prefHeight="44.0" prefWidth="260.0"
+                    text="Registrati" onAction="#creaUtente"
+                    GridPane.columnIndex="1" GridPane.columnSpan="3"
+                    GridPane.halignment="CENTER" GridPane.rowIndex="16">
+                <font><Font size="18.0"/></font>
             </Button>
+
+            <!-- Error feedback label — was completely missing before -->
+            <HBox alignment="CENTER"
+                  GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="17">
+                <children>
+                    <Label fx:id="erroreLabel" styleClass="error-label"
+                           prefWidth="500.0" wrapText="true" alignment="CENTER"/>
+                </children>
+            </HBox>
 
         </GridPane>
     </center>

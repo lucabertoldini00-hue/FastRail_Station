@@ -16,16 +16,22 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="600.0" maxWidth="600.0" minHeight="540.0" minWidth="524.0" prefHeight="540.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FastRailStation.view.controller.LoginController">
+<BorderPane maxHeight="600.0" maxWidth="600.0" minHeight="540.0" minWidth="524.0"
+            prefHeight="540.0" prefWidth="524.0"
+            stylesheets="@../../../../../../FastRail_Station/src/FastRailStation/view/GUI/styles.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="FastRailStation.view.controller.LoginController">
 
     <center>
-        <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="540.0" prefWidth="790.0" BorderPane.alignment="CENTER">
+        <AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="540.0" prefWidth="790.0"
+                    BorderPane.alignment="CENTER">
             <children>
-                <GridPane layoutX="37.0" layoutY="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="10.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="10.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0"  minWidth="10.0" prefWidth="10.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"  prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0"  minWidth="10.0" prefWidth="10.0"/>
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
@@ -47,46 +53,60 @@
                         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="215.0" text="Login" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                            <font>
-                                <Font name="System Bold" size="54.0"/>
-                            </font>
+                        <!-- Title -->
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="215.0"
+                               text="Login" textFill="WHITE"
+                               GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                               GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <font><Font name="System Bold" size="54.0"/></font>
                         </Label>
-                        <Label prefHeight="21.0" prefWidth="166.0" text="Non hai un account?" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                            <font>
-                                <Font size="15.0"/>
-                            </font>
-                            <GridPane.margin>
-                                <Insets right="50.0"/>
-                            </GridPane.margin>
+
+                        <!-- Home button -->
+                        <Button fx:id="btnHome" mnemonicParsing="false" onAction="#handleBtnHome"
+                                prefHeight="44.0" prefWidth="88.0" text="Home"
+                                GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                                GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+
+                        <!-- Register link -->
+                        <Label prefHeight="21.0" prefWidth="166.0"
+                               text="Non hai un account?" textFill="WHITE"
+                               GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                               GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                            <font><Font size="15.0"/></font>
+                            <GridPane.margin><Insets right="50.0"/></GridPane.margin>
                         </Label>
-                        <Hyperlink text="Registrati" textFill="#73eedc" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                            <GridPane.margin>
-                                <Insets left="150.0"/>
-                            </GridPane.margin>
-                            <font>
-                                <Font size="15.0"/>
-                            </font>
+                        <Hyperlink fx:id="vaiRegistrati" text="Registrati" textFill="#73eedc"
+                                   underline="true" onAction="#handleRegistratiLink"
+                                   GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                                   GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                            <GridPane.margin><Insets left="150.0"/></GridPane.margin>
+                            <font><Font size="15.0"/></font>
                         </Hyperlink>
-                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="200.0" text="Email" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-                            <font>
-                                <Font size="24.0"/>
-                            </font>
+
+                        <!-- Email -->
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="200.0"
+                               text="Email" textFill="WHITE"
+                               GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                               GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                            <font><Font size="24.0"/></font>
                         </Label>
-                        <TextField prefHeight="40.0" prefWidth="361.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
-                            <GridPane.margin>
-                                <Insets left="50.0" right="50.0"/>
-                            </GridPane.margin>
+                        <TextField fx:id="inserisciMail" prefHeight="40.0" prefWidth="361.0"
+                                   GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                                   GridPane.rowIndex="7" GridPane.valignment="CENTER">
+                            <GridPane.margin><Insets left="50.0" right="50.0"/></GridPane.margin>
                         </TextField>
-                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="248.0" text="Password" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
-                            <font>
-                                <Font size="24.0"/>
-                            </font>
-                            <cursor>
-                                <Cursor fx:constant="DEFAULT"/>
-                            </cursor>
+
+                        <!-- Password -->
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="248.0"
+                               text="Password" textFill="WHITE"
+                               GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                               GridPane.rowIndex="9" GridPane.valignment="CENTER">
+                            <font><Font size="24.0"/></font>
+                            <cursor><Cursor fx:constant="DEFAULT"/></cursor>
                         </Label>
-                        <GridPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11">
+
+                        <GridPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                                  GridPane.rowIndex="11">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="235.0"/>
@@ -96,62 +116,68 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
                             <children>
-                                <PasswordField prefHeight="40.0" prefWidth="296.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                    <GridPane.margin>
-                                        <Insets left="100.0" right="100.0"/>
-                                    </GridPane.margin>
+                                <PasswordField fx:id="inserisciPassword"
+                                               prefHeight="40.0" prefWidth="296.0"
+                                               GridPane.columnIndex="1"
+                                               GridPane.halignment="CENTER"
+                                               GridPane.valignment="CENTER">
+                                    <GridPane.margin><Insets left="100.0" right="100.0"/></GridPane.margin>
                                 </PasswordField>
-                                <TextField prefHeight="40.0" prefWidth="296.0" scaleShape="false" GridPane.columnIndex="1">
-                                    <GridPane.margin>
-                                        <Insets left="100.0" right="100.0"/>
-                                    </GridPane.margin>
+                                <!-- Visible-password TextField (hidden by default) -->
+                                <TextField fx:id="vediInserisciPassword"
+                                           prefHeight="40.0" prefWidth="296.0"
+                                           GridPane.columnIndex="1">
+                                    <GridPane.margin><Insets left="100.0" right="100.0"/></GridPane.margin>
                                 </TextField>
-                                <CheckBox alignment="CENTER_RIGHT" mnemonicParsing="false" prefHeight="36.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                                    <GridPane.margin>
-                                        <Insets right="100.0"/>
-                                    </GridPane.margin>
+                                <!-- Show/hide checkbox -->
+                                <CheckBox fx:id="visualizzaPassword" mnemonicParsing="false"
+                                          onAction="#visualizza"
+                                          prefHeight="36.0" prefWidth="26.0"
+                                          GridPane.columnIndex="1"
+                                          GridPane.halignment="RIGHT"
+                                          GridPane.valignment="CENTER">
+                                    <GridPane.margin><Insets right="100.0"/></GridPane.margin>
                                 </CheckBox>
                             </children>
                         </GridPane>
-                        <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="160.0" text=" Login" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="15">
-                            <font>
-                                <Font name="System Bold" size="19.0"/>
-                            </font>
-                        </Button>
-                        <Label text="Password dimenticata?" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="13" GridPane.valignment="CENTER">
-                            <font>
-                                <Font size="15.0"/>
-                            </font>
-                            <GridPane.margin>
-                                <Insets right="125.0"/>
-                            </GridPane.margin>
+
+                        <!-- Forgot password -->
+                        <Label text="Password dimenticata?" textFill="WHITE"
+                               GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                               GridPane.rowIndex="13" GridPane.valignment="CENTER">
+                            <font><Font size="15.0"/></font>
+                            <GridPane.margin><Insets right="125.0"/></GridPane.margin>
                         </Label>
-                        <Hyperlink text="Resetta Password" textFill="#73eedc" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="13" GridPane.valignment="CENTER">
-                            <GridPane.margin>
-                                <Insets left="175.0"/>
-                            </GridPane.margin>
-                            <font>
-                                <Font size="15.0"/>
-                            </font>
+                        <Hyperlink fx:id="vaiResetPassword" text="Resetta Password"
+                                   textFill="#73eedc" underline="true"
+                                   onAction="#handlePasswChangeLink"
+                                   GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                                   GridPane.rowIndex="13" GridPane.valignment="CENTER">
+                            <GridPane.margin><Insets left="175.0"/></GridPane.margin>
+                            <font><Font size="15.0"/></font>
                         </Hyperlink>
-                        <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="88.0" text="Home" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                            <GridPane.margin>
-                                <Insets/>
-                            </GridPane.margin>
+
+                        <!-- Login button -->
+                        <Button mnemonicParsing="false" onAction="#login"
+                                prefHeight="56.0" prefWidth="160.0" text="Login"
+                                GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                                GridPane.rowIndex="15">
+                            <font><Font name="System Bold" size="19.0"/></font>
                         </Button>
+
+                        <!-- Error label -->
                         <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="12">
                             <children>
-                                <Label alignment="CENTER" prefHeight="30.0" prefWidth="253.0" textFill="RED">
-                                    <font>
-                                        <Font size="20.0"/>
-                                    </font>
+                                <Label fx:id="segnalaErrore" alignment="CENTER"
+                                       prefHeight="30.0" prefWidth="253.0" textFill="RED">
+                                    <font><Font size="20.0"/></font>
                                 </Label>
                             </children>
                         </HBox>
+
                     </children>
                 </GridPane>
             </children>
         </AnchorPane>
     </center>
-
 </BorderPane>
