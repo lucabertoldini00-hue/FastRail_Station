@@ -6,6 +6,6 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="FastRailStation.view.controller.UserController"
-            stylesheets="@../../../../../../FastRail_Station/src/FastRailStation/view/GUI/styles.css"
+            stylesheets="@styles.css"
             prefHeight="400.0" prefWidth="600.0">
 </AnchorPane>

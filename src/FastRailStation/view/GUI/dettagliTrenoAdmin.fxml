@@ -32,7 +32,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="556.0" prefWidth="608.0"
-            stylesheets="@../../../../../../FastRail_Station/src/FastRailStation/view/GUI/styles.css"
+            stylesheets="@styles.css"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="FastRailStation.view.controller.DettagliTrenoAdminController">
 
