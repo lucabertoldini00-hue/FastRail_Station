@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,7 +37,10 @@ public class UserController {
         wire(navArrivi,   () -> { gestioneUtenti.setSchermataPrecedente("UserMainPageA"); navigateTo("../GUI/userMain.fxml", "Arrivi"); });
         wire(navPartenze, () -> { gestioneUtenti.setSchermataPrecedente("UserMainPageP"); navigateTo("../GUI/userMain.fxml", "Partenze"); });
         wire(navPrenota,  () -> { gestioneUtenti.setSchermataPrecedente("PrenotaPage");   openPrenotazione(null, null); });
-        wire(navProfilo,  () -> navigateTo("../GUI/login.fxml", "Login"));
+        wire(navProfilo,  () -> {
+            if (gestioneUtenti.isLogged()) navigateTo("../GUI/profilo.fxml", "Il mio profilo");
+            else navigateTo("../GUI/login.fxml", "Login");
+        });
 
         // Update profilo label to show user name if logged in
         if (navProfilo != null && gestioneUtenti.isLogged()) {
@@ -81,12 +85,24 @@ public class UserController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-            Stage stage = new Stage();
+            Stage stage = navHome != null && navHome.getScene() != null
+                    ? (Stage) navHome.getScene().getWindow()
+                    : new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));
             stage.show();
-            closeCurrentStage();
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showNavigationError(fxmlPath, e);
+        }
+    }
+
+    private void showNavigationError(String path, Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore navigazione");
+        alert.setHeaderText("Impossibile aprire la schermata");
+        alert.setContentText("Path: " + path + "\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
+        alert.showAndWait();
     }
 
     private void wire(Label lbl, Runnable action) {

@@ -21,10 +21,8 @@ public class GestioneTreni {
     private ObservableList<Treno> elencoTreniTerra        = FXCollections.observableArrayList();
     private ObservableList<Treno> elencoTreniManutenzione = FXCollections.observableArrayList();
 
-    // FIX B1: NOT static — Singleton owns one instance of this list
     private ArrayList<Boolean> binari = new ArrayList<>();
 
-    // FIX B3: one dedicated triplet per filter category — no shared aliasing
     private String    compArrivi,       destArrivi;
     private LocalDate dateArrivi;
 
@@ -63,15 +61,15 @@ public class GestioneTreni {
     public ArrayList<Boolean> getBinari() { return binari; }
 
     /**
-     * FIX B2: bounded loop — returns -1 when all tracks occupied instead of
-     * spinning forever.
+     * Returns a random free track index (1-based to be human-readable),
+     * or -1 when all tracks are occupied.
      */
     public int assegnaBinario() {
         for (int attempts = 0; attempts < 200; attempts++) {
             int index = (int) (Math.random() * 70);
             if (!binari.get(index)) {
                 binari.set(index, true);
-                return index;
+                return index + 1;   // binari 1-70, not 0-69
             }
         }
         return -1;
@@ -109,12 +107,23 @@ public class GestioneTreni {
         scriviDati();
     }
 
-    /** Used during startup to load persisted trains without double-writing. */
+    /**
+     * FIX BINARIO: assegna sempre un binario valido quando si carica da file.
+     * Il costruttore di Treno inizializza binario a -1; senza questo fix
+     * tutti i treni caricati dal CSV avrebbero binario -1.
+     */
     public void addTreno(Treno treno) {
+        if (treno.getBinario() <= 0) {
+            int b = assegnaBinario();
+            if (b != -1) treno.setBinario(b);
+        }
         synchronized (elencoTreniTutti) { elencoTreniTutti.add(treno); }
     }
 
     public void rimuoviTreno(Treno treno) {
+        // Libera il binario prima di rimuovere
+        int b = treno.getBinario();
+        if (b >= 1 && b <= 70) binari.set(b - 1, false);
         synchronized (elencoTreniTutti) { elencoTreniTutti.remove(treno); }
     }
 
@@ -148,7 +157,7 @@ public class GestioneTreni {
         snapshot();
         elencoTreniPartenza.clear();
         for (Treno t : elencoTreniDeposito)
-            if (t.getGiornoPartenza().isEqual(data) && t.getStato().equals("In partenza"))
+            if (t.getGiornoPartenza().isEqual(data))
                 elencoTreniPartenza.add(t);
         bubbleSortByOraPartenza(elencoTreniPartenza);
     }
@@ -167,7 +176,7 @@ public class GestioneTreni {
         snapshot();
         elencoTreniArrivo.clear();
         for (Treno t : elencoTreniDeposito)
-            if (t.getGiornoArrivo().isEqual(data) && t.getStato().equals("In arrivo"))
+            if (t.getGiornoArrivo().isEqual(data))
                 elencoTreniArrivo.add(t);
         bubbleSortByOraArrivo(elencoTreniArrivo);
     }
@@ -199,20 +208,24 @@ public class GestioneTreni {
     // ── Text filters ─────────────────────────────────────────────────────────
 
     public void aggiornaArrivo(String parola) {
+        String p = parola == null ? "" : parola.toLowerCase();
         ObservableList<Treno> snap = FXCollections.observableArrayList(elencoTreniArrivo);
         elencoTreniArrivo.clear();
         for (Treno t : snap)
-            if (t.getCompagnia().toLowerCase().contains(parola.toLowerCase()) ||
-                    t.getProvenienza().toLowerCase().contains(parola.toLowerCase()))
+            if (t.getCompagnia().toLowerCase().contains(p) ||
+                    t.getProvenienza().toLowerCase().contains(p) ||
+                    t.getDestinazione().toLowerCase().contains(p))
                 elencoTreniArrivo.add(t);
     }
 
     public void aggiornaPartenza(String parola) {
+        String p = parola == null ? "" : parola.toLowerCase();
         ObservableList<Treno> snap = FXCollections.observableArrayList(elencoTreniPartenza);
         elencoTreniPartenza.clear();
         for (Treno t : snap)
-            if (t.getCompagnia().toLowerCase().contains(parola.toLowerCase()) ||
-                    t.getDestinazione().toLowerCase().contains(parola.toLowerCase()))
+            if (t.getCompagnia().toLowerCase().contains(p) ||
+                    t.getDestinazione().toLowerCase().contains(p) ||
+                    t.getProvenienza().toLowerCase().contains(p))
                 elencoTreniPartenza.add(t);
     }
 
