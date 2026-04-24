@@ -61,18 +61,12 @@ src/
 |-----------|----------|
 | Java JDK  | 8 (con JavaFX bundled) |
 | IDE consigliato | IntelliJ IDEA / Eclipse |
-| Build tool | Nessuno richiesto (progetto puro) |
 
 > ⚠️ JavaFX è incluso nel JDK 8. Con JDK 11+ è necessario aggiungere la libreria JavaFX separatamente.
 
 ---
 
-## 🚀 Avvio
-
-1. Clona o scarica il repository
-2. Apri il progetto nel tuo IDE
-3. Imposta `src/FastRailStation/Main.java` come classe principale
-4. Esegui il progetto
+## 📝 Salvataggio Dati
 
 Il file `treni.csv` e `utenti.txt` nella cartella `salvataggioDati/` vengono letti all'avvio e riscritti ad ogni modifica. Non eliminarli.
 
