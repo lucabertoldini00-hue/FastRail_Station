@@ -1,14 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="FastRailStation.view.controller.UserMainController"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane prefHeight="700.0" prefWidth="1100.0"
+            stylesheets="@styles.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="FastRailStation.view.controller.UserMainController">
 
-</AnchorPane>
+    <!-- ══════════════════ HEADER NAV ══════════════════ -->
+    <top>
+        <GridPane prefHeight="120.0" prefWidth="1100.0" styleClass="header-nav"
+                  BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0"  minWidth="10.0" prefWidth="30.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="300.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0"  minWidth="10.0" prefWidth="30.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="40.0"  minHeight="10.0" prefHeight="30.0"  vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="80.0"  minHeight="50.0" prefHeight="70.0"  vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="30.0"  minHeight="10.0" prefHeight="20.0"  vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <ImageView fitHeight="60.0" fitWidth="180.0" pickOnBounds="true"
+                           preserveRatio="true"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <image><Image url="@../../immagini/Logo.png"/></image>
+                </ImageView>
+                <Label fx:id="navHome"     alignment="CENTER" styleClass="nav-item"
+                       text="Home"     GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <Label fx:id="navArrivi"   alignment="CENTER" styleClass="nav-item, nav-item-active"
+                       text="Arrivi"   GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                <Label fx:id="navPartenze" alignment="CENTER" styleClass="nav-item"
+                       text="Partenze" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+                <Label fx:id="navPrenota"  alignment="CENTER" styleClass="nav-item"
+                       text="Prenota"  GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+                <Label fx:id="navProfilo"  alignment="CENTER" styleClass="nav-item"
+                       text="Profilo"  GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+            </children>
+        </GridPane>
+    </top>
+
+    <!-- ══════════════════ SIDEBAR ══════════════════ -->
+    <left>
+        <VBox prefWidth="220.0" spacing="0.0"
+              style="-fx-background-color: #1a2a3a; -fx-border-color: #2a3a4a; -fx-border-width: 0 1 0 0;"
+              BorderPane.alignment="TOP_LEFT">
+            <padding><Insets bottom="20.0" left="15.0" right="15.0" top="20.0"/></padding>
+
+            <!-- Titolo sezione -->
+            <Label text="TABELLONE" styleClass="timeLabel"
+                   style="-fx-font-size: 14px; -fx-padding: 0 0 10 0;"/>
+            <Separator style="-fx-background-color: #2a3a4a;"/>
+
+            <!-- Toggle Arrivi / Partenze -->
+            <HBox spacing="0.0" style="-fx-padding: 15 0 15 0;">
+                <Button fx:id="btnArrivi" text="▼ ARRIVI"
+                        onAction="#handleArrivi"
+                        prefWidth="95.0" prefHeight="36.0"
+                        style="-fx-background-color: #800303; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6 0 0 6; -fx-font-size: 12px;"/>
+                <Button fx:id="btnPartenze" text="▲ PARTENZE"
+                        onAction="#handlePartenze"
+                        prefWidth="95.0" prefHeight="36.0"
+                        style="-fx-background-color: #2a3a4a; -fx-text-fill: #9a9aa3; -fx-font-weight: bold; -fx-background-radius: 0 6 6 0; -fx-font-size: 11px;"/>
+            </HBox>
+
+            <!-- Data -->
+            <Label text="Data" styleClass="labelCustom1"
+                   style="-fx-padding: 5 0 3 0; -fx-font-size: 12px;"/>
+            <DatePicker fx:id="dpData" prefWidth="190.0" styleClass="customDatePicker">
+                <VBox.margin><Insets bottom="10.0"/></VBox.margin>
+            </DatePicker>
+
+            <!-- Cerca (destinazione o provenienza) -->
+            <Label text="Cerca destinazione / provenienza" styleClass="labelCustom1"
+                   style="-fx-font-size: 11px; -fx-padding: 5 0 3 0;" wrapText="true"/>
+            <TextField fx:id="txtCerca" promptText="es. Roma, Napoli…"
+                       styleClass="customTextField" prefWidth="190.0">
+                <VBox.margin><Insets bottom="10.0"/></VBox.margin>
+            </TextField>
+
+            <!-- Compagnia -->
+            <Label text="Compagnia" styleClass="labelCustom1"
+                   style="-fx-font-size: 12px; -fx-padding: 5 0 3 0;"/>
+            <TextField fx:id="txtCompagnia" promptText="es. Trenitalia, Italo…"
+                       styleClass="customTextField" prefWidth="190.0">
+                <VBox.margin><Insets bottom="15.0"/></VBox.margin>
+            </TextField>
+
+            <!-- Bottoni azione -->
+            <Button text="🔍  Filtra" onAction="#handleFiltra"
+                    prefWidth="190.0" prefHeight="36.0"
+                    style="-fx-background-color: #800303; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;">
+                <VBox.margin><Insets bottom="8.0"/></VBox.margin>
+            </Button>
+            <Button text="↺  Reset" onAction="#handleReset"
+                    prefWidth="190.0" prefHeight="36.0"
+                    style="-fx-background-color: #2a3a4a; -fx-text-fill: #9a9aa3; -fx-font-weight: bold; -fx-background-radius: 6;">
+                <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+            </Button>
+
+            <Separator style="-fx-background-color: #2a3a4a;"/>
+
+            <!-- Orologio -->
+            <Label fx:id="lblOrologio" text="00:00:00" styleClass="timeLabel"
+                   style="-fx-padding: 15 0 0 0;" alignment="CENTER" prefWidth="190.0"/>
+
+            <!-- Contatore righe -->
+            <Label fx:id="lblContatore" text="0 treni" styleClass="labelCustom1"
+                   style="-fx-font-size: 11px; -fx-text-fill: #9a9aa3; -fx-padding: 5 0 0 5;"/>
+        </VBox>
+    </left>
+
+    <!-- ══════════════════ MAIN TABLE ══════════════════ -->
+    <center>
+        <AnchorPane style="-fx-background-color: #0d1b2a;"
+                    BorderPane.alignment="CENTER">
+            <children>
+
+                <!-- Titolo tabellone -->
+                <Label fx:id="lblTitoloTabellone"
+                       text="◉  ARRIVI"
+                       style="-fx-text-fill: #800303; -fx-font-size: 22px; -fx-font-weight: bold; -fx-font-family: 'Courier New', monospace; -fx-padding: 15 0 0 20;"
+                       AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"/>
+
+                <!-- Tabella treni -->
+                <TableView fx:id="tblTabellone"
+                           AnchorPane.topAnchor="55.0"
+                           AnchorPane.bottomAnchor="0.0"
+                           AnchorPane.leftAnchor="0.0"
+                           AnchorPane.rightAnchor="0.0">
+                    <columns>
+                        <TableColumn fx:id="colOrario"       text="Orario"       prefWidth="85.0"  minWidth="70.0"/>
+                        <TableColumn fx:id="colProvenienza"  text="Provenienza"  prefWidth="175.0" minWidth="120.0"/>
+                        <TableColumn fx:id="colDestinazione" text="Destinazione" prefWidth="175.0" minWidth="120.0"/>
+                        <TableColumn fx:id="colCodice"       text="N° Treno"     prefWidth="100.0" minWidth="80.0"/>
+                        <TableColumn fx:id="colBinario"      text="Binario"      prefWidth="75.0"  minWidth="60.0"/>
+                        <TableColumn fx:id="colCompagnia"    text="Compagnia"    prefWidth="120.0" minWidth="90.0"/>
+                        <TableColumn fx:id="colStato"        text="Stato"        prefWidth="120.0" minWidth="90.0"/>
+                        <TableColumn fx:id="colRitardo"      text="Ritardo"      prefWidth="80.0"  minWidth="60.0"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+
+            </children>
+        </AnchorPane>
+    </center>
+
+</BorderPane>
