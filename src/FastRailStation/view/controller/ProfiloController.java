@@ -176,7 +176,7 @@ public class ProfiloController {
         wire(navArrivi,   () -> navigateTo("../GUI/userMain.fxml",     "Arrivi"));
         wire(navPartenze, () -> navigateTo("../GUI/userMain.fxml",     "Partenze"));
         wire(navPrenota,  () -> navigateTo("../GUI/prenotazione.fxml", "Prenotazione"));
-        wire(navProfilo,  () -> navigateTo("../GUI/login.fxml", "Login"));
+        wire(navProfilo,  () -> {});
     }
 
     private void wire(Label l, Runnable r) { if (l != null) l.setOnMouseClicked(e -> r.run()); }
@@ -185,23 +185,15 @@ public class ProfiloController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
-            Stage stage = navHome != null && navHome.getScene() != null
-                    ? (Stage) navHome.getScene().getWindow()
-                    : new Stage();
+            Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showNavigationError(path, e);
-        }
-    }
-
-    private void showNavigationError(String path, Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore navigazione");
-        alert.setHeaderText("Impossibile aprire la schermata");
-        alert.setContentText("Path: " + path + "\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
-        alert.showAndWait();
+            Stage cur = navHome != null && navHome.getScene() != null
+                    ? (Stage) navHome.getScene().getWindow() : null;
+            if (cur == null && navProfilo != null && navProfilo.getScene() != null)
+                cur = (Stage) navProfilo.getScene().getWindow();
+            if (cur != null) cur.close();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

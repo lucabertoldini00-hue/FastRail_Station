@@ -5,9 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import FastRailStation.model.Treno;
 import FastRailStation.model.Utente;
@@ -15,6 +15,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class LeggiDati {
+
+    /** Number of days ahead for which recurring trains are materialized in memory. */
+    private static final int PRENOTAZIONE_GIORNI_FUTURI = 14;
 
     // FIX B5/B6: paths must match ScriviDati constants exactly (same casing)
     private static final String PATH_TRENI  = ScriviDati.PATH_TRENI;
@@ -90,20 +93,26 @@ public class LeggiDati {
                             && !c[14].trim().isEmpty()
                             && !c[15].trim().isEmpty();
 
-                    Treno treno;
                     if (hasManutenzione) {
                         LocalDate inizio   = LocalDate.parse(c[14].trim(), dateFmt);
                         LocalDate fine     = LocalDate.parse(c[15].trim(), dateFmt);
                         String    deposito = c[16].trim();
-                        treno = new Treno(modello, provenienza, destinazione, compagnia, codice,
-                                numMax, giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
-                                intervallo, stato, inizio, fine, deposito, ritardo, postiOccupati);
+                        aggiungiOccorrenzeTreno(
+                                treni,
+                                modello, provenienza, destinazione, compagnia, codice, numMax,
+                                giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                                intervallo, stato, postiOccupati, ritardo,
+                                inizio, fine, deposito
+                        );
                     } else {
-                        treno = new Treno(modello, provenienza, destinazione, compagnia, codice,
-                                numMax, giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
-                                intervallo, stato, ritardo, postiOccupati);
+                        aggiungiOccorrenzeTreno(
+                                treni,
+                                modello, provenienza, destinazione, compagnia, codice, numMax,
+                                giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                                intervallo, stato, postiOccupati, ritardo,
+                                null, null, null
+                        );
                     }
-                    treni.add(treno);
                 } catch (Exception ex) {
                     System.err.println("Skipping malformed train row: " + line);
                     ex.printStackTrace();
@@ -113,5 +122,55 @@ public class LeggiDati {
             e.printStackTrace();
         }
         return treni;
+    }
+
+    private void aggiungiOccorrenzeTreno(
+            ObservableList<Treno> treni,
+            String modello, String provenienza, String destinazione, String compagnia, String codice,
+            int numMax, LocalDate giornoArrivoBase, LocalTime oraArrivo,
+            LocalDate giornoPartenzaBase, LocalTime oraPartenza,
+            int intervallo, String stato, int postiOccupatiBase, int ritardoBase,
+            LocalDate inizioManutenzioneBase, LocalDate fineManutenzioneBase, String depositoBase) {
+
+        LocalDate oggi = LocalDate.now();
+        LocalDate fineFinestra = oggi.plusDays(PRENOTAZIONE_GIORNI_FUTURI);
+
+        // Recurrence fallback: if interval is invalid, keep a single occurrence.
+        int step = intervallo > 0 ? intervallo : PRENOTAZIONE_GIORNI_FUTURI + 1;
+
+        LocalDate giornoArrivo = giornoArrivoBase;
+        LocalDate giornoPartenza = giornoPartenzaBase;
+        while (giornoArrivo.isBefore(oggi)) {
+            giornoArrivo = giornoArrivo.plusDays(step);
+            giornoPartenza = giornoPartenza.plusDays(step);
+        }
+
+        while (!giornoArrivo.isAfter(fineFinestra)) {
+            long delta = ChronoUnit.DAYS.between(giornoArrivoBase, giornoArrivo);
+            int postiOccorrenza = giornoArrivo.equals(oggi) ? postiOccupatiBase : 0;
+            int ritardoOccorrenza = giornoArrivo.equals(oggi) ? ritardoBase : 0;
+
+            if (inizioManutenzioneBase != null && fineManutenzioneBase != null && depositoBase != null) {
+                treni.add(new Treno(
+                        modello, provenienza, destinazione, compagnia, codice, numMax,
+                        giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                        intervallo, stato,
+                        inizioManutenzioneBase.plusDays(delta),
+                        fineManutenzioneBase.plusDays(delta),
+                        depositoBase,
+                        ritardoOccorrenza, postiOccorrenza
+                ));
+            } else {
+                treni.add(new Treno(
+                        modello, provenienza, destinazione, compagnia, codice, numMax,
+                        giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                        intervallo, stato,
+                        ritardoOccorrenza, postiOccorrenza
+                ));
+            }
+
+            giornoArrivo = giornoArrivo.plusDays(step);
+            giornoPartenza = giornoPartenza.plusDays(step);
+        }
     }
 }

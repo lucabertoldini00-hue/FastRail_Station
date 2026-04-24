@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 
 public class DettagliTrenoAdminController {
 
-    // FIX B12: field names match the corrected fx:ids in dettagliTrenoAdmin.fxml
     @FXML private ComboBox<String> modelloTrenoCmbx;
     @FXML private TextField        provenienzaTxF;
     @FXML private TextField        destinazioneTxF;
@@ -33,8 +32,10 @@ public class DettagliTrenoAdminController {
     @FXML private Button           modificaBtn;
     @FXML private Label            orologio;
 
-    private Treno trenoCorrente;
-    private final GestioneTreni gestioneTreni = GestioneTreni.getInstance();
+    private Treno    trenoCorrente;
+    private Runnable onSaveCallback;  // ← notifica AdminController dopo salvataggio
+
+    private final GestioneTreni gt = GestioneTreni.getInstance();
 
     @FXML
     private void initialize() {
@@ -43,10 +44,16 @@ public class DettagliTrenoAdminController {
         modelloTrenoCmbx.getItems().addAll(
                 "Frecciarossa 1000", "Frecciarossa 700", "Frecciarossa 500",
                 "Frecciargento", "Frecciabianca", "Intercity", "Intercity Notte",
-                "Regionale", "Regionale Veloce", "Italo Next", "Italo AGV", "EuroCity ETR610",
-                "EuroNight");
+                "Regionale", "Regionale Veloce", "Italo Next", "Italo EVO", "Italo AGV",
+                "EuroCity ETR610", "EuroNight");
+        depositoCmbx.getItems().addAll("Deposito A", "Deposito B", "Deposito C", "Officina");
         startClock();
         setEditable(false);
+    }
+
+    /** Permette ad AdminController di ricevere notifica al salvataggio. */
+    public void setOnSaveCallback(Runnable callback) {
+        this.onSaveCallback = callback;
     }
 
     public void setTreno(Treno treno) {
@@ -55,7 +62,7 @@ public class DettagliTrenoAdminController {
         nomeTreno.setText(treno.getModello());
         provenienzaTxF.setText(treno.getProvenienza());
         destinazioneTxF.setText(treno.getDestinazione());
-        binarioTxF.setText(String.valueOf(treno.getBinario()));
+        binarioTxF.setText(String.valueOf(treno.getBinario() <= 0 ? "—" : treno.getBinario()));
         compagniaTxF.setText(treno.getCompagnia());
         postiTotaliTxF.setText(String.valueOf(treno.getPostiMassimi()));
         postiOccupatiTxF.setText(String.valueOf(treno.getNumeroPostiOccupati()));
@@ -72,34 +79,41 @@ public class DettagliTrenoAdminController {
         if (treno.getDeposito()           != null) hangarTxf.setText(treno.getDeposito());
     }
 
-    @FXML
-    private void modifica() { setEditable(true); }
+    @FXML private void modifica() { setEditable(true); }
 
     @FXML
     private void salva() {
         if (trenoCorrente == null) return;
+
         trenoCorrente.setProvenienza(provenienzaTxF.getText());
         trenoCorrente.setDestinazione(destinazioneTxF.getText());
         if (statoCmbx.getValue() != null) trenoCorrente.setStato(statoCmbx.getValue());
-        tryParse(ritardoTxF.getText(),      v -> trenoCorrente.setRitardo(v));
-        tryParse(postiTotaliTxF.getText(),  v -> trenoCorrente.setPostiMassimi(v));
-        tryParse(postiOccupatiTxF.getText(),v -> trenoCorrente.setNumeroPostiOccupati(v));
-        tryParse(intervalloTxF.getText(),   v -> trenoCorrente.setIntervallo(v));
+        tryParse(ritardoTxF.getText(),       v -> trenoCorrente.setRitardo(v));
+        tryParse(postiTotaliTxF.getText(),   v -> trenoCorrente.setPostiMassimi(v));
+        tryParse(postiOccupatiTxF.getText(), v -> trenoCorrente.setNumeroPostiOccupati(v));
+        tryParse(intervalloTxF.getText(),    v -> trenoCorrente.setIntervallo(v));
         if (giornoArrivoDp.getValue()   != null) trenoCorrente.getGiornoArrivoProperty().set(giornoArrivoDp.getValue());
         if (giornoPartenzaDp.getValue() != null) trenoCorrente.giornoPartenzaProperty().set(giornoPartenzaDp.getValue());
         if (inizioLavoriDp.getValue()   != null) trenoCorrente.inizioManutenzioneProperty().set(inizioLavoriDp.getValue());
         if (fineLavoriDp.getValue()     != null) trenoCorrente.fineManutenzioneProperty().set(fineLavoriDp.getValue());
         trenoCorrente.setDeposito(hangarTxf.getText());
-        gestioneTreni.aggiornaLista();
+
+        gt.aggiornaLista();
         setEditable(false);
+
+        if (onSaveCallback != null) onSaveCallback.run();
     }
 
     @FXML
     private void rimuoviTreno() {
         if (trenoCorrente == null) return;
-        gestioneTreni.rimuoviTreno(trenoCorrente);
-        gestioneTreni.aggiornaLista();
+        gt.rimuoviTreno(trenoCorrente);
+        gt.aggiornaLista();
+        if (onSaveCallback != null) onSaveCallback.run();
         trenoCorrente = null;
+        // Chiudi la finestra
+        if (orologio.getScene() != null)
+            ((javafx.stage.Stage) orologio.getScene().getWindow()).close();
     }
 
     private void setEditable(boolean on) {
@@ -109,7 +123,6 @@ public class DettagliTrenoAdminController {
         postiTotaliTxF.setEditable(on);
         postiOccupatiTxF.setEditable(on);
         ritardoTxF.setEditable(on);
-        codiceTxF.setEditable(on);
         intervalloTxF.setEditable(on);
         hangarTxf.setEditable(on);
         statoCmbx.setDisable(!on);
@@ -118,18 +131,19 @@ public class DettagliTrenoAdminController {
         giornoPartenzaDp.setDisable(!on);
         inizioLavoriDp.setDisable(!on);
         fineLavoriDp.setDisable(!on);
+        depositoCmbx.setDisable(!on);
         salvaBtn.setDisable(!on);
+        modificaBtn.setDisable(on);
     }
 
     private void startClock() {
-        AnimationTimer timer = new AnimationTimer() {
+        new AnimationTimer() {
             @Override public void handle(long now) {
                 java.time.LocalTime t = java.time.LocalTime.now();
                 orologio.setText(String.format("%02d:%02d:%02d",
                         t.getHour(), t.getMinute(), t.getSecond()));
             }
-        };
-        timer.start();
+        }.start();
     }
 
     @FunctionalInterface interface IntConsumer { void accept(int v); }

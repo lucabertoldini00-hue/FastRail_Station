@@ -99,9 +99,7 @@ public class PrenotazioneController {
      */
     public void prefillSearch(String destinazione, LocalDate data) {
         if (data != null) dpDataPartenza.setValue(data);
-        if (destinazione != null && !destinazione.isEmpty()) {
-            txtDestinazione.setText(destinazione);
-        }
+        txtDestinazione.setText(destinazione == null ? "" : destinazione);
         changepartenza(txtDestinazione.getText());
     }
 

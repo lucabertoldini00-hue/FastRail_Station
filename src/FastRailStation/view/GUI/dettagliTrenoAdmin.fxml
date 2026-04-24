@@ -14,21 +14,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<!--
-    FIX B12: All airport/aircraft labels replaced with train domain:
-      "Modifica Aereo"   → "Modifica Treno"
-      "Modello aereo"    → "Modello treno"
-      "Compagnia aerea"  → "Compagnia ferroviaria"
-      "Gate"             → "Binario"
-      "Terminal"         → "Deposito"
-      "Hangar"           → "Deposito"
-      fx:id modelloAereoCmbx → modelloTrenoCmbx
-      fx:id compagniaAereaTxF → compagniaTxF
-      fx:id gateTxF → binarioTxF
-      fx:id terminalCmbx → depositoCmbx
-      fx:id nomeAereo → nomeTreno
-      onAction rimuoviAereo → rimuoviTreno
--->
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="556.0" prefWidth="608.0"

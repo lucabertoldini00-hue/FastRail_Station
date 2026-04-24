@@ -15,6 +15,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -273,12 +274,8 @@ public class UserMainController {
             navigateTo("../GUI/prenotazione.fxml", "Prenotazione");
         });
         wire(navProfilo, () -> {
-            if (gu.isLogged()) {
-                navigateTo("../GUI/profilo.fxml", "Il mio profilo");
-            } else {
-                gu.setSchermataPrecedente(mostraPartenze ? "UserMainPageP" : "UserMainPageA");
-                navigateTo("../GUI/login.fxml", "Login");
-            }
+            if (gu.isLogged()) navigateTo("../GUI/profilo.fxml", "Il mio profilo");
+            else { gu.setSchermataPrecedente("UserMainPageA"); navigateTo("../GUI/login.fxml", "Login"); }
         });
 
         // Aggiorna label profilo
@@ -297,24 +294,12 @@ public class UserMainController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
-            Stage stage = navHome != null && navHome.getScene() != null
-                    ? (Stage) navHome.getScene().getWindow()
-                    : new Stage();
+            Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showNavigationError(path, e);
-        }
-    }
-
-    private void showNavigationError(String path, Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore navigazione");
-        alert.setHeaderText("Impossibile aprire la schermata");
-        alert.setContentText("Path: " + path + "\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
-        alert.showAndWait();
+            chiudiStageCorrente();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     private void chiudiStageCorrente() {
