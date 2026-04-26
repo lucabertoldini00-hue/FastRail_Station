@@ -96,7 +96,7 @@ public class ScriviDati {
     /**
      * FIX N13: appends a confirmed ticket to the biglietti CSV.
      */
-    public void scríviBiglietto(Biglietto b) {
+    public void scriviBiglietto(Biglietto b) {
         try (FileWriter w = new FileWriter(PATH_BIGLIETTI, true)) { // append mode
             w.write(b.toCsvLine() + "\n");
         } catch (IOException e) {

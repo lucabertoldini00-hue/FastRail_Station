@@ -188,7 +188,7 @@ public class PrenotazioneController {
                 nAdulti, nBambini, nBagagli,
                 cbClasse.getValue(),
                 prezzoTot);
-        scriviDati.scríviBiglietto(biglietto);
+        scriviDati.scriviBiglietto(biglietto);
 
         resetCampi();
 

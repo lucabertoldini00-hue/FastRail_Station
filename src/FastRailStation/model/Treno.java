@@ -48,15 +48,19 @@ public class Treno {
                  LocalDate giornoPartenza, LocalTime oraPartenza, int intervallo,
                  String stato, int ritardo, int numPosti) {
 
-        // FIX N11: advance dates first, then reset posti/ritardo ONCE outside the loop
-        while (giornoDiArrivo.isBefore(LocalDate.now())) {
-            giornoDiArrivo  = giornoDiArrivo.plusDays(intervallo);
-            giornoPartenza  = giornoPartenza.plusDays(intervallo);
-        }
-        // Only reset occupancy/delay when date was actually stale
-        if (!giornoDiArrivo.equals(giornoDiArrivo)) { // dates were advanced
-            ritardo  = 0;
-            numPosti = 0;
+        // Advance dates to the next future occurrence, then reset occupancy/delay once.
+        // Guard against an infinite loop when intervallo is zero or negative.
+        if (intervallo > 0) {
+            LocalDate originalArrival = giornoDiArrivo;
+            while (giornoDiArrivo.isBefore(LocalDate.now())) {
+                giornoDiArrivo = giornoDiArrivo.plusDays(intervallo);
+                giornoPartenza = giornoPartenza.plusDays(intervallo);
+            }
+            // Reset occupancy and delay only when the dates were actually advanced.
+            if (!giornoDiArrivo.equals(originalArrival)) {
+                ritardo  = 0;
+                numPosti = 0;
+            }
         }
 
         this.modello              = new SimpleStringProperty(modello);
