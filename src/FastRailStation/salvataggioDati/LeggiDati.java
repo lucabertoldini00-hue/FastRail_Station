@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import FastRailStation.model.Biglietto;
+import FastRailStation.model.Ruolo;
 import FastRailStation.model.Treno;
 import FastRailStation.model.Utente;
 import javafx.collections.FXCollections;
@@ -16,12 +18,9 @@ import javafx.collections.ObservableList;
 
 public class LeggiDati {
 
-    /** Number of days ahead for which recurring trains are materialized in memory. */
-    private static final int PRENOTAZIONE_GIORNI_FUTURI = 14;
-
-    // FIX B5/B6: paths must match ScriviDati constants exactly (same casing)
-    private static final String PATH_TRENI  = ScriviDati.PATH_TRENI;
-    private static final String PATH_UTENTI = ScriviDati.PATH_UTENTI;
+    private static final String PATH_TRENI   = ScriviDati.PATH_TRENI;
+    private static final String PATH_UTENTI  = ScriviDati.PATH_UTENTI;
+    private static final String PATH_BIGLIETTI = ScriviDati.PATH_BIGLIETTI;
 
     public LeggiDati() {}
 
@@ -32,25 +31,31 @@ public class LeggiDati {
         try (BufferedReader br = new BufferedReader(new FileReader(PATH_UTENTI))) {
             String linea;
             while ((linea = br.readLine()) != null) {
+                linea = linea.trim();
+                if (linea.isEmpty()) continue;
                 String[] d = linea.split("\\+");
-                if (d.length < 11) continue; // skip malformed lines
+                if (d.length < 11) continue;
+
+                // Campo 11 (indice 11) = Ruolo — opzionale per retrocompatibilità
+                Ruolo ruolo = d.length > 11 ? Ruolo.from(d[11]) : Ruolo.USER;
+
                 lista.add(new Utente(
-                        d[0],  // nome
-                        d[1],  // cognome
-                        d[2],  // mail
-                        d[3],  // nascita
-                        d[4],  // password
-                        d[5],  // numCell
-                        d[6],  // nazione
-                        d[7],  // citta
-                        d[8],  // via
-                        d[9],  // codice carta
-                        d[10]  // scadenza
+                        d[0],   // nome
+                        d[1],   // cognome
+                        d[2],   // mail
+                        d[3],   // nascita
+                        d[4],   // password
+                        d[5],   // numCell
+                        d[6],   // nazione
+                        d[7],   // citta
+                        d[8],   // via
+                        d[9],   // codiceCarta
+                        d[10],  // scadenza
+                        ruolo
                 ));
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // FIX: return empty list, never null, to avoid NPE in callers
         }
         return lista;
     }
@@ -63,14 +68,14 @@ public class LeggiDati {
         DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         try (BufferedReader br = new BufferedReader(new FileReader(PATH_TRENI))) {
-            br.readLine(); // skip header row
+            br.readLine(); // skip header
 
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
-                String[] c = line.split(",", -1); // -1 keeps trailing empty strings
+                String[] c = line.split(",", -1);
                 if (c.length < 14) continue;
 
                 try {
@@ -93,29 +98,22 @@ public class LeggiDati {
                             && !c[14].trim().isEmpty()
                             && !c[15].trim().isEmpty();
 
+                    Treno treno;
                     if (hasManutenzione) {
                         LocalDate inizio   = LocalDate.parse(c[14].trim(), dateFmt);
                         LocalDate fine     = LocalDate.parse(c[15].trim(), dateFmt);
                         String    deposito = c[16].trim();
-                        aggiungiOccorrenzeTreno(
-                                treni,
-                                modello, provenienza, destinazione, compagnia, codice, numMax,
-                                giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
-                                intervallo, stato, postiOccupati, ritardo,
-                                inizio, fine, deposito
-                        );
+                        treno = new Treno(modello, provenienza, destinazione, compagnia, codice,
+                                numMax, giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                                intervallo, stato, inizio, fine, deposito, ritardo, postiOccupati);
                     } else {
-                        aggiungiOccorrenzeTreno(
-                                treni,
-                                modello, provenienza, destinazione, compagnia, codice, numMax,
-                                giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
-                                intervallo, stato, postiOccupati, ritardo,
-                                null, null, null
-                        );
+                        treno = new Treno(modello, provenienza, destinazione, compagnia, codice,
+                                numMax, giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                                intervallo, stato, ritardo, postiOccupati);
                     }
+                    treni.add(treno);
                 } catch (Exception ex) {
-                    System.err.println("Skipping malformed train row: " + line);
-                    ex.printStackTrace();
+                    System.err.println("Riga treno malformata, saltata: " + line);
                 }
             }
         } catch (IOException e) {
@@ -124,53 +122,58 @@ public class LeggiDati {
         return treni;
     }
 
-    private void aggiungiOccorrenzeTreno(
-            ObservableList<Treno> treni,
-            String modello, String provenienza, String destinazione, String compagnia, String codice,
-            int numMax, LocalDate giornoArrivoBase, LocalTime oraArrivo,
-            LocalDate giornoPartenzaBase, LocalTime oraPartenza,
-            int intervallo, String stato, int postiOccupatiBase, int ritardoBase,
-            LocalDate inizioManutenzioneBase, LocalDate fineManutenzioneBase, String depositoBase) {
+    // ── Biglietti ─────────────────────────────────────────────────────────────
 
-        LocalDate oggi = LocalDate.now();
-        LocalDate fineFinestra = oggi.plusDays(PRENOTAZIONE_GIORNI_FUTURI);
+    /**
+     * Legge tutti i biglietti dal CSV.
+     * Formato colonne (indice):
+     * 0  CodiceBiglietto
+     * 1  MailUtente
+     * 2  CodiceTreno
+     * 3  Provenienza
+     * 4  Destinazione
+     * 5  DataPartenza      (dd/MM/yyyy)
+     * 6  OraPartenza       (HH:mm:ss)
+     * 7  NAdulti
+     * 8  NBambini
+     * 9  NBagagli
+     * 10 Classe
+     * 11 Prezzo
+     * 12 DataPrenotazione  (dd/MM/yyyy HH:mm:ss)
+     */
+    public ArrayList<Biglietto> leggiBiglietti() {
+        ArrayList<Biglietto> lista = new ArrayList<>();
+        DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter dtFmt   = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-        // Recurrence fallback: if interval is invalid, keep a single occurrence.
-        int step = intervallo > 0 ? intervallo : PRENOTAZIONE_GIORNI_FUTURI + 1;
-
-        LocalDate giornoArrivo = giornoArrivoBase;
-        LocalDate giornoPartenza = giornoPartenzaBase;
-        while (giornoArrivo.isBefore(oggi)) {
-            giornoArrivo = giornoArrivo.plusDays(step);
-            giornoPartenza = giornoPartenza.plusDays(step);
-        }
-
-        while (!giornoArrivo.isAfter(fineFinestra)) {
-            long delta = ChronoUnit.DAYS.between(giornoArrivoBase, giornoArrivo);
-            int postiOccorrenza = giornoArrivo.equals(oggi) ? postiOccupatiBase : 0;
-            int ritardoOccorrenza = giornoArrivo.equals(oggi) ? ritardoBase : 0;
-
-            if (inizioManutenzioneBase != null && fineManutenzioneBase != null && depositoBase != null) {
-                treni.add(new Treno(
-                        modello, provenienza, destinazione, compagnia, codice, numMax,
-                        giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
-                        intervallo, stato,
-                        inizioManutenzioneBase.plusDays(delta),
-                        fineManutenzioneBase.plusDays(delta),
-                        depositoBase,
-                        ritardoOccorrenza, postiOccorrenza
-                ));
-            } else {
-                treni.add(new Treno(
-                        modello, provenienza, destinazione, compagnia, codice, numMax,
-                        giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
-                        intervallo, stato,
-                        ritardoOccorrenza, postiOccorrenza
-                ));
+        try (BufferedReader br = new BufferedReader(new FileReader(PATH_BIGLIETTI))) {
+            br.readLine(); // skip header
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) continue;
+                String[] c = line.split(",", -1);
+                if (c.length < 13) continue;
+                try {
+                    Biglietto b = Biglietto.fromCsv(c, dateFmt, dtFmt);
+                    if (b != null) lista.add(b);
+                } catch (Exception ex) {
+                    System.err.println("Biglietto malformato, saltato: " + line);
+                }
             }
-
-            giornoArrivo = giornoArrivo.plusDays(step);
-            giornoPartenza = giornoPartenza.plusDays(step);
+        } catch (IOException e) {
+            // file potrebbe non esistere ancora
         }
+        return lista;
+    }
+
+    /** Filtra i biglietti per mail utente. */
+    public ArrayList<Biglietto> leggiBigliettiUtente(String mail) {
+        ArrayList<Biglietto> tutti   = leggiBiglietti();
+        ArrayList<Biglietto> filtrati = new ArrayList<>();
+        for (Biglietto b : tutti)
+            if (b.getMailUtente().equalsIgnoreCase(mail))
+                filtrati.add(b);
+        return filtrati;
     }
 }

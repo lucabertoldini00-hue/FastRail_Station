@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import javafx.collections.ObservableList;
 import FastRailStation.model.Biglietto;
+import FastRailStation.model.Ruolo;
 import FastRailStation.model.Treno;
 import FastRailStation.model.Utente;
 
 public class ScriviDati {
 
-    // FIX B5/B6/B7: single canonical path constants, matching LeggiDati exactly
-    static final String PATH_TRENI    = "./src/FastRailStation/salvataggioDati/treni.csv";
-    static final String PATH_UTENTI   = "./src/FastRailStation/salvataggioDati/utenti.txt";
-    static final String PATH_BIGLIETTI= "./src/FastRailStation/salvataggioDati/biglietti.csv";
+    static final String PATH_TRENI     = "./src/FastRailStation/salvataggioDati/treni.csv";
+    static final String PATH_UTENTI    = "./src/FastRailStation/salvataggioDati/utenti.txt";
+    static final String PATH_BIGLIETTI = "./src/FastRailStation/salvataggioDati/biglietti.csv";
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -23,6 +23,10 @@ public class ScriviDati {
 
     // ── Utenti ────────────────────────────────────────────────────────────────
 
+    /**
+     * Formato: Nome+Cognome+Mail+Nascita+Password+Cellulare+Nazione+
+     *          Citta+Via+Carta+Scadenza+Ruolo
+     */
     public void scriviUtenti(ArrayList<Utente> utenti) {
         try (BufferedWriter w = new BufferedWriter(new FileWriter(PATH_UTENTI))) {
             for (Utente u : utenti) {
@@ -37,6 +41,7 @@ public class ScriviDati {
                 w.write(u.getViaResidenza()    + "+");
                 w.write(u.getCodiceCarta()     + "+");
                 w.write(u.getScadenza()        + "+");
+                w.write(u.getRuolo().name()    + "+");  // campo 11: ADMIN | USER
                 w.newLine();
             }
             w.flush();
@@ -47,11 +52,6 @@ public class ScriviDati {
 
     // ── Treni ─────────────────────────────────────────────────────────────────
 
-    /**
-     * FIX B7: path was ./src/mainFolder/... — now uses PATH_TRENI constant.
-     * FIX B8: writes the full 17-column format (was 11 in old scriviTreni).
-     * Non-maintenance rows write empty placeholders so column count is always 17.
-     */
     public void scriviTreniFine(ObservableList<Treno> treni) {
         try (FileWriter w = new FileWriter(PATH_TRENI)) {
             w.write("Modello,Provenienza,Destinazione,Compagnia,Codice,NumMax," +
@@ -63,9 +63,9 @@ public class ScriviDati {
                         && t.getFineManutenzione() != null
                         && t.getDeposito() != null;
 
-                String inizio  = hasManutenzione ? t.getInizioManutenzione().format(DATE_FMT) : "";
-                String fine    = hasManutenzione ? t.getFineManutenzione().format(DATE_FMT)   : "";
-                String deposito= hasManutenzione ? t.getDeposito()                            : "";
+                String inizio   = hasManutenzione ? t.getInizioManutenzione().format(DATE_FMT) : "";
+                String fine     = hasManutenzione ? t.getFineManutenzione().format(DATE_FMT)   : "";
+                String deposito = hasManutenzione ? t.getDeposito()                            : "";
 
                 w.write(String.format("%s,%s,%s,%s,%s,%d,%s,%s,%s,%s,%d,%s,%d,%d,%s,%s,%s\n",
                         t.getModello(),
@@ -82,9 +82,7 @@ public class ScriviDati {
                         t.getStato(),
                         t.getNumeroPostiOccupati(),
                         t.getRitardo(),
-                        inizio,
-                        fine,
-                        deposito));
+                        inizio, fine, deposito));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,12 +91,49 @@ public class ScriviDati {
 
     // ── Biglietti ─────────────────────────────────────────────────────────────
 
-    /**
-     * FIX N13: appends a confirmed ticket to the biglietti CSV.
-     */
     public void scríviBiglietto(Biglietto b) {
-        try (FileWriter w = new FileWriter(PATH_BIGLIETTI, true)) { // append mode
+        // Crea header se il file è nuovo/vuoto
+        java.io.File f = new java.io.File(PATH_BIGLIETTI);
+        boolean needsHeader = !f.exists() || f.length() == 0;
+        try (FileWriter w = new FileWriter(PATH_BIGLIETTI, true)) {
+            if (needsHeader)
+                w.write("CodiceBiglietto,MailUtente,CodiceTreno,Provenienza,Destinazione," +
+                        "DataPartenza,OraPartenza,NAdulti,NBambini,NBagagli,Classe,Prezzo,DataPrenotazione\n");
             w.write(b.toCsvLine() + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ── Export filtrato (per AdminController) ─────────────────────────────────
+
+    /**
+     * Scrive i treni passati in un file scelto dall'utente.
+     * Stessa struttura di scriviTreniFine ma su path arbitrario.
+     */
+    public void esportaTreni(ObservableList<Treno> treni, String path) {
+        try (FileWriter w = new FileWriter(path)) {
+            w.write("Modello,Provenienza,Destinazione,Compagnia,Codice,NumMax," +
+                    "GiornoArrivo,OraArrivo,GiornoPartenza,OraPartenza,Intervallo," +
+                    "Stato,PostiOccupati,Ritardo,Binario\n");
+            for (Treno t : treni) {
+                w.write(String.format("%s,%s,%s,%s,%s,%d,%s,%s,%s,%s,%d,%s,%d,%d,%d\n",
+                        t.getModello(),
+                        t.getProvenienza(),
+                        t.getDestinazione(),
+                        t.getCompagnia(),
+                        t.getCodice(),
+                        t.getPostiMassimi(),
+                        t.getGiornoArrivoString(),
+                        t.getOraArrivoString(),
+                        t.getGiornoPartenzaString(),
+                        t.getOraPartenzaString(),
+                        t.getIntervallo(),
+                        t.getStato(),
+                        t.getNumeroPostiOccupati(),
+                        t.getRitardo(),
+                        t.getBinario()));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
