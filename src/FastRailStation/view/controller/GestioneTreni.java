@@ -1,9 +1,10 @@
-package FastRailStation.model;
+package FastRailStation.view.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import FastRailStation.model.Treno;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -314,7 +315,7 @@ public class GestioneTreni {
 
     private void caricaDati() {
         for (Treno treno : leggi.leggiTreni()) addTreno(treno);
-        // Keep startup-expanded recurrences in memory only; persist only on explicit edits/bookings.
+        scriviDati();
     }
 
     // ── FIX B3: dedicated getters/setters per filter category ─────────────────

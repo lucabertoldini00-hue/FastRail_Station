@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import FastRailStation.model.GestioneUtenti;
+import FastRailStation.model.Ruolo;
 import FastRailStation.model.Utente;
 
 public class LoginController {
@@ -27,7 +28,7 @@ public class LoginController {
     @FXML private Hyperlink     vaiResetPassword;
     @FXML private Label         segnalaErrore;
 
-    private final GestioneUtenti gestioneUtenti = GestioneUtenti.getInstance();
+    private final GestioneUtenti gu = GestioneUtenti.getInstance();
 
     @FXML
     public void initialize() {
@@ -35,13 +36,9 @@ public class LoginController {
         vediInserisciPassword.setEditable(false);
         inserisciPassword.setVisible(true);
         inserisciPassword.setEditable(true);
-
-        gestioneUtenti.aggiornaLista();
-
+        gu.aggiornaLista();
         inserisciMail.setOnKeyPressed(this::handleKeyPress);
         inserisciPassword.setOnKeyPressed(this::handleKeyPress);
-
-        // Clear error styling as soon as user starts correcting
         inserisciMail.textProperty().addListener((o, a, b) -> clearError());
         inserisciPassword.textProperty().addListener((o, a, b) -> clearError());
     }
@@ -65,33 +62,22 @@ public class LoginController {
     @FXML
     public void login() {
         String mail     = inserisciMail.getText().trim();
-        String password = inserisciPassword.getText();
+        String password = visualizzaPassword.isSelected()
+                ? vediInserisciPassword.getText()
+                : inserisciPassword.getText();
 
-        // Per-field validation with highlighting
         if (mail.isEmpty() && password.isEmpty()) {
             highlight(inserisciMail); highlight(inserisciPassword);
             showError("Inserisci email e password."); return;
         }
-        if (mail.isEmpty()) {
-            highlight(inserisciMail);
-            showError("Inserisci la tua email."); return;
-        }
-        if (password.isEmpty()) {
-            highlight(inserisciPassword);
-            showError("Inserisci la tua password."); return;
-        }
+        if (mail.isEmpty())     { highlight(inserisciMail);     showError("Inserisci la tua email.");    return; }
+        if (password.isEmpty()) { highlight(inserisciPassword); showError("Inserisci la tua password."); return; }
 
-        // FIX N2: admin branch returns immediately
-        if (mail.equals("admin") && password.equals("admin")) {
-            handleAdminPage();
-            return;
-        }
-
-        ArrayList<Utente> listaUtenti = gestioneUtenti.getUtenti();
+        ArrayList<Utente> lista = gu.getUtenti();
         int foundIndex = -1;
-        for (int i = 0; i < listaUtenti.size(); i++) {
-            if (listaUtenti.get(i).getMail().equals(mail) &&
-                    listaUtenti.get(i).getPassword().equals(password)) {
+        for (int i = 0; i < lista.size(); i++) {
+            Utente u = lista.get(i);
+            if (u.getMail().equals(mail) && u.getPassword().equals(password)) {
                 foundIndex = i;
                 break;
             }
@@ -105,28 +91,29 @@ public class LoginController {
         }
 
         clearError();
-        gestioneUtenti.setLogin(foundIndex);
+        gu.setLogin(foundIndex);
+        Utente utente = lista.get(foundIndex);
 
-        // FIX N1: schermataPrecedente is initialised to "Home" — never null
-        String dest = gestioneUtenti.getSchermataPrecedente();
+        // Routing basato sul ruolo letto dal file — zero hardcoding
+        if (utente.getRuolo() == Ruolo.ADMIN) {
+            navigate("../GUI/admin.fxml", "Admin Panel", btnHome);
+            return;
+        }
+
+        String dest = gu.getSchermataPrecedente();
         if (dest == null) dest = "Home";
-
         switch (dest) {
-            case "PrenotaPage":    prenotaPage();      break;
-            case "UserMainPageA":  userMainPage(0);    break;
-            case "UserMainPageP":  userMainPage(1);    break;
-            default:               handleBtnHome();    break;
+            case "PrenotaPage":   prenotaPage();       break;
+            case "UserMainPageA": userMainPage(false); break;
+            case "UserMainPageP": userMainPage(true);  break;
+            case "Profilo":       navigate("../GUI/profilo.fxml", "Il mio profilo", btnHome); break;
+            default:              navigate("../GUI/user.fxml", "FastRail Station",   btnHome); break;
         }
     }
 
-    // ── Navigation helpers ────────────────────────────────────────────────────
-
-    // FIX N3: all paths use GUI/ (actual folder) not guiFolder/ (non-existent)
-
-    @FXML
-    private void handleBtnHome() {
-        navigate("../GUI/user.fxml", "FastRail Station", btnHome);
-    }
+    @FXML private void handleBtnHome()         { navigate("../GUI/user.fxml",    "FastRail Station", btnHome); }
+    @FXML private void handleRegistratiLink()  { navigate("../GUI/signin.fxml",  "Registrati",       vaiRegistrati); }
+    @FXML private void handlePasswChangeLink() { navigate("../GUI/pwChange.fxml","Cambia Password",  vaiResetPassword); }
 
     private void prenotaPage() {
         try {
@@ -134,56 +121,34 @@ public class LoginController {
             Parent root = loader.load();
             PrenotazioneController ctrl = loader.getController();
             ctrl.setLogged(true);
-            Stage stage = new Stage();
-            stage.setTitle("Prenotazione");
-            stage.setScene(new Scene(root));
-            stage.show();
-            ((Stage) btnHome.getScene().getWindow()).close();
+            Stage stage = new Stage(); stage.setTitle("Prenotazione");
+            stage.setScene(new Scene(root)); stage.show(); closeStage(btnHome);
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    private void userMainPage(int tab) {
+    private void userMainPage(boolean partenze) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/userMain.fxml"));
             Parent root = loader.load();
             UserMainController ctrl = loader.getController();
-            ctrl.setPartenzeSelected(tab == 1);
-            Stage stage = new Stage();
-            stage.setTitle("Tabellone");
-            stage.setScene(new Scene(root));
-            stage.show();
-            ((Stage) btnHome.getScene().getWindow()).close();
+            ctrl.setPartenzeSelected(partenze);
+            Stage stage = new Stage(); stage.setTitle(partenze ? "Partenze" : "Arrivi");
+            stage.setScene(new Scene(root)); stage.show(); closeStage(btnHome);
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    @FXML
-    private void handleAdminPage() {
-        navigate("../GUI/main.fxml", "Admin", vaiRegistrati);
-    }
-
-    @FXML
-    private void handleRegistratiLink() {
-        // Keep schermataPrecedente as-is so sign-in can return to the right screen
-        navigate("../GUI/signin.fxml", "Registrati", vaiRegistrati);
-    }
-
-    @FXML
-    private void handlePasswChangeLink() {
-        navigate("../GUI/pwChange.fxml", "Cambia Password", vaiResetPassword);
-    }
-
-    // ── Utility ───────────────────────────────────────────────────────────────
-
-    private void navigate(String fxmlPath, String title, javafx.scene.Node sourceNode) {
+    private void navigate(String path, String title, javafx.scene.Node src) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setScene(new Scene(root));
-            stage.show();
-            ((Stage) sourceNode.getScene().getWindow()).close();
+            Stage stage = new Stage(); stage.setTitle(title);
+            stage.setScene(new Scene(root)); stage.show(); closeStage(src);
         } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void closeStage(javafx.scene.Node node) {
+        if (node != null && node.getScene() != null)
+            ((Stage) node.getScene().getWindow()).close();
     }
 
     private void showError(String msg) {
@@ -194,8 +159,7 @@ public class LoginController {
 
     private void clearError() {
         if (segnalaErrore != null) segnalaErrore.setText("");
-        inserisciMail.setStyle("");
-        inserisciPassword.setStyle("");
+        inserisciMail.setStyle(""); inserisciPassword.setStyle("");
     }
 
     private void highlight(Control ctrl) {
@@ -205,14 +169,13 @@ public class LoginController {
     private void shakeLabel(Label lbl) {
         if (lbl == null) return;
         double ox = lbl.getTranslateX();
-        Timeline shake = new Timeline(
+        new Timeline(
                 new KeyFrame(Duration.millis(0),   new KeyValue(lbl.translateXProperty(), ox)),
                 new KeyFrame(Duration.millis(60),  new KeyValue(lbl.translateXProperty(), ox - 8)),
                 new KeyFrame(Duration.millis(120), new KeyValue(lbl.translateXProperty(), ox + 8)),
                 new KeyFrame(Duration.millis(180), new KeyValue(lbl.translateXProperty(), ox - 6)),
                 new KeyFrame(Duration.millis(240), new KeyValue(lbl.translateXProperty(), ox + 6)),
                 new KeyFrame(Duration.millis(300), new KeyValue(lbl.translateXProperty(), ox))
-        );
-        shake.play();
+        ).play();
     }
 }
