@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -74,20 +75,30 @@
                 </Label>
 
                 <!-- Password row -->
-                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                <StackPane prefWidth="320.0" prefHeight="44.0">
                     <VBox.margin><Insets bottom="8.0"/></VBox.margin>
+
+                    <!-- Password nascosta -->
                     <PasswordField fx:id="inserisciPassword"
-                                  promptText="La mia password"
-                                  styleClass="auth-field"
-                                  prefHeight="44.0" HBox.hgrow="ALWAYS"/>
+                                   promptText="La mia password"
+                                   styleClass="auth-field"
+                                   prefHeight="44.0"/>
+
+                    <!-- Password visibile -->
                     <TextField fx:id="vediInserisciPassword"
                                promptText="La mia password"
                                styleClass="auth-field"
-                               prefHeight="44.0" HBox.hgrow="ALWAYS"/>
-                    <CheckBox fx:id="visualizzaPassword"
-                              onAction="#visualizza"
-                              prefWidth="24.0" prefHeight="24.0"/>
-                </HBox>
+                               prefHeight="44.0"
+                               visible="false"
+                               managed="false"/>
+
+                    <!-- Icona occhio -->
+                    <Label fx:id="togglePassword"
+                           text="👁"
+                           style="-fx-cursor: hand; -fx-font-size: 16px;"
+                           StackPane.alignment="CENTER_RIGHT"
+                           translateX="-10"/>
+                </StackPane>
 
                 <!-- Forgot password -->
                 <HBox alignment="CENTER_RIGHT">

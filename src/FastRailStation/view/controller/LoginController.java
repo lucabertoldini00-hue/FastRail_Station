@@ -23,24 +23,55 @@ public class LoginController {
     @FXML private PasswordField inserisciPassword;
     @FXML private TextField     vediInserisciPassword;
     @FXML private Button        btnHome;
-    @FXML private CheckBox      visualizzaPassword;
+    @FXML private Label         togglePassword;
     @FXML private Hyperlink     vaiRegistrati;
     @FXML private Hyperlink     vaiResetPassword;
     @FXML private Label         segnalaErrore;
+
 
     private final GestioneUtenti gu = GestioneUtenti.getInstance();
 
     @FXML
     public void initialize() {
+
+        // bind automatico tra i due campi
+        vediInserisciPassword.textProperty().bindBidirectional(inserisciPassword.textProperty());
+
+        // stato iniziale
         vediInserisciPassword.setVisible(false);
-        vediInserisciPassword.setEditable(false);
+        vediInserisciPassword.setManaged(false);
+
         inserisciPassword.setVisible(true);
-        inserisciPassword.setEditable(true);
+        inserisciPassword.setManaged(true);
+        vediInserisciPassword.setOnKeyPressed(this::handleKeyPress);
+
+        // toggle con click sull'icona
+        togglePassword.setOnMouseClicked(e -> togglePassword());
+
         gu.aggiornaLista();
+
         inserisciMail.setOnKeyPressed(this::handleKeyPress);
         inserisciPassword.setOnKeyPressed(this::handleKeyPress);
+
         inserisciMail.textProperty().addListener((o, a, b) -> clearError());
         inserisciPassword.textProperty().addListener((o, a, b) -> clearError());
+    }
+    private boolean mostraPassword = false;
+
+    private void togglePassword() {
+        mostraPassword = !mostraPassword;
+
+        inserisciPassword.setVisible(!mostraPassword);
+        inserisciPassword.setManaged(!mostraPassword);
+
+        vediInserisciPassword.setVisible(mostraPassword);
+        vediInserisciPassword.setManaged(mostraPassword);
+
+        togglePassword.setText(mostraPassword ? "🙈" : "👁");
+    }
+
+    private Control getPasswordField() {
+        return inserisciPassword.isVisible() ? inserisciPassword : vediInserisciPassword;
     }
 
     private void handleKeyPress(KeyEvent event) {
@@ -48,30 +79,16 @@ public class LoginController {
     }
 
     @FXML
-    public void visualizza() {
-        if (visualizzaPassword.isSelected()) {
-            inserisciPassword.setVisible(false);
-            vediInserisciPassword.setVisible(true);
-            vediInserisciPassword.setText(inserisciPassword.getText());
-        } else {
-            inserisciPassword.setVisible(true);
-            vediInserisciPassword.setVisible(false);
-        }
-    }
-
-    @FXML
     public void login() {
         String mail     = inserisciMail.getText().trim();
-        String password = visualizzaPassword.isSelected()
-                ? vediInserisciPassword.getText()
-                : inserisciPassword.getText();
+        String password = inserisciPassword.getText();
 
         if (mail.isEmpty() && password.isEmpty()) {
-            highlight(inserisciMail); highlight(inserisciPassword);
+            highlight(inserisciMail); highlight(getPasswordField());
             showError("Inserisci email e password."); return;
         }
         if (mail.isEmpty())     { highlight(inserisciMail);     showError("Inserisci la tua email.");    return; }
-        if (password.isEmpty()) { highlight(inserisciPassword); showError("Inserisci la tua password."); return; }
+        if (password.isEmpty()) { highlight(getPasswordField()); showError("Inserisci la tua password."); return; }
 
         ArrayList<Utente> lista = gu.getUtenti();
         int foundIndex = -1;
@@ -84,7 +101,7 @@ public class LoginController {
         }
 
         if (foundIndex < 0) {
-            highlight(inserisciMail); highlight(inserisciPassword);
+            highlight(inserisciMail); highlight(getPasswordField());
             showError("Email o password errati.");
             shakeLabel(segnalaErrore);
             return;
