@@ -6,208 +6,148 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="556.0" prefWidth="608.0"
+<BorderPane prefHeight="580.0" prefWidth="640.0"
             stylesheets="@styles.css"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="FastRailStation.view.controller.DettagliTrenoAdminController">
 
+    <!-- ══ TOP BAR ══ -->
     <top>
-        <AnchorPane prefHeight="85.0" prefWidth="674.0" BorderPane.alignment="CENTER">
-            <children>
-                <GridPane prefHeight="144.0" prefWidth="600.0"
-                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
-                                           maxWidth="200.0" minWidth="200.0" prefWidth="200.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"
-                                           minWidth="10.0" prefWidth="488.0"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    </rowConstraints>
-                    <children>
-                        <Label fx:id="orologio" styleClass="timeLabel" text="00:00:00"
-                               GridPane.halignment="LEFT" GridPane.valignment="TOP">
-                            <GridPane.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </GridPane.margin>
-                        </Label>
-                        <Label alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="773.0"
-                               styleClass="titleLabel" text="Modifica Treno"
-                               GridPane.columnIndex="1" GridPane.halignment="RIGHT"
-                               GridPane.valignment="CENTER">
-                            <GridPane.margin><Insets right="20.0"/></GridPane.margin>
-                        </Label>
-                    </children>
-                </GridPane>
-            </children>
-        </AnchorPane>
+        <HBox alignment="CENTER_LEFT" spacing="16.0"
+              style="-fx-background-color: linear-gradient(to right, #060f1a, #0d1b2a); -fx-border-color: #800303; -fx-border-width: 0 0 2 0; -fx-padding: 14 22 14 22;"
+              BorderPane.alignment="CENTER">
+            <Label fx:id="orologio" text="00:00:00" styleClass="timeLabel"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Pane prefWidth="3.0" prefHeight="20.0"
+                  style="-fx-background-color: #800303; -fx-background-radius: 2;"/>
+            <Label text="Modifica Treno" styleClass="titleLabel"
+                   style="-fx-font-size: 20px;"/>
+        </HBox>
     </top>
 
+    <!-- ══ CENTER ══ -->
     <center>
-        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                    prefWidth="534.0" BorderPane.alignment="CENTER">
-            <children>
-                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox style="-fx-background-color: #0d1b2a;"
+              spacing="0.0" BorderPane.alignment="CENTER">
+            <padding><Insets top="22.0" bottom="22.0" left="22.0" right="22.0"/></padding>
+
+            <!-- Section label -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <VBox.margin><Insets bottom="14.0"/></VBox.margin>
+                <Pane prefWidth="3.0" prefHeight="18.0"
+                      style="-fx-background-color: #800303; -fx-background-radius: 2;"/>
+                <Label text="DATI TRENO" styleClass="section-title"/>
+            </HBox>
+
+            <!-- ── Data grid ── -->
+            <VBox styleClass="content-card" spacing="0.0">
+                <VBox.margin><Insets bottom="16.0"/></VBox.margin>
+                <padding><Insets top="16.0" bottom="16.0" left="18.0" right="18.0"/></padding>
+
+                <GridPane hgap="16.0" vgap="8.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"  prefWidth="10.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="110.0" prefWidth="118.0"/>
+                        <ColumnConstraints hgrow="ALWAYS"    minWidth="110.0" prefWidth="128.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0"  prefWidth="20.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="110.0" prefWidth="118.0"/>
+                        <ColumnConstraints hgrow="ALWAYS"    minWidth="110.0" prefWidth="128.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"  prefWidth="10.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                        <RowConstraints prefHeight="38.0"/>
+                    </rowConstraints>
                     <children>
+                        <!-- LEFT labels -->
+                        <Label text="Modello"             styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        <Label text="Provenienza"         styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Label text="Destinazione"        styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label text="Deposito"            styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <Label text="Binario"             styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        <Label text="Compagnia"           styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        <Label text="Posti totali"        styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <Label text="Posti occupati"      styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                        <Label text="Stato"               styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                        <Label text="Intervallo giorni"   styleClass="info-key" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
 
-                        <!-- ── Main data grid ───────────────────────────────── -->
-                        <GridPane prefHeight="320.0" prefWidth="184.0" VBox.vgrow="ALWAYS">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="40.0"  prefWidth="40.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0"                  minWidth="100.0" prefWidth="110.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0"                  minWidth="120.0" prefWidth="120.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0"                   minWidth="10.0"  prefWidth="30.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0"                  minWidth="100.0" prefWidth="110.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0"                  minWidth="120.0" prefWidth="120.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"  prefWidth="40.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0" minHeight="32.0" prefHeight="40.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                            <children>
-                                <!-- Left labels -->
-                                <Label styleClass="labelCustom1" text="Modello treno"          GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                                <Label styleClass="labelCustom1" text="Provenienza"             GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                <Label styleClass="labelCustom1" text="Destinazione"            GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                <Label styleClass="labelCustom1" text="Deposito"                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                                <Label styleClass="labelCustom1" text="Binario"                 GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                                <Label styleClass="labelCustom1" text="Compagnia ferroviaria"   GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                                <Label styleClass="labelCustom1" text="Posti totali"            GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                                <Label styleClass="labelCustom1" text="Posti occupati"          GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-                                <Label styleClass="labelCustom1" text="Stato"                   GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-                                <Label styleClass="labelCustom1" text="Intervallo giorni"       GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+                        <!-- RIGHT labels -->
+                        <Label text="Giorno arrivo"       styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+                        <Label text="Giorno partenza"     styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+                        <Label text="Ora partenza"        styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+                        <Label text="Ora arrivo"          styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+                        <Label text="Ritardo (min)"       styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+                        <Label text="Inizio manutenzione" styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+                        <Label text="Fine manutenzione"   styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="6"/>
+                        <Label text="Deposito manut."     styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="7"/>
+                        <Label text="Codice treno"        styleClass="info-key" GridPane.columnIndex="4" GridPane.rowIndex="8"/>
 
-                                <!-- Right labels -->
-                                <Label styleClass="labelCustom1" text="Giorno arrivo"           GridPane.columnIndex="4" GridPane.rowIndex="0"/>
-                                <Label styleClass="labelCustom1" text="Giorno partenza"         GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-                                <Label styleClass="labelCustom1" text="Ora partenza"            GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-                                <Label styleClass="labelCustom1" text="Ora arrivo"              GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-                                <Label styleClass="labelCustom1" text="Ritardo (minuti)"        GridPane.columnIndex="4" GridPane.rowIndex="4"/>
-                                <Label styleClass="labelCustom1" text="Inizio manutenzione"     GridPane.columnIndex="4" GridPane.rowIndex="5"/>
-                                <Label styleClass="labelCustom1" text="Fine manutenzione"       GridPane.columnIndex="4" GridPane.rowIndex="6"/>
-                                <Label styleClass="labelCustom1" text="Deposito manutenzione"   GridPane.columnIndex="4" GridPane.rowIndex="7"/>
-                                <Label styleClass="labelCustom1" text="Codice treno"            GridPane.columnIndex="4" GridPane.rowIndex="8"/>
+                        <!-- LEFT inputs -->
+                        <ComboBox fx:id="modelloTrenoCmbx" prefWidth="128.0" styleClass="combo-box-ModAereo"
+                                  GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin>
+                        </ComboBox>
+                        <TextField fx:id="provenienzaTxF"   styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="1"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <TextField fx:id="destinazioneTxF"  styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="2"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <ComboBox fx:id="depositoCmbx"      prefWidth="128.0" styleClass="combo-box-ModAereo" GridPane.columnIndex="2" GridPane.rowIndex="3"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></ComboBox>
+                        <TextField fx:id="binarioTxF"       styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="4"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <TextField fx:id="compagniaTxF"     styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="5"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <TextField fx:id="postiTotaliTxF"   styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="6"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <TextField fx:id="postiOccupatiTxF" styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="7"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <ComboBox fx:id="statoCmbx"         prefWidth="128.0" styleClass="combo-box-ModAereo" GridPane.columnIndex="2" GridPane.rowIndex="8"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></ComboBox>
+                        <TextField fx:id="intervalloTxF"    styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="9"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
 
-                                <!-- Left input fields -->
-                                <ComboBox fx:id="modelloTrenoCmbx" prefWidth="150.0"
-                                          styleClass="combo-box-ModAereo"
-                                          GridPane.columnIndex="2" GridPane.rowIndex="0">
-                                    <GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin>
-                                </ComboBox>
-                                <TextField fx:id="provenienzaTxF"   styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="1"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <TextField fx:id="destinazioneTxF"  styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="2"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <ComboBox fx:id="depositoCmbx"      prefWidth="150.0" styleClass="combo-box-ModAereo" GridPane.columnIndex="2" GridPane.rowIndex="3"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></ComboBox>
-                                <TextField fx:id="binarioTxF"       styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="4"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <TextField fx:id="compagniaTxF"     styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="5"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <TextField fx:id="postiTotaliTxF"   styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="6"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <TextField fx:id="postiOccupatiTxF" styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="7"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <ComboBox fx:id="statoCmbx"         prefWidth="150.0" styleClass="combo-box-ModAereo" GridPane.columnIndex="2" GridPane.rowIndex="8"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></ComboBox>
-                                <TextField fx:id="intervalloTxF"    styleClass="text-field-ModAero" GridPane.columnIndex="2" GridPane.rowIndex="9"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-
-                                <!-- Right input fields -->
-                                <DatePicker fx:id="giornoArrivoDp"   styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="0"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></DatePicker>
-                                <DatePicker fx:id="giornoPartenzaDp" styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="1"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></DatePicker>
-                                <TextField fx:id="orarioPartenzaTxF" styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="2"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <TextField fx:id="orarioArrivoTxF"   styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="3"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <TextField fx:id="ritardoTxF"        styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="4"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <DatePicker fx:id="inizioLavoriDp"   styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="5"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></DatePicker>
-                                <DatePicker fx:id="fineLavoriDp"     styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="6"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></DatePicker>
-                                <TextField fx:id="hangarTxf"         styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="7"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                                <TextField fx:id="codiceTxF"         styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="8"><GridPane.margin><Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/></GridPane.margin></TextField>
-                            </children>
-                        </GridPane>
-
-                        <!-- ── Train name row ──────────────────────────────── -->
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0"                  minWidth="300.0" prefWidth="300.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"  prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="40.0"                   minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                            <children>
-                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
-                                      GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                    <children>
-                                        <Label styleClass="labelCustom1" text="Nome treno">
-                                            <HBox.margin><Insets left="10.0" right="10.0"/></HBox.margin>
-                                        </Label>
-                                        <TextField fx:id="nomeTreno" styleClass="text-field-ModAero">
-                                            <HBox.margin><Insets left="10.0" right="10.0"/></HBox.margin>
-                                        </TextField>
-                                    </children>
-                                </HBox>
-                            </children>
-                        </GridPane>
-
-                        <!-- ── Action buttons ──────────────────────────────── -->
-                        <GridPane prefHeight="97.0" prefWidth="534.0" VBox.vgrow="ALWAYS">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0"                  minWidth="10.0"  prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"  prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.0"                    minWidth="1.0"   prefWidth="1.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"  prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.0"                    minWidth="1.0"   prefWidth="1.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"  prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0"                  minWidth="10.0"  prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="10.0"  vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="100.0"                  minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES"/>
-                                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="20.0" prefHeight="20.0"  vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                            <children>
-                                <!-- Modifica -->
-                                <Button fx:id="modificaBtn" mnemonicParsing="false"
-                                        onAction="#modifica"
-                                        prefHeight="123.0" prefWidth="231.0"
-                                        styleClass="pagesButtonInternal" text="Modifica"
-                                        GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                                <!-- Salva -->
-                                <Button fx:id="salvaBtn" mnemonicParsing="false"
-                                        onAction="#salva"
-                                        prefHeight="114.0" prefWidth="259.0"
-                                        styleClass="pagesButtonDx" text="Salva"
-                                        GridPane.columnIndex="5" GridPane.rowIndex="1"/>
-                                <!-- Cancella / rimuoviTreno (FIX B12: was rimuoviAereo) -->
-                                <Button mnemonicParsing="false"
-                                        onAction="#rimuoviTreno"
-                                        prefHeight="164.0" prefWidth="322.0"
-                                        styleClass="cancellaButton" text="Cancella"
-                                        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                            </children>
-                        </GridPane>
-
+                        <!-- RIGHT inputs -->
+                        <DatePicker fx:id="giornoArrivoDp"   styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="0"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></DatePicker>
+                        <DatePicker fx:id="giornoPartenzaDp" styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="1"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></DatePicker>
+                        <TextField fx:id="orarioPartenzaTxF" styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="2"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <TextField fx:id="orarioArrivoTxF"   styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="3"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <TextField fx:id="ritardoTxF"        styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="4"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <DatePicker fx:id="inizioLavoriDp"   styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="5"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></DatePicker>
+                        <DatePicker fx:id="fineLavoriDp"     styleClass="date-picker-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="6"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></DatePicker>
+                        <TextField fx:id="hangarTxf"         styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="7"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
+                        <TextField fx:id="codiceTxF"         styleClass="text-field-ModAero" GridPane.columnIndex="5" GridPane.rowIndex="8"><GridPane.margin><Insets top="4.0" bottom="4.0"/></GridPane.margin></TextField>
                     </children>
-                </VBox>
-            </children>
-        </AnchorPane>
+                </GridPane>
+            </VBox>
+
+            <!-- Nome treno row -->
+            <HBox alignment="CENTER_LEFT" spacing="14.0">
+                <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+                <Label text="Nome treno" styleClass="info-key" prefWidth="90.0"/>
+                <TextField fx:id="nomeTreno" styleClass="text-field-ModAero"
+                           prefWidth="280.0"/>
+            </HBox>
+
+            <!-- Action buttons -->
+            <HBox spacing="12.0" alignment="CENTER">
+                <Button mnemonicParsing="false" onAction="#rimuoviTreno"
+                        prefHeight="48.0" prefWidth="180.0"
+                        styleClass="cancellaButton" text="Cancella"/>
+                <Button fx:id="modificaBtn" mnemonicParsing="false" onAction="#modifica"
+                        prefHeight="48.0" prefWidth="180.0"
+                        styleClass="pagesButtonInternal" text="Modifica"/>
+                <Button fx:id="salvaBtn" mnemonicParsing="false" onAction="#salva"
+                        prefHeight="48.0" prefWidth="180.0"
+                        styleClass="pagesButtonDx" text="Salva"/>
+            </HBox>
+
+        </VBox>
     </center>
 </BorderPane>
