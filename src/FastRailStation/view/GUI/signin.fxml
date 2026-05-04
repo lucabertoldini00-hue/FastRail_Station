@@ -16,140 +16,101 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="780.0" prefWidth="740.0"
-            stylesheets="@styles.css"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="FastRailStation.view.controller.SignInController">
+<BorderPane prefHeight="780.0" prefWidth="740.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FastRailStation.view.controller.SignInController">
 
     <center>
-        <VBox alignment="TOP_CENTER" spacing="0.0"
-              style="-fx-background-color: #0d1b2a;"
-              BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" spacing="0.0" style="-fx-background-color: #9597a0;" BorderPane.alignment="CENTER">
 
             <!-- Card -->
-            <VBox alignment="TOP_LEFT" spacing="0.0"
-                  styleClass="auth-card"
-                  maxWidth="660.0" prefWidth="660.0">
-                <VBox.margin><Insets top="30.0" bottom="30.0"/></VBox.margin>
+            <VBox alignment="TOP_LEFT" maxWidth="660.0" prefWidth="660.0" spacing="0.0" styleClass="auth-card">
+                <VBox.margin><Insets bottom="30.0" top="30.0" /></VBox.margin>
 
                 <!-- Header row -->
                 <HBox alignment="CENTER_LEFT" spacing="12.0">
-                    <VBox.margin><Insets bottom="24.0"/></VBox.margin>
-                    <Pane prefHeight="2.0" prefWidth="40.0"
-                          style="-fx-background-color: #800303; -fx-background-radius: 2;"/>
-                    <Label text="CREA ACCOUNT" styleClass="section-title"/>
-                    <HBox HBox.hgrow="ALWAYS"/>
-                    <Label text="Hai già un account?" styleClass="auth-subtitle"/>
-                    <Hyperlink fx:id="vaiAccedi" text="Accedi" onAction="#handleAccedi"
-                               style="-fx-text-fill: #800303; -fx-border-color: transparent; -fx-font-weight: bold;"/>
+                    <VBox.margin><Insets bottom="24.0" /></VBox.margin>
+                    <Pane prefHeight="2.0" prefWidth="40.0" style="-fx-background-color: #800303; -fx-background-radius: 2;" />
+                    <Label styleClass="section-title" text="CREA ACCOUNT" />
+                    <HBox HBox.hgrow="ALWAYS" />
+                    <Label styleClass="auth-subtitle" text="Hai già un account?" />
+                    <Hyperlink fx:id="vaiAccedi" onAction="#handleAccedi" style="-fx-text-fill: #800303; -fx-border-color: transparent; -fx-font-weight: bold;" text="Accedi" />
                 </HBox>
 
                 <!-- Title -->
-                <Label text="Registrati" styleClass="auth-title">
-                    <VBox.margin><Insets bottom="28.0"/></VBox.margin>
+                <Label styleClass="auth-title" text="Registrati">
+                    <VBox.margin><Insets bottom="28.0" /></VBox.margin>
                 </Label>
 
                 <!-- Two-column form grid -->
                 <GridPane hgap="20.0" vgap="14.0">
-                    <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+                    <VBox.margin><Insets bottom="20.0" /></VBox.margin>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="280.0" prefWidth="300.0"/>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="280.0" prefWidth="300.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="280.0" prefWidth="300.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="280.0" prefWidth="300.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints prefHeight="14.0"/>  <!-- label row 1 -->
-                        <RowConstraints prefHeight="44.0"/>  <!-- field row 1 -->
-                        <RowConstraints prefHeight="14.0"/>
-                        <RowConstraints prefHeight="44.0"/>
-                        <RowConstraints prefHeight="14.0"/>
-                        <RowConstraints prefHeight="44.0"/>
-                        <RowConstraints prefHeight="14.0"/>
-                        <RowConstraints prefHeight="44.0"/>
-                        <RowConstraints prefHeight="14.0"/>
-                        <RowConstraints prefHeight="44.0"/>
-                        <RowConstraints prefHeight="14.0"/>
-                        <RowConstraints prefHeight="44.0"/>
+                        <RowConstraints prefHeight="14.0" />  <!-- label row 1 -->
+                        <RowConstraints prefHeight="44.0" />  <!-- field row 1 -->
+                        <RowConstraints prefHeight="14.0" />
+                        <RowConstraints prefHeight="44.0" />
+                        <RowConstraints prefHeight="14.0" />
+                        <RowConstraints prefHeight="44.0" />
+                        <RowConstraints prefHeight="14.0" />
+                        <RowConstraints prefHeight="44.0" />
+                        <RowConstraints prefHeight="14.0" />
+                        <RowConstraints prefHeight="44.0" />
+                        <RowConstraints prefHeight="14.0" />
+                        <RowConstraints prefHeight="44.0" />
                     </rowConstraints>
 
                     <!-- Nome / Cognome -->
-                    <Label text="NOME" styleClass="auth-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <Label text="COGNOME" styleClass="auth-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                    <TextField fx:id="inserimentoNome" promptText="Il mio nome"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField fx:id="inserimentoCognome" promptText="Il mio cognome"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label styleClass="auth-label" text="NOME" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label styleClass="auth-label" text="COGNOME" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <TextField fx:id="inserimentoNome" prefHeight="44.0" promptText="Il mio nome" styleClass="auth-field" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField fx:id="inserimentoCognome" prefHeight="44.0" promptText="Il mio cognome" styleClass="auth-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                     <!-- Email / Data nascita -->
-                    <Label text="E-MAIL" styleClass="auth-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <Label text="DATA DI NASCITA" styleClass="auth-label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <TextField fx:id="inserimentoMail" promptText="email@dominio.com"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <DatePicker fx:id="selezionaData" promptText="gg/mm/aaaa"
-                                styleClass="customDatePicker" prefHeight="44.0" prefWidth="300.0"
-                                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Label styleClass="auth-label" text="E-MAIL" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label styleClass="auth-label" text="DATA DI NASCITA" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <TextField fx:id="inserimentoMail" prefHeight="44.0" promptText="email@dominio.com" styleClass="auth-field" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <DatePicker fx:id="selezionaData" prefHeight="43.0" prefWidth="326.0" promptText="gg/mm/aaaa" styleClass="customDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                     <!-- Password / Ripeti -->
-                    <Label text="PASSWORD" styleClass="auth-label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                    <Label text="RIPETI PASSWORD" styleClass="auth-label" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                    <PasswordField fx:id="inserimentoPassword" promptText="La mia password"
-                                  styleClass="auth-field" prefHeight="44.0"
-                                  GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                    <PasswordField fx:id="ripetizionePassword" promptText="Ripeti la password"
-                                  styleClass="auth-field" prefHeight="44.0"
-                                  GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                    <Label styleClass="auth-label" text="PASSWORD" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label styleClass="auth-label" text="RIPETI PASSWORD" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <PasswordField fx:id="inserimentoPassword" prefHeight="44.0" promptText="La mia password" styleClass="auth-field" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <PasswordField fx:id="ripetizionePassword" prefHeight="44.0" promptText="Ripeti la password" styleClass="auth-field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                     <!-- Cellulare / Nazione -->
-                    <Label text="CELLULARE" styleClass="auth-label" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                    <Label text="NAZIONE" styleClass="auth-label" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                    <TextField fx:id="inserimentoTelefono" promptText="+39 111 222 3333"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="0" GridPane.rowIndex="7"/>
-                    <TextField fx:id="inserimentoNazione" promptText="La mia nazione"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                    <Label styleClass="auth-label" text="CELLULARE" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                    <Label styleClass="auth-label" text="NAZIONE" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    <TextField fx:id="inserimentoTelefono" prefHeight="44.0" promptText="+39 111 222 3333" styleClass="auth-field" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                    <TextField fx:id="inserimentoNazione" prefHeight="44.0" promptText="La mia nazione" styleClass="auth-field" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
                     <!-- Città / Indirizzo -->
-                    <Label text="CITTÀ" styleClass="auth-label" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
-                    <Label text="INDIRIZZO" styleClass="auth-label" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-                    <TextField fx:id="inserimentoCitta" promptText="La mia città"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="0" GridPane.rowIndex="9"/>
-                    <TextField fx:id="inserimentoIndirizzo" promptText="Il mio indirizzo"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+                    <Label styleClass="auth-label" text="CITTÀ" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                    <Label styleClass="auth-label" text="INDIRIZZO" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                    <TextField fx:id="inserimentoCitta" prefHeight="44.0" promptText="La mia città" styleClass="auth-field" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                    <TextField fx:id="inserimentoIndirizzo" prefHeight="44.0" promptText="Il mio indirizzo" styleClass="auth-field" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
                     <!-- Carta / Scadenza -->
-                    <Label text="N° CARTA DI CREDITO" styleClass="auth-label" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
-                    <Label text="SCADENZA" styleClass="auth-label" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
-                    <TextField fx:id="inserimentoCarta" promptText="1234 5678 9012 3456"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="0" GridPane.rowIndex="11"/>
-                    <TextField fx:id="inserimentoScadenza" promptText="MM/AA"
-                               styleClass="auth-field" prefHeight="44.0"
-                               GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+                    <Label styleClass="auth-label" text="N° CARTA DI CREDITO" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                    <Label styleClass="auth-label" text="SCADENZA" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                    <TextField fx:id="inserimentoCarta" prefHeight="44.0" promptText="1234 5678 9012 3456" styleClass="auth-field" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+                    <TextField fx:id="inserimentoScadenza" prefHeight="44.0" promptText="MM/AA" styleClass="auth-field" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                 </GridPane>
 
                 <!-- Privacy checkbox -->
-                <CheckBox fx:id="acconsenteNormative"
-                          text="Acconsento alle normative Privacy e Sicurezza"
-                          style="-fx-text-fill: #9a9aa3; -fx-font-size: 12px;">
-                    <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+                <CheckBox fx:id="acconsenteNormative" style="-fx-text-fill: #ffffff; -fx-font-size: 12px;" text="Acconsento alle normative Privacy e Sicurezza">
+                    <VBox.margin><Insets bottom="20.0" /></VBox.margin>
                 </CheckBox>
 
                 <!-- Register button -->
-                <Button fx:id="registrati" text="CREA ACCOUNT"
-                        onAction="#creaUtente"
-                        styleClass="auth-button"
-                        prefHeight="50.0" prefWidth="620.0">
-                    <VBox.margin><Insets bottom="12.0"/></VBox.margin>
+                <Button fx:id="registrati" onAction="#creaUtente" prefHeight="50.0" prefWidth="620.0" styleClass="auth-button" text="CREA ACCOUNT">
+                    <VBox.margin><Insets bottom="12.0" /></VBox.margin>
                 </Button>
 
                 <!-- Error label -->
-                <Label fx:id="erroreLabel" styleClass="error-label"
-                       prefWidth="620.0" wrapText="true" alignment="CENTER"/>
+                <Label fx:id="erroreLabel" alignment="CENTER" prefWidth="620.0" styleClass="error-label" wrapText="true" />
 
             </VBox>
         </VBox>

@@ -2,8 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -12,115 +10,83 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="580.0" prefWidth="520.0"
-            stylesheets="@styles.css"
-            xmlns="http://javafx.com/javafx/8.0.391" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="FastRailStation.view.controller.LoginController">
+<BorderPane prefHeight="580.0" prefWidth="520.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FastRailStation.view.controller.LoginController">
 
     <center>
         <!-- Full dark background -->
-        <AnchorPane style="-fx-background-color: #0d1b2a;"
-                    BorderPane.alignment="CENTER">
+        <AnchorPane style="-fx-background-color: #9597a0;" BorderPane.alignment="CENTER">
 
             <!-- Centered auth card -->
-            <VBox alignment="TOP_CENTER" spacing="0.0"
-                  maxWidth="400.0" prefWidth="400.0"
-                  styleClass="auth-card"
-                  AnchorPane.topAnchor="40.0"
-                  AnchorPane.leftAnchor="60.0"
-                  AnchorPane.rightAnchor="60.0">
+            <VBox alignment="TOP_CENTER" layoutY="65.0" maxWidth="400.0" prefHeight="436.0" prefWidth="400.0" spacing="0.0" styleClass="auth-card" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="65.0">
 
                 <!-- Home button top-left overlay -->
-                <Button fx:id="btnHome" text="← Home" onAction="#handleBtnHome"
-                        styleClass="auth-ghost-button">
-                    <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+                <Button fx:id="btnHome" onAction="#handleBtnHome" styleClass="auth-ghost-button" text="← Home">
+                    <VBox.margin><Insets bottom="20.0" /></VBox.margin>
                 </Button>
 
                 <!-- Accent line -->
-                <Pane prefHeight="2.0" prefWidth="60.0"
-                      style="-fx-background-color: #800303; -fx-background-radius: 2;">
-                    <VBox.margin><Insets bottom="18.0"/></VBox.margin>
+                <Pane prefHeight="2.0" prefWidth="60.0" style="-fx-background-color: #800303; -fx-background-radius: 2;">
+                    <VBox.margin><Insets bottom="18.0" /></VBox.margin>
                 </Pane>
 
                 <!-- Title -->
-                <Label text="Accedi" styleClass="auth-title" alignment="CENTER"
-                       prefWidth="320.0">
-                    <VBox.margin><Insets bottom="6.0"/></VBox.margin>
+                <Label alignment="CENTER" prefWidth="320.0" styleClass="auth-title" text="Accedi">
+                    <VBox.margin><Insets bottom="6.0" /></VBox.margin>
                 </Label>
 
                 <!-- Subtitle link -->
                 <HBox alignment="CENTER" spacing="6.0">
-                    <VBox.margin><Insets bottom="32.0"/></VBox.margin>
-                    <Label text="Non hai un account?" styleClass="auth-subtitle"/>
-                    <Hyperlink fx:id="vaiRegistrati" text="Registrati"
-                               onAction="#handleRegistratiLink"
-                               style="-fx-text-fill: #800303; -fx-border-color: transparent; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <VBox.margin><Insets bottom="32.0" /></VBox.margin>
+                    <Label styleClass="auth-subtitle" text="Non hai un account?" />
+                    <Hyperlink fx:id="vaiRegistrati" onAction="#handleRegistratiLink" style="-fx-text-fill: #800303; -fx-border-color: transparent; -fx-font-weight: bold; -fx-font-size: 13px;" text="Registrati" />
                 </HBox>
 
                 <!-- Email label -->
-                <Label text="EMAIL" styleClass="auth-label">
-                    <VBox.margin><Insets bottom="6.0"/></VBox.margin>
+                <Label styleClass="auth-label" text="EMAIL">
+                    <VBox.margin><Insets bottom="6.0" /></VBox.margin>
                 </Label>
                 <!-- Email field -->
-                <TextField fx:id="inserisciMail" promptText="nome@dominio.com"
-                           styleClass="auth-field" prefHeight="44.0" prefWidth="320.0">
-                    <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+                <TextField fx:id="inserisciMail" prefHeight="44.0" prefWidth="320.0" promptText="nome@dominio.com" styleClass="auth-field">
+                    <VBox.margin><Insets bottom="20.0" /></VBox.margin>
                 </TextField>
 
                 <!-- Password label -->
-                <Label text="PASSWORD" styleClass="auth-label">
-                    <VBox.margin><Insets bottom="6.0"/></VBox.margin>
+                <Label styleClass="auth-label" text="PASSWORD">
+                    <VBox.margin><Insets bottom="6.0" /></VBox.margin>
                 </Label>
 
                 <!-- Password row -->
-                <StackPane prefWidth="320.0" prefHeight="44.0">
-                    <VBox.margin><Insets bottom="8.0"/></VBox.margin>
+                <StackPane prefHeight="44.0" prefWidth="320.0">
+                    <VBox.margin><Insets bottom="8.0" /></VBox.margin>
 
                     <!-- Password nascosta -->
-                    <PasswordField fx:id="inserisciPassword"
-                                   promptText="La mia password"
-                                   styleClass="auth-field"
-                                   prefHeight="44.0"/>
+                    <PasswordField fx:id="inserisciPassword" prefHeight="44.0" promptText="La mia password" styleClass="auth-field" />
 
                     <!-- Password visibile -->
-                    <TextField fx:id="vediInserisciPassword"
-                               promptText="La mia password"
-                               styleClass="auth-field"
-                               prefHeight="44.0"
-                               visible="false"
-                               managed="false"/>
+                    <TextField fx:id="vediInserisciPassword" managed="false" prefHeight="44.0" promptText="La mia password" styleClass="auth-field" visible="false" />
 
                     <!-- Icona occhio -->
-                    <Label fx:id="togglePassword"
-                           text="👁"
-                           style="-fx-cursor: hand; -fx-font-size: 16px;"
-                           StackPane.alignment="CENTER_RIGHT"
-                           translateX="-10"/>
+                    <Label fx:id="togglePassword" style="-fx-cursor: hand; -fx-font-size: 16px;" text="👁" translateX="-10" StackPane.alignment="CENTER_RIGHT" />
                 </StackPane>
 
                 <!-- Forgot password -->
-                <HBox alignment="CENTER_RIGHT">
-                    <VBox.margin><Insets bottom="24.0"/></VBox.margin>
-                    <Label text="Password dimenticata? " styleClass="auth-subtitle"/>
-                    <Hyperlink fx:id="vaiResetPassword" text="Reimposta"
-                               onAction="#handlePasswChangeLink"
-                               style="-fx-text-fill: #800303; -fx-border-color: transparent; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+                <HBox alignment="CENTER">
+                    <VBox.margin><Insets bottom="24.0" /></VBox.margin>
+                    <Label styleClass="auth-subtitle" text="Password dimenticata? " />
+                    <Hyperlink fx:id="vaiResetPassword" onAction="#handlePasswChangeLink" style="-fx-text-fill: #800303; -fx-border-color: transparent; -fx-font-weight: bold; -fx-font-size: 12px;" text="Reimposta" />
                 </HBox>
 
                 <!-- Error label -->
-                <Label fx:id="segnalaErrore" alignment="CENTER"
-                       styleClass="error-label"
-                       prefHeight="24.0" prefWidth="320.0">
-                    <VBox.margin><Insets bottom="10.0"/></VBox.margin>
+                <Label fx:id="segnalaErrore" alignment="CENTER" prefHeight="24.0" prefWidth="320.0" styleClass="error-label">
+                    <VBox.margin><Insets bottom="10.0" /></VBox.margin>
                 </Label>
 
                 <!-- Login button -->
-                <Button text="ACCEDI" onAction="#login"
-                        styleClass="auth-button"
-                        prefHeight="48.0" prefWidth="320.0">
-                    <VBox.margin><Insets bottom="4.0"/></VBox.margin>
+                <Button onAction="#login" prefHeight="45.0" prefWidth="250.0" styleClass="auth-button" text="ACCEDI">
+                    <VBox.margin><Insets bottom="4.0" /></VBox.margin>
                 </Button>
 
             </VBox>

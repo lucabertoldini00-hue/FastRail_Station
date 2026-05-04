@@ -40,7 +40,7 @@
 
 /*Home*/
 .main-title {
-    -fx-text-fill: #4c4ce4;
+    -fx-text-fill: #535359;
     -fx-font-size: 32px;
     -fx-font-weight: bold;
 }
@@ -134,7 +134,7 @@
 
 /*  Login / Registrazione / PwChange  */
 .login-root, BorderPane {
-    -fx-background-color: #0d1b2a;
+    -fx-background-color: #9597a0;
 }
 
 /*Label*/
@@ -162,7 +162,7 @@
 
 /* Errori */
 .error-label {
-    -fx-text-fill: #bf0000;
+    -fx-text-fill: #831b1b;
     -fx-font-size: 13px;
     -fx-wrap-text: true;
 }
@@ -381,11 +381,12 @@
 
 .pagesButtonDx:hover {
     -fx-background-color: #ac0909;
+    -fx-text-fill: #c5c5c5
 }
 
 .cancellaButton {
-    -fx-background-color: #3d1515;
-    -fx-text-fill: #b84444;
+    -fx-background-color: #750a0a;
+    -fx-text-fill: #bc9292;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
     -fx-cursor: hand;

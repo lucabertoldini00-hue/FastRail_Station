@@ -11,103 +11,88 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="500.0" prefWidth="740.0"
-            stylesheets="@styles.css"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="FastRailStation.view.controller.DettagliTrenoController">
+<BorderPane prefHeight="500.0" prefWidth="740.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FastRailStation.view.controller.DettagliTrenoController">
 
     <!-- ══ TOP BAR ══ -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="16.0"
-              style="-fx-background-color: linear-gradient(to right, #060f1a, #0d1b2a); -fx-border-color: #800303; -fx-border-width: 0 0 2 0; -fx-padding: 14 22 14 22;"
-              BorderPane.alignment="CENTER">
-            <Label fx:id="orologio" text="00:00:00" styleClass="timeLabel"/>
-            <HBox HBox.hgrow="ALWAYS"/>
-            <Pane prefWidth="3.0" prefHeight="20.0"
-                  style="-fx-background-color: #800303; -fx-background-radius: 2;"/>
-            <Label fx:id="nomeTreno" alignment="CENTER_RIGHT"
-                   style="-fx-text-fill: #f4e7e7; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <HBox alignment="CENTER_LEFT" spacing="16.0" style="-fx-background-color: #9597a0; -fx-border-color: #800303; -fx-border-width: 0 0 2 0; -fx-padding: 14 22 14 22;" BorderPane.alignment="CENTER">
+            <Label fx:id="orologio" styleClass="timeLabel" text="00:00:00" />
+            <HBox HBox.hgrow="ALWAYS" />
+            <Pane prefHeight="20.0" prefWidth="3.0" style="-fx-background-color: #800303; -fx-background-radius: 2;" />
+            <Label fx:id="nomeTreno" alignment="CENTER_RIGHT" style="-fx-text-fill: #f4e7e7; -fx-font-size: 20px; -fx-font-weight: bold;" />
         </HBox>
     </top>
 
     <!-- ══ LEFT: Image pane ══ -->
     <left>
-        <AnchorPane prefWidth="380.0"
-                    style="-fx-background-color: #0a1624;"
-                    BorderPane.alignment="CENTER">
-            <AnchorPane fx:id="anchImage"
-                        style="-fx-background-color: #111e2e; -fx-background-radius: 12; -fx-border-color: #1e3a5f; -fx-border-radius: 12; -fx-border-width: 1;"
-                        AnchorPane.topAnchor="24.0" AnchorPane.bottomAnchor="24.0"
-                        AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0"/>
+        <AnchorPane prefWidth="380.0" style="-fx-background-color: #9597a0;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="anchImage" style="-fx-background-color: #9597a0; -fx-background-radius: 12; -fx-border-color: #5F5F67FF; -fx-border-radius: 12; -fx-border-width: 1;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="24.0" />
         </AnchorPane>
     </left>
 
     <!-- ══ CENTER: Details ══ -->
     <center>
-        <VBox spacing="0.0"
-              style="-fx-background-color: #0d1b2a;"
-              BorderPane.alignment="CENTER">
-            <padding><Insets top="20.0" bottom="20.0" left="18.0" right="20.0"/></padding>
+        <VBox spacing="0.0" style="-fx-background-color: #9597a0;" BorderPane.alignment="CENTER">
+            <padding><Insets bottom="20.0" left="18.0" right="20.0" top="20.0" /></padding>
 
             <!-- Section title -->
             <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <VBox.margin><Insets bottom="14.0"/></VBox.margin>
-                <Pane prefWidth="3.0" prefHeight="18.0"
-                      style="-fx-background-color: #800303; -fx-background-radius: 2;"/>
-                <Label text="DETTAGLI TRENO" styleClass="section-title"/>
+                <VBox.margin><Insets bottom="14.0" /></VBox.margin>
+                <Pane prefHeight="18.0" prefWidth="3.0" style="-fx-background-color: #800303; -fx-background-radius: 2;" />
+                <Label styleClass="section-title" text="DETTAGLI TRENO" />
             </HBox>
 
             <!-- Info card -->
-            <VBox styleClass="content-card" spacing="0.0" VBox.vgrow="ALWAYS">
-                <padding><Insets top="16.0" bottom="16.0" left="18.0" right="18.0"/></padding>
+            <VBox spacing="0.0" styleClass="content-card" VBox.vgrow="ALWAYS">
+                <padding><Insets bottom="16.0" left="18.0" right="18.0" top="16.0" /></padding>
 
                 <GridPane hgap="12.0" vgap="0.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="120.0" prefWidth="138.0"/>
-                        <ColumnConstraints hgrow="ALWAYS"    minWidth="80.0"  prefWidth="110.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="120.0" prefWidth="138.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="80.0" prefWidth="110.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
-                        <RowConstraints prefHeight="36.0"/>
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
+                        <RowConstraints prefHeight="36.0" />
                     </rowConstraints>
                     <children>
                         <!-- Keys -->
-                        <Label text="Modello"         styleClass="info-key" GridPane.rowIndex="0"/>
-                        <Label text="Provenienza"     styleClass="info-key" GridPane.rowIndex="1"/>
-                        <Label text="Destinazione"    styleClass="info-key" GridPane.rowIndex="2"/>
-                        <Label text="Binario"         styleClass="info-key" GridPane.rowIndex="3"/>
-                        <Label text="Giorno arrivo"   styleClass="info-key" GridPane.rowIndex="4"/>
-                        <Label text="Giorno partenza" styleClass="info-key" GridPane.rowIndex="5"/>
-                        <Label text="Ora partenza"    styleClass="info-key" GridPane.rowIndex="6"/>
-                        <Label text="Ora arrivo"      styleClass="info-key" GridPane.rowIndex="7"/>
-                        <Label text="Ritardo"         styleClass="info-key" GridPane.rowIndex="8"/>
-                        <Label text="Compagnia"       styleClass="info-key" GridPane.rowIndex="9"/>
-                        <Label text="Posti totali"    styleClass="info-key" GridPane.rowIndex="10"/>
-                        <Label text="Posti occupati"  styleClass="info-key" GridPane.rowIndex="11"/>
+                        <Label styleClass="info-key" text="Modello" GridPane.rowIndex="0" />
+                        <Label styleClass="info-key" text="Provenienza" GridPane.rowIndex="1" />
+                        <Label styleClass="info-key" text="Destinazione" GridPane.rowIndex="2" />
+                        <Label styleClass="info-key" text="Binario" GridPane.rowIndex="3" />
+                        <Label styleClass="info-key" text="Giorno arrivo" GridPane.rowIndex="4" />
+                        <Label styleClass="info-key" text="Giorno partenza" GridPane.rowIndex="5" />
+                        <Label styleClass="info-key" text="Ora partenza" GridPane.rowIndex="6" />
+                        <Label styleClass="info-key" text="Ora arrivo" GridPane.rowIndex="7" />
+                        <Label styleClass="info-key" text="Ritardo" GridPane.rowIndex="8" />
+                        <Label styleClass="info-key" text="Compagnia" GridPane.rowIndex="9" />
+                        <Label styleClass="info-key" text="Posti totali" GridPane.rowIndex="10" />
+                        <Label styleClass="info-key" text="Posti occupati" GridPane.rowIndex="11" />
 
                         <!-- Values -->
-                        <Label fx:id="lblModello"        styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                        <Label fx:id="lblProvenienza"    styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <Label fx:id="lblDestinazione"   styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <Label fx:id="lblBinario"        styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                        <Label fx:id="lblGiornoArrivo"   styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                        <Label fx:id="lblGiornoPartenza" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                        <Label fx:id="lblOrarioPartenza" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                        <Label fx:id="lblOrarioArrivo"   styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-                        <Label fx:id="lblRitardo"        styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-                        <Label fx:id="lblCompagnia"      styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
-                        <Label fx:id="lblPostiTotali"    styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
-                        <Label fx:id="lblPostiOccupati"  styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+                        <Label fx:id="lblModello" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label fx:id="lblProvenienza" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="lblDestinazione" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="lblBinario" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="lblGiornoArrivo" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="lblGiornoPartenza" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="lblOrarioPartenza" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label fx:id="lblOrarioArrivo" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label fx:id="lblRitardo" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Label fx:id="lblCompagnia" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Label fx:id="lblPostiTotali" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <Label fx:id="lblPostiOccupati" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                     </children>
                 </GridPane>
             </VBox>

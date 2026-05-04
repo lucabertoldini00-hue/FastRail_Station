@@ -11,83 +11,66 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="520.0" prefWidth="460.0"
-            stylesheets="@styles.css"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="FastRailStation.view.controller.PwChangeController">
+<BorderPane prefHeight="520.0" prefWidth="460.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FastRailStation.view.controller.PwChangeController">
 
     <center>
-        <AnchorPane style="-fx-background-color: #0d1b2a;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="576.0" prefWidth="460.0" style="-fx-background-color: #9597a0;" BorderPane.alignment="CENTER">
 
-            <VBox alignment="TOP_CENTER" spacing="0.0"
-                  styleClass="auth-card"
-                  maxWidth="380.0" prefWidth="380.0"
-                  AnchorPane.topAnchor="36.0"
-                  AnchorPane.leftAnchor="40.0"
-                  AnchorPane.rightAnchor="40.0">
+            <VBox alignment="TOP_CENTER" maxWidth="380.0" prefWidth="380.0" spacing="0.0" styleClass="auth-card" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="36.0">
 
                 <!-- Home -->
-                <Button fx:id="btnHome" text="← Home" onAction="#handleBtnHome"
-                        styleClass="auth-ghost-button">
-                    <VBox.margin><Insets bottom="24.0"/></VBox.margin>
+                <Button fx:id="btnHome" onAction="#handleBtnHome" styleClass="auth-ghost-button" text="← Home">
+                    <VBox.margin><Insets bottom="24.0" /></VBox.margin>
                 </Button>
 
                 <!-- Accent -->
-                <Pane prefHeight="2.0" prefWidth="50.0"
-                      style="-fx-background-color: #800303; -fx-background-radius: 2;">
-                    <VBox.margin><Insets bottom="16.0"/></VBox.margin>
+                <Pane prefHeight="2.0" prefWidth="50.0" style="-fx-background-color: #800303; -fx-background-radius: 2;">
+                    <VBox.margin><Insets bottom="16.0" /></VBox.margin>
                 </Pane>
 
                 <!-- Title -->
-                <Label text="Cambio Password" styleClass="auth-title" alignment="CENTER"
-                       prefWidth="300.0">
-                    <VBox.margin><Insets bottom="8.0"/></VBox.margin>
+                <Label alignment="CENTER" prefWidth="300.0" styleClass="auth-title" text="Cambio Password">
+                    <VBox.margin><Insets bottom="8.0" /></VBox.margin>
                 </Label>
-                <Label text="Inserisci i dati per reimpostare la password"
-                       styleClass="auth-subtitle" alignment="CENTER" prefWidth="300.0">
-                    <VBox.margin><Insets bottom="32.0"/></VBox.margin>
+                <Label alignment="CENTER" prefWidth="300.0" styleClass="auth-subtitle" text="Inserisci i dati per reimpostare la password">
+                    <VBox.margin><Insets bottom="32.0" /></VBox.margin>
                 </Label>
 
                 <!-- Email -->
-                <Label text="EMAIL" styleClass="auth-label">
-                    <VBox.margin><Insets bottom="6.0"/></VBox.margin>
+                <Label styleClass="auth-label" text="EMAIL">
+                    <VBox.margin><Insets bottom="6.0" /></VBox.margin>
                 </Label>
-                <TextField fx:id="inserisciMail" promptText="email@dominio.com"
-                           styleClass="auth-field" prefHeight="44.0" prefWidth="300.0">
-                    <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+                <TextField fx:id="inserisciMail" prefHeight="44.0" prefWidth="300.0" promptText="email@dominio.com" styleClass="auth-field">
+                    <VBox.margin><Insets bottom="20.0" /></VBox.margin>
                 </TextField>
 
                 <!-- Nuova password -->
-                <Label text="NUOVA PASSWORD" styleClass="auth-label">
-                    <VBox.margin><Insets bottom="6.0"/></VBox.margin>
+                <Label styleClass="auth-label" text="NUOVA PASSWORD">
+                    <VBox.margin><Insets bottom="6.0" /></VBox.margin>
                 </Label>
-                <PasswordField fx:id="inserisciPassword" promptText="La mia nuova password"
-                               styleClass="auth-field" prefHeight="44.0" prefWidth="300.0">
-                    <VBox.margin><Insets bottom="20.0"/></VBox.margin>
+                <PasswordField fx:id="inserisciPassword" prefHeight="44.0" prefWidth="300.0" promptText="La mia nuova password" styleClass="auth-field">
+                    <VBox.margin><Insets bottom="20.0" /></VBox.margin>
                 </PasswordField>
 
                 <!-- Conferma -->
-                <Label text="CONFERMA PASSWORD" styleClass="auth-label">
-                    <VBox.margin><Insets bottom="6.0"/></VBox.margin>
+                <Label styleClass="auth-label" text="CONFERMA PASSWORD">
+                    <VBox.margin><Insets bottom="6.0" /></VBox.margin>
                 </Label>
-                <PasswordField fx:id="confermaNuovaPassword" promptText="Ripeti la password"
-                               styleClass="auth-field" prefHeight="44.0" prefWidth="300.0">
-                    <VBox.margin><Insets bottom="28.0"/></VBox.margin>
+                <PasswordField fx:id="confermaNuovaPassword" prefHeight="44.0" prefWidth="300.0" promptText="Ripeti la password" styleClass="auth-field">
+                    <VBox.margin><Insets bottom="15.0" /></VBox.margin>
                 </PasswordField>
 
                 <!-- Feedback -->
                 <HBox alignment="CENTER">
-                    <VBox.margin><Insets bottom="12.0"/></VBox.margin>
-                    <Label fx:id="feedbackLabel" prefWidth="300.0"
-                           wrapText="true" alignment="CENTER"
-                           styleClass="error-label"/>
+                    <VBox.margin><Insets bottom="12.0" /></VBox.margin>
+                    <Label fx:id="feedbackLabel" alignment="CENTER" minHeight="5.0" prefHeight="5.0" prefWidth="300.0" styleClass="error-label" wrapText="true" />
                 </HBox>
 
                 <!-- Button -->
-                <Button fx:id="cambiPassword" text="CAMBIA PASSWORD"
-                        onAction="#changePassword"
-                        styleClass="auth-button"
-                        prefHeight="48.0" prefWidth="300.0"/>
+                <Button fx:id="cambiPassword" onAction="#changePassword" prefHeight="48.0" prefWidth="300.0" styleClass="auth-button" text="CAMBIA PASSWORD">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin></Button>
 
             </VBox>
         </AnchorPane>
