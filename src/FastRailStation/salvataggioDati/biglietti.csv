@@ -1,2 +1,5 @@
 CodiceBiglietto,MailUtente,CodiceTreno,Provenienza,Destinazione,DataPartenza,OraPartenza,NAdulti,NBambini,NBagagli,Classe,Prezzo,DataPrenotazione
 FR100-1777022930477,c,FR100,Milano Centrale,Roma Termini,24/04/2026,07:10:00,2,1,1,Prima classe,425,24/04/2026 11:28:50
+FR501-1778052261095,berts@gmail.com,FR501,Napoli Centrale,Torino Porta Nuova,06/05/2026,19:50:00,2,2,1,Prima classe,505,06/05/2026 09:24:21
+FR100-1778052656129,berts@gmail.com,FR100,Milano Centrale,Roma Termini,06/05/2026,07:10:00,3,2,2,Prima classe,690,06/05/2026 09:30:56
+RV301-1778053353329,berts@gmail.com,RV301,Venezia Santa Lucia,Bologna Centrale,06/05/2026,09:25:00,3,3,2,Prima classe,770,06/05/2026 09:42:33

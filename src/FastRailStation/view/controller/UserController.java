@@ -19,6 +19,7 @@ public class UserController {
     @FXML private Label      navArrivi;
     @FXML private Label      navPartenze;
     @FXML private Label      navPrenota;
+    @FXML private Label      navBiglietti;   // ← NUOVO
     @FXML private Label      navProfilo;
 
     @FXML private TextField  searchDestinazione;
@@ -31,8 +32,9 @@ public class UserController {
         if (searchData != null) searchData.setValue(LocalDate.now());
 
         // ── Barra nav ────────────────────────────────────────────────────────
-        wire(navHome,     () -> navigateTo("../GUI/user.fxml", "FastRail Station"));
-        wire(navArrivi,   () -> {
+        wire(navHome, () -> navigateTo("../GUI/user.fxml", "FastRail Station"));
+
+        wire(navArrivi, () -> {
             gu.setSchermataPrecedente("UserMainPageA");
             apriTabellone(false);
         });
@@ -40,10 +42,14 @@ public class UserController {
             gu.setSchermataPrecedente("UserMainPageP");
             apriTabellone(true);
         });
-        wire(navPrenota,  () -> {
+        wire(navPrenota, () -> {
             gu.setSchermataPrecedente("PrenotaPage");
             openPrenotazione(null, null);
         });
+
+        // NUOVO: voce Biglietti nella nav
+        wire(navBiglietti, () -> openBiglietti());
+
         wire(navProfilo, () -> {
             if (gu.isLogged()) navigateTo("../GUI/profilo.fxml", "Il mio profilo");
             else { gu.setSchermataPrecedente("Home"); navigateTo("../GUI/login.fxml", "Login"); }
@@ -74,11 +80,52 @@ public class UserController {
 
     // ── Quick-link cards ──────────────────────────────────────────────────────
 
-    @FXML private void handleQuickArrivi(MouseEvent e)   { gu.setSchermataPrecedente("UserMainPageA"); apriTabellone(false); }
-    @FXML private void handleQuickPartenze(MouseEvent e) { gu.setSchermataPrecedente("UserMainPageP"); apriTabellone(true); }
-    @FXML private void handleQuickPrenota(MouseEvent e)  { gu.setSchermataPrecedente("PrenotaPage");   openPrenotazione(null, null); }
+    @FXML private void handleQuickArrivi(MouseEvent e) {
+        gu.setSchermataPrecedente("UserMainPageA");
+        apriTabellone(false);
+    }
+
+    @FXML private void handleQuickPartenze(MouseEvent e) {
+        gu.setSchermataPrecedente("UserMainPageP");
+        apriTabellone(true);
+    }
+
+    @FXML private void handleQuickPrenota(MouseEvent e) {
+        gu.setSchermataPrecedente("PrenotaPage");
+        openPrenotazione(null, null);
+    }
+
+    /** NUOVO: click sulla card Biglietti. */
+    @FXML private void handleQuickBiglietti(MouseEvent e) {
+        openBiglietti();
+    }
 
     // ── Navigazione ───────────────────────────────────────────────────────────
+
+    /**
+     * Apre la finestra dei biglietti.
+     * Se l'utente non è loggato, reindirizza al login salvando la schermata
+     * di ritorno in modo che, dopo il login, possa tornare qui.
+     */
+    private void openBiglietti() {
+        if (!gu.isLogged()) {
+            gu.setSchermataPrecedente("Home");
+            navigateTo("../GUI/login.fxml", "Login");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/biglietti.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("I miei biglietti");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+            chiudiStageCorrente();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void apriTabellone(boolean partenze) {
         try {
@@ -91,7 +138,9 @@ public class UserController {
             stage.setScene(new Scene(root));
             stage.show();
             chiudiStageCorrente();
-        } catch (Exception ex) { ex.printStackTrace(); }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void openPrenotazione(String destinazione, LocalDate data) {
@@ -106,7 +155,9 @@ public class UserController {
             stage.setScene(new Scene(root));
             stage.show();
             chiudiStageCorrente();
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void navigateTo(String fxmlPath, String title) {
@@ -118,7 +169,9 @@ public class UserController {
             stage.setScene(new Scene(root));
             stage.show();
             chiudiStageCorrente();
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void wire(Label lbl, Runnable action) {

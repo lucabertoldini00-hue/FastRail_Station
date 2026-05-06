@@ -93,10 +93,6 @@ public class PrenotazioneController {
         tl.play();
     }
 
-    /**
-     * Called by UserController when the user used the home-screen CERCA form.
-     * Pre-fills the destination filter and date so the table is already filtered.
-     */
     public void prefillSearch(String destinazione, LocalDate data) {
         if (data != null) dpDataPartenza.setValue(data);
         txtDestinazione.setText(destinazione == null ? "" : destinazione);
@@ -189,14 +185,19 @@ public class PrenotazioneController {
         scriviDati.scríviBiglietto(biglietto);
 
         resetCampi();
-
-        // Show the full confirmation dialog instead of a 2-second toast
         mostraConferma(biglietto);
     }
 
     /**
-     * Shows a proper modal confirmation card with the ticket code and all
-     * booking details — replaces the old 2-second disappearing toast.
+     * Dialog modale di conferma prenotazione.
+     * Tutti i colori sono allineati alla palette definita in styles.css:
+     *   #67696f  sfondo card       (.confirm-card / .table-row-cell)
+     *   #800303  accento rosso     (bordi, titolo, bottone)
+     *   #4cff72  stato positivo    (icona ✓)
+     *   #f4e7e7  testo primario    (.label)
+     *   #9a9aa3  testo secondario  (.timeLabel, prompt)
+     *   #0d1b2a  sfondo codice     (.confirm-code)
+     *   #1e3a5f  separatori/bordi  (sidebar divider)
      */
     private void mostraConferma(Biglietto b) {
         Stage dialog = new Stage(StageStyle.UNDECORATED);
@@ -207,67 +208,91 @@ public class PrenotazioneController {
         card.setAlignment(Pos.CENTER);
         card.setPadding(new Insets(36, 48, 36, 48));
         card.setStyle(
-                "-fx-background-color: #112240;" +
-                        "-fx-border-color: #64ffda;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-border-radius: 14;" +
-                        "-fx-background-radius: 14;"
+                "-fx-background-color: #67696f;"        // sfondo card — content-card
+                        + "-fx-border-color: #800303;"          // bordo accento rosso
+                        + "-fx-border-width: 2;"
+                        + "-fx-border-radius: 14;"
+                        + "-fx-background-radius: 14;"
+                        + "-fx-effect: dropshadow(gaussian, rgba(113,99,99,0.6), 24, 0, 0, 0);"
         );
         card.setMaxWidth(460);
 
+        // Icona successo — verde positivo (#4cff72)
         Label icon = new Label("✓");
-        icon.setStyle("-fx-font-size: 48px; -fx-text-fill: #64ffda;");
+        icon.setStyle("-fx-font-size: 48px; -fx-text-fill: #4cff72;");
 
+        // Titolo — accento rosso (#800303)
         Label titolo = new Label("Prenotazione confermata!");
-        titolo.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #64ffda;");
+        titolo.setStyle(
+                "-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #800303;");
 
         Separator sep = new Separator();
         sep.setStyle("-fx-background-color: #1e3a5f;");
 
+        // Etichetta codice — testo secondario (#9a9aa3)
         Label codiceLabel = new Label("Codice biglietto");
-        codiceLabel.setStyle("-fx-text-fill: #8892b0; -fx-font-size: 12px;");
+        codiceLabel.setStyle("-fx-text-fill: #9a9aa3; -fx-font-size: 12px;");
 
+        // Codice biglietto — stile .confirm-code
         Label codice = new Label(b.getCodiceBiglietto());
         codice.setStyle(
-                "-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #ccd6f6;" +
-                        "-fx-font-family: 'Courier New', monospace;" +
-                        "-fx-background-color: #0d1b2a; -fx-background-radius: 6;" +
-                        "-fx-padding: 8 16 8 16;"
-        );
+                "-fx-font-size: 15px; -fx-font-weight: bold;"
+                        + "-fx-text-fill: #f4e7e7;"             // testo primario
+                        + "-fx-font-family: 'Courier New', monospace;"
+                        + "-fx-background-color: #0d1b2a;"      // sfondo scuro
+                        + "-fx-background-radius: 6;"
+                        + "-fx-padding: 8 16 8 16;");
 
         Separator sep2 = new Separator();
         sep2.setStyle("-fx-background-color: #1e3a5f;");
 
+        // Griglia dettagli
         GridPane dettagli = new GridPane();
         dettagli.setHgap(16);
         dettagli.setVgap(8);
         dettagli.setAlignment(Pos.CENTER_LEFT);
 
-        addRow(dettagli, 0, "Tratta",      b.getProvenienza() + "  →  " + b.getDestinazione());
-        addRow(dettagli, 1, "Data",        b.getDataPartenza().toString());
-        addRow(dettagli, 2, "Orario",      b.getOraPartenza());
-        addRow(dettagli, 3, "Classe",      b.getClasse());
-        addRow(dettagli, 4, "Passeggeri",  b.getNAdulti() + " adulti, " + b.getNBambini() + " bambini");
+        addRow(dettagli, 0, "Tratta",     b.getProvenienza() + "  →  " + b.getDestinazione());
+        addRow(dettagli, 1, "Data",       b.getDataPartenza().toString());
+        addRow(dettagli, 2, "Orario",     b.getOraPartenza());
+        addRow(dettagli, 3, "Classe",     b.getClasse());
+        addRow(dettagli, 4, "Passeggeri", b.getNAdulti() + " adulti, " + b.getNBambini() + " bambini");
         if (b.getNBagagli() > 0)
             addRow(dettagli, 5, "Bagagli", b.getNBagagli() + "");
-        addRow(dettagli, 6, "Totale",      "€ " + b.getPrezzoTotale());
+        addRow(dettagli, 6, "Totale",     "€ " + b.getPrezzoTotale());
 
+        // Avviso — testo secondario (#9a9aa3)
         Label avviso = new Label("Conserva il codice biglietto per il check-in.");
-        avviso.setStyle("-fx-text-fill: #8892b0; -fx-font-size: 12px;");
+        avviso.setStyle("-fx-text-fill: #9a9aa3; -fx-font-size: 12px;");
         avviso.setWrapText(true);
 
+        // Bottone chiudi — stile .search-button / .button
         Button chiudi = new Button("Chiudi");
         chiudi.setStyle(
-                "-fx-background-color: #64ffda; -fx-text-fill: #0d1b2a;" +
-                        "-fx-font-weight: bold; -fx-font-size: 14px;" +
-                        "-fx-background-radius: 8; -fx-padding: 10 40 10 40; -fx-cursor: hand;"
-        );
+                "-fx-background-color: #800303;"        // accento rosso
+                        + "-fx-text-fill: #ffffff;"
+                        + "-fx-font-weight: bold; -fx-font-size: 14px;"
+                        + "-fx-background-radius: 8;"
+                        + "-fx-padding: 10 40 10 40; -fx-cursor: hand;");
         chiudi.setOnAction(e -> dialog.close());
+        // Hover: rosso più chiaro (coerente con .button:hover)
+        chiudi.setOnMouseEntered(e -> chiudi.setStyle(
+                "-fx-background-color: #ac0909;"
+                        + "-fx-text-fill: #ffffff;"
+                        + "-fx-font-weight: bold; -fx-font-size: 14px;"
+                        + "-fx-background-radius: 8;"
+                        + "-fx-padding: 10 40 10 40; -fx-cursor: hand;"));
+        chiudi.setOnMouseExited(e -> chiudi.setStyle(
+                "-fx-background-color: #800303;"
+                        + "-fx-text-fill: #ffffff;"
+                        + "-fx-font-weight: bold; -fx-font-size: 14px;"
+                        + "-fx-background-radius: 8;"
+                        + "-fx-padding: 10 40 10 40; -fx-cursor: hand;"));
 
         card.getChildren().addAll(icon, titolo, sep, codiceLabel, codice,
                 sep2, dettagli, avviso, chiudi);
 
-        // ── Dimmed overlay ─────────────────────────────────────────────────────
+        // ── Overlay sfondo scuro (invariato — già coerente con #0d1b2a) ───────
         StackPane overlay = new StackPane(card);
         overlay.setStyle("-fx-background-color: rgba(13,27,42,0.88);");
         overlay.setPrefSize(680, 620);
@@ -277,7 +302,6 @@ public class PrenotazioneController {
         dialog.setScene(scene);
         dialog.setResizable(false);
 
-        // Centre over parent window
         Stage parent = (Stage) tblVoli.getScene().getWindow();
         dialog.setX(parent.getX() + (parent.getWidth()  - 500) / 2);
         dialog.setY(parent.getY() + (parent.getHeight() - 560) / 2);
@@ -285,11 +309,15 @@ public class PrenotazioneController {
         dialog.showAndWait();
     }
 
+    /**
+     * Aggiunge una riga alla griglia dettagli del dialog di conferma.
+     * Etichetta in #9a9aa3 (testo secondario), valore in #f4e7e7 (testo primario).
+     */
     private void addRow(GridPane grid, int row, String label, String value) {
         Label lbl = new Label(label);
-        lbl.setStyle("-fx-text-fill: #8892b0; -fx-font-size: 13px; -fx-min-width: 100px;");
+        lbl.setStyle("-fx-text-fill: #9a9aa3; -fx-font-size: 13px; -fx-min-width: 100px;");
         Label val = new Label(value);
-        val.setStyle("-fx-text-fill: #ccd6f6; -fx-font-size: 13px; -fx-font-weight: bold;");
+        val.setStyle("-fx-text-fill: #f4e7e7; -fx-font-size: 13px; -fx-font-weight: bold;");
         grid.add(lbl, 0, row);
         grid.add(val, 1, row);
     }
@@ -325,7 +353,7 @@ public class PrenotazioneController {
         tblVoli.getSelectionModel().clearSelection();
     }
 
-    // ── Passenger counters ───────────────────────────────────────────────────
+    // ── Passenger counters ────────────────────────────────────────────────────
 
     @FXML public void aggiungiAdulto()  { nAdulti++;  lblAdulti.setText(str(nAdulti));   aggiornaPrezzo(); }
     @FXML public void rimuoviAdulto()   { if (nAdulti  > 0) { nAdulti--;  lblAdulti.setText(str(nAdulti));   aggiornaPrezzo(); } }
