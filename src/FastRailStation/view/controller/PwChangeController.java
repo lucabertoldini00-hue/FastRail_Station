@@ -12,7 +12,7 @@ import javafx.util.Duration;
 import FastRailStation.model.GestioneUtenti;
 import FastRailStation.model.Utente;
 
-public class PwChangeController {
+public class    PwChangeController {
 
     @FXML private TextField     inserisciMail;
     @FXML private PasswordField inserisciPassword;
