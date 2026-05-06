@@ -41,6 +41,8 @@ public class PrenotazioneController {
     @FXML private ComboBox<String> cbClasse;
     @FXML private Label            lblPrezzo;
     @FXML private Label            segnala;
+    @FXML private Label            lblTrenoSelezionato;
+    @FXML private Button           btnPrenota;
 
     @FXML private TableView<Treno>              tblVoli;
     @FXML private TableColumn<Treno, LocalTime> colOrario;
@@ -70,6 +72,8 @@ public class PrenotazioneController {
     @FXML
     public void initialize() {
         isLogged = gestioneUtenti.isLogged();
+        if (btnPrenota != null) btnPrenota.setDisable(true);
+        if (lblTrenoSelezionato != null) lblTrenoSelezionato.setText("Treno selezionato: nessuno");
 
         startClock();
         initializeTable();
@@ -107,6 +111,26 @@ public class PrenotazioneController {
         colGate.setCellValueFactory(         cd -> cd.getValue().binarioProperty().asObject());
         colCompagnia.setCellValueFactory(    cd -> cd.getValue().compagniaProperty());
         colStato.setCellValueFactory(        cd -> cd.getValue().statoProperty());
+
+        colNVolo.setCellFactory(col -> new TableCell<Treno, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setText(""); setStyle(""); return; }
+                setText(item);
+                setStyle("-fx-alignment: CENTER; -fx-text-fill: #800303; -fx-font-size: 13px; -fx-font-weight: bold;");
+            }
+        });
+
+        colGate.setCellFactory(col -> new TableCell<Treno, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item <= 0) { setText(""); return; }
+                setText(String.valueOf(item));
+            }
+        });
+
         tblVoli.setItems(gestioneTreni.getElencoListaPartenze());
     }
 
@@ -350,6 +374,8 @@ public class PrenotazioneController {
         lblPrezzo.setText("0");
         isSelected = false;
         trenoSelezionato = null;
+        if (btnPrenota != null) btnPrenota.setDisable(true);
+        if (lblTrenoSelezionato != null) lblTrenoSelezionato.setText("Treno selezionato: nessuno");
         tblVoli.getSelectionModel().clearSelection();
     }
 
@@ -377,6 +403,10 @@ public class PrenotazioneController {
     private void handleRowSelected(Treno treno) {
         isSelected = true;
         trenoSelezionato = treno;
+        if (btnPrenota != null) btnPrenota.setDisable(false);
+        if (lblTrenoSelezionato != null)
+            lblTrenoSelezionato.setText("Treno selezionato: " + treno.getCodice());
+
         if (infoStage != null && infoStage.isShowing()) infoStage.close();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/dettagliTreno.fxml"));

@@ -3,6 +3,7 @@ package FastRailStation.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -146,10 +147,16 @@ public class GestioneTreni {
     public void setDataPartenza(LocalDate data) {
         snapshot();
         elencoTreniPartenza.clear();
-        for (Treno t : elencoTreniDeposito)
-            if (t.getGiornoPartenza().isEqual(data) &&
-                    (t.getStato().equals("In partenza") || t.getStato().equals("In attesa")))
+        LocalTime now = LocalDate.now().isEqual(data) ? LocalTime.now() : null;
+        for (Treno t : elencoTreniDeposito) {
+            String stato = t.getStato();
+            boolean statoValido = "In partenza".equals(stato) || "In attesa".equals(stato)
+                    || stato == null || stato.isEmpty();
+            LocalTime ora = t.getOraPartenza();
+            boolean nonPassato = now == null || (ora != null && !ora.isBefore(now));
+            if (t.getGiornoPartenza().isEqual(data) && statoValido && nonPassato)
                 elencoTreniPartenza.add(t);
+        }
         bubbleSortByOraPartenza(elencoTreniPartenza);
     }
 
@@ -165,10 +172,16 @@ public class GestioneTreni {
     public void setDataArrivo(LocalDate data) {
         snapshot();
         elencoTreniArrivo.clear();
-        for (Treno t : elencoTreniDeposito)
-            if (t.getGiornoArrivo().isEqual(data) &&
-                    (t.getStato().equals("In arrivo") || t.getStato().equals("In attesa")))
+        LocalTime now = LocalDate.now().isEqual(data) ? LocalTime.now() : null;
+        for (Treno t : elencoTreniDeposito) {
+            String stato = t.getStato();
+            boolean statoValido = "In arrivo".equals(stato) || "In attesa".equals(stato)
+                    || stato == null || stato.isEmpty();
+            LocalTime ora = t.getOraArrivo();
+            boolean nonPassato = now == null || (ora != null && !ora.isBefore(now));
+            if (t.getGiornoArrivo().isEqual(data) && statoValido && nonPassato)
                 elencoTreniArrivo.add(t);
+        }
         bubbleSortByOraArrivo(elencoTreniArrivo);
     }
 
@@ -230,38 +243,50 @@ public class GestioneTreni {
     }
 
     public void aggiornaArrivoAdmin(String parola, String compagnia) {
+        String p = parola == null ? "" : parola.toLowerCase();
+        String c = compagnia == null ? "" : compagnia.toLowerCase();
         ObservableList<Treno> snap = FXCollections.observableArrayList(elencoTreniArrivo);
         elencoTreniArrivo.clear();
         for (Treno t : snap)
-            if (t.getCompagnia().toLowerCase().contains(compagnia.toLowerCase()) &&
-                    t.getProvenienza().toLowerCase().contains(parola.toLowerCase()))
+            if (t.getCompagnia().toLowerCase().contains(c) &&
+                    (t.getProvenienza().toLowerCase().contains(p) ||
+                            t.getDestinazione().toLowerCase().contains(p)))
                 elencoTreniArrivo.add(t);
     }
 
     public void aggiornaPartenzaAdmin(String parola, String compagnia) {
+        String p = parola == null ? "" : parola.toLowerCase();
+        String c = compagnia == null ? "" : compagnia.toLowerCase();
         ObservableList<Treno> snap = FXCollections.observableArrayList(elencoTreniPartenza);
         elencoTreniPartenza.clear();
         for (Treno t : snap)
-            if (t.getCompagnia().toLowerCase().contains(compagnia.toLowerCase()) &&
-                    t.getDestinazione().toLowerCase().contains(parola.toLowerCase()))
+            if (t.getCompagnia().toLowerCase().contains(c) &&
+                    (t.getDestinazione().toLowerCase().contains(p) ||
+                            t.getProvenienza().toLowerCase().contains(p)))
                 elencoTreniPartenza.add(t);
     }
 
     public void aggiornaTerraAdmin(String parola, String compagnia) {
+        String p = parola == null ? "" : parola.toLowerCase();
+        String c = compagnia == null ? "" : compagnia.toLowerCase();
         ObservableList<Treno> snap = FXCollections.observableArrayList(elencoTreniTerra);
         elencoTreniTerra.clear();
         for (Treno t : snap)
-            if (t.getCompagnia().toLowerCase().contains(compagnia.toLowerCase()) &&
-                    t.getDestinazione().toLowerCase().contains(parola.toLowerCase()))
+            if (t.getCompagnia().toLowerCase().contains(c) &&
+                    (t.getDestinazione().toLowerCase().contains(p) ||
+                            t.getProvenienza().toLowerCase().contains(p)))
                 elencoTreniTerra.add(t);
     }
 
     public void aggiornaManutenzioneAdmin(String parola, String compagnia) {
+        String p = parola == null ? "" : parola.toLowerCase();
+        String c = compagnia == null ? "" : compagnia.toLowerCase();
         ObservableList<Treno> snap = FXCollections.observableArrayList(elencoTreniManutenzione);
         elencoTreniManutenzione.clear();
         for (Treno t : snap)
-            if (t.getCompagnia().toLowerCase().contains(compagnia.toLowerCase()) &&
-                    t.getDestinazione().toLowerCase().contains(parola.toLowerCase()))
+            if (t.getCompagnia().toLowerCase().contains(c) &&
+                    (t.getDestinazione().toLowerCase().contains(p) ||
+                            t.getProvenienza().toLowerCase().contains(p)))
                 elencoTreniManutenzione.add(t);
     }
 
@@ -313,8 +338,67 @@ public class GestioneTreni {
     }
 
     private void caricaDati() {
-        for (Treno treno : leggi.leggiTreni()) addTreno(treno);
+        ObservableList<Treno> base = leggi.leggiTreni();
+        for (Treno treno : base) addTreno(treno);
+        expandFutureTreni(base, 14);
         // Keep startup-expanded recurrences in memory only; persist only on explicit edits/bookings.
+    }
+
+    private void expandFutureTreni(ObservableList<Treno> base, int maxDays) {
+        LocalDate today = LocalDate.now();
+        for (Treno t : base) {
+            int shiftMinutes = randomTimeShiftMinutes();
+            LocalTime oraArrivo = shiftTime(t.getOraArrivo(), shiftMinutes);
+            LocalTime oraPartenza = shiftTime(t.getOraPartenza(), shiftMinutes);
+            for (int d = 1; d <= maxDays; d++) {
+                LocalDate giornoArrivo = today.plusDays(d);
+                LocalDate giornoPartenza = today.plusDays(d);
+                Treno clone = cloneWithDates(t, giornoArrivo, oraArrivo, giornoPartenza, oraPartenza);
+                addTrenoFuture(clone);
+            }
+        }
+    }
+
+    private void addTrenoFuture(Treno treno) {
+        // Treni futuri: binario/stato/ritardo restano vuoti o default.
+        synchronized (elencoTreniTutti) { elencoTreniTutti.add(treno); }
+    }
+
+    private Treno cloneWithDates(Treno t, LocalDate giornoArrivo, LocalTime oraArrivo,
+                                 LocalDate giornoPartenza, LocalTime oraPartenza) {
+        int max = t.getPostiMassimi();
+        int posti = randomBetween(0, Math.max(0, max));
+        int ritardo = 0;
+        String stato = "";
+
+        boolean hasManutenzione = t.getInizioManutenzione() != null
+                && t.getFineManutenzione() != null
+                && t.getDeposito() != null;
+
+        if (hasManutenzione) {
+            LocalDate inizio = t.getInizioManutenzione().plusDays(giornoArrivo.toEpochDay() - t.getGiornoArrivo().toEpochDay());
+            LocalDate fine = t.getFineManutenzione().plusDays(giornoArrivo.toEpochDay() - t.getGiornoArrivo().toEpochDay());
+            return new Treno(t.getModello(), t.getProvenienza(), t.getDestinazione(), t.getCompagnia(),
+                    t.getCodice(), max, giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                    t.getIntervallo(), stato, inizio, fine, t.getDeposito(), ritardo, posti);
+        }
+
+        return new Treno(t.getModello(), t.getProvenienza(), t.getDestinazione(), t.getCompagnia(),
+                t.getCodice(), max, giornoArrivo, oraArrivo, giornoPartenza, oraPartenza,
+                t.getIntervallo(), stato, ritardo, posti);
+    }
+
+    private int randomTimeShiftMinutes() {
+        return ThreadLocalRandom.current().nextInt(-10, 11);
+    }
+
+    private int randomBetween(int min, int max) {
+        if (max <= min) return min;
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
+
+    private LocalTime shiftTime(LocalTime base, int minutes) {
+        return base != null ? base.plusMinutes(minutes) : null;
     }
 
     // ── FIX B3: dedicated getters/setters per filter category ─────────────────

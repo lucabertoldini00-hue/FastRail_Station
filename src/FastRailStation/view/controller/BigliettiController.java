@@ -13,10 +13,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class BigliettiController {
 
@@ -49,6 +55,7 @@ public class BigliettiController {
     private void initialize() {
         setupColonne();
         caricaBiglietti();
+        setupRowClickHandler();
         startClock();
     }
 
@@ -198,4 +205,131 @@ public class BigliettiController {
             }
         }.start();
     }
+
+    private void setupRowClickHandler() {
+        tblBiglietti.setRowFactory(tv -> {
+            TableRow<Biglietto> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+                if (!row.isEmpty() && e.getClickCount() == 1) {
+                    mostraRiepilogo(row.getItem());
+                    tblBiglietti.getSelectionModel().clearSelection();
+                }
+            });
+            return row;
+        });
+    }
+
+    private void mostraRiepilogo(Biglietto b) {
+        Stage dialog = new Stage(StageStyle.UNDECORATED);
+        dialog.initOwner(tblBiglietti.getScene().getWindow());
+
+        VBox card = new VBox(16);
+        card.setAlignment(Pos.CENTER);
+        card.setPadding(new Insets(36, 48, 36, 48));
+        card.setStyle(
+                "-fx-background-color: #67696f;" +
+                        "-fx-border-color: #800303;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-radius: 14;" +
+                        "-fx-background-radius: 14;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(113,99,99,0.6), 24, 0, 0, 0);"
+        );
+        card.setMaxWidth(460);
+
+        Label icon = new Label("✓");
+        icon.setStyle("-fx-font-size: 48px; -fx-text-fill: #4cff72;");
+
+        Label titolo = new Label("Riepilogo prenotazione");
+        titolo.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #800303;");
+
+        Separator sep = new Separator();
+        sep.setStyle("-fx-background-color: #1e3a5f;");
+
+        Label codiceLabel = new Label("Codice biglietto");
+        codiceLabel.setStyle("-fx-text-fill: #9a9aa3; -fx-font-size: 12px;");
+
+        Label codice = new Label(b.getCodiceBiglietto());
+        codice.setStyle(
+                "-fx-font-size: 15px; -fx-font-weight: bold;" +
+                        "-fx-text-fill: #f4e7e7;" +
+                        "-fx-font-family: 'Courier New', monospace;" +
+                        "-fx-background-color: #0d1b2a;" +
+                        "-fx-background-radius: 6;" +
+                        "-fx-padding: 8 16 8 16;"
+        );
+
+        Separator sep2 = new Separator();
+        sep2.setStyle("-fx-background-color: #1e3a5f;");
+
+        GridPane dettagli = new GridPane();
+        dettagli.setHgap(16);
+        dettagli.setVgap(8);
+        dettagli.setAlignment(Pos.CENTER_LEFT);
+
+        addRow(dettagli, 0, "Tratta",     b.getProvenienza() + "  →  " + b.getDestinazione());
+        addRow(dettagli, 1, "Data",       b.getDataPartenza().toString());
+        addRow(dettagli, 2, "Orario",     b.getOraPartenza());
+        addRow(dettagli, 3, "Classe",     b.getClasse());
+        addRow(dettagli, 4, "Passeggeri", b.getNAdulti() + " adulti, " + b.getNBambini() + " bambini");
+        if (b.getNBagagli() > 0)
+            addRow(dettagli, 5, "Bagagli", String.valueOf(b.getNBagagli()));
+        addRow(dettagli, 6, "Totale",     "€ " + b.getPrezzoTotale());
+
+        Label avviso = new Label("Conserva il codice biglietto per il check-in.");
+        avviso.setStyle("-fx-text-fill: #9a9aa3; -fx-font-size: 12px;");
+        avviso.setWrapText(true);
+
+        Button chiudi = new Button("Chiudi");
+        chiudi.setStyle(
+                "-fx-background-color: #800303;" +
+                        "-fx-text-fill: #ffffff;" +
+                        "-fx-font-weight: bold; -fx-font-size: 14px;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 10 40 10 40; -fx-cursor: hand;"
+        );
+        chiudi.setOnAction(e -> dialog.close());
+        chiudi.setOnMouseEntered(e -> chiudi.setStyle(
+                "-fx-background-color: #ac0909;" +
+                        "-fx-text-fill: #ffffff;" +
+                        "-fx-font-weight: bold; -fx-font-size: 14px;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 10 40 10 40; -fx-cursor: hand;"
+        ));
+        chiudi.setOnMouseExited(e -> chiudi.setStyle(
+                "-fx-background-color: #800303;" +
+                        "-fx-text-fill: #ffffff;" +
+                        "-fx-font-weight: bold; -fx-font-size: 14px;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 10 40 10 40; -fx-cursor: hand;"
+        ));
+
+        card.getChildren().addAll(icon, titolo, sep, codiceLabel, codice,
+                sep2, dettagli, avviso, chiudi);
+
+        StackPane overlay = new StackPane(card);
+        overlay.setStyle("-fx-background-color: rgba(13,27,42,0.88);");
+        overlay.setPrefSize(680, 620);
+        overlay.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(overlay);
+        dialog.setScene(scene);
+        dialog.setResizable(false);
+        dialog.setOnHidden(e -> tblBiglietti.getSelectionModel().clearSelection());
+
+        Stage parent = (Stage) tblBiglietti.getScene().getWindow();
+        dialog.setX(parent.getX() + (parent.getWidth()  - 500) / 2);
+        dialog.setY(parent.getY() + (parent.getHeight() - 560) / 2);
+
+        dialog.showAndWait();
+    }
+
+    private void addRow(GridPane grid, int row, String label, String value) {
+        Label lbl = new Label(label);
+        lbl.setStyle("-fx-text-fill: #9a9aa3; -fx-font-size: 13px; -fx-min-width: 100px;");
+        Label val = new Label(value);
+        val.setStyle("-fx-text-fill: #f4e7e7; -fx-font-size: 13px; -fx-font-weight: bold;");
+        grid.add(lbl, 0, row);
+        grid.add(val, 1, row);
+    }
 }
+

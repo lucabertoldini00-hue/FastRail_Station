@@ -44,9 +44,9 @@ public class DettagliTrenoController {
         lblDestinazione.setText(treno.getDestinazione());
 
         lblBinario.setText(String.valueOf(treno.getBinario()));
-        lblOrarioArrivo.setText(treno.getOraArrivoString());
+        lblOrarioArrivo.setText(treno.getOraPartenzaString());
         lblGiornoArrivo.setText(treno.getGiornoArrivoString());
-        lblOrarioPartenza.setText(treno.getOraPartenzaString());
+        lblOrarioPartenza.setText(treno.getOraArrivoString());
 
         // FIX B10: getNumeroPostiOccupatiInt() → getNumeroPostiOccupati()
         lblPostiOccupati.setText(String.valueOf(treno.getNumeroPostiOccupati()));

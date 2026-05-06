@@ -124,6 +124,7 @@ public class LoginController {
             case "UserMainPageA": userMainPage(false); break;
             case "UserMainPageP": userMainPage(true);  break;
             case "Profilo":       navigate("../GUI/profilo.fxml", "Il mio profilo", btnHome); break;
+            case "Biglietti":    navigate("../GUI/biglietti.fxml", "I miei biglietti", btnHome); break;
             default:              navigate("../GUI/user.fxml", "FastRail Station",   btnHome); break;
         }
     }

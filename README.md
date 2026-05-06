@@ -189,6 +189,7 @@ Il progetto usa un tema scuro definito in `styles.css`:
 
 ## 🐛 Bug noti e fix applicati
 
+### Fase 1: Backend & Struttura
 | ID | Descrizione | Fix |
 |----|-------------|-----|
 | B1 | Lista binari era `static` | Rimossa keyword `static` |
@@ -205,6 +206,26 @@ Il progetto usa un tema scuro definito in `styles.css`:
 | N12 | `listaUtenti` veniva sostituita | Aggiornata in-place |
 | N13 | `Biglietto` era stub vuoto | Implementata classe completa con CSV |
 | **BINARIO** | Tutti i treni caricati da CSV avevano binario `-1` | `addTreno(Treno)` assegna binario se ≤ 0 |
+
+### Fase 2: UI/UX & Navigazione (Issue Resolution)
+| ID | Descrizione | File/Fix |
+|----|-------------|----------|
+| UI1 | Tab "Biglietti" mancante/rotte non funzionanti | Aggiunta label `navBiglietti` in header + implementazione click handler in `UserMainController`, `ProfiloController`, `LoginController` per navigazione a `biglietti.fxml` |
+| UI2 | Logo non cliccabile per tornare alla home | Implementato metodo `handleLogoClick()` in `UserController`, `UserMainController`, `ProfiloController` per navigare a `user.fxml` |
+| UI3 | Card "Biglietti" blu in home | Allineato colore della card da blu a rosso (`#800303`) in `user.fxml` |
+| UI4 | Sottolineatura rossa tab Arrivi/Partenze non si aggiorna | Implementato metodo `setActiveNav()` in `UserMainController` per aggiungere/rimuovere classe `.nav-item-active` al cambio tab |
+| UI5 | Filtri troppo restrittivi con compagnia (admin) | Allineata logica filter admin a standard: `aggiornaPartenzaAdmin()` e `aggiornaArrivoAdmin()` ora filtrano per provenienza **O** destinazione, non in AND con compagnia |
+| UI6 | Mancanza treni per giorni successivi | Implementato metodo `expandFutureTreni(base, 14)` in `GestioneTreni` che clona treni base per i prossimi 14 giorni con orario leggermente randomizzato (±10 minuti) |
+| UI7 | Treni futuri con binario/stato/ritardo valorizzati | Metodo `cloneWithDates()` genera treni futuri con binario -1 (non assegnato), stato vuoto, ritardo = 0 |
+| UI8 | Treni di oggi con orario passato ancora visibili | Aggiunta logica in `setDataPartenza()` e `setDataArrivo()` che filtra treni con ora già passata nella giornata odierna |
+| UI9 | Pulsanti +/− in prenotazione con colore sbagliato | Impostato stile `.plusButton, .minusButton` in `styles.css` con `-fx-background-color: #67696f` e `-fx-text-fill: #800303` |
+| UI10 | Pulsanti +/− e numero non allineati a destra | Aggiunto `HBox.margin` con `left="10.0"` su tre HBox in `prenotazione.fxml` per Adulti, Bambini, Bagagli |
+| UI11 | Binario -1 visibile in prenotazione | Aggiunta cell factory in `colGate` di `PrenotazioneController` che mostra testo vuoto se binario ≤ 0 |
+| UI12 | Colonna "N° Treno" non centrata/formattata | Aggiunta cell factory in `colNVolo` di `PrenotazioneController` con stile: `-fx-alignment: CENTER; -fx-text-fill: #800303; -fx-font-weight: bold` |
+| UI13 | Contatore "x treni" piccolo e bianco | Aggiornato stile label `lblContatore` in `userMain.fxml` con rosso, centrato, font più grande |
+| UI14 | Orari arrivo/partenza invertiti nei dettagli | Invertite assegnazioni di `lblOrarioArrivo` e `lblOrarioPartenza` in `DettagliTrenoController.setTreno()` |
+| UI15 | Prenotazione: non chiaro come selezionare il treno | Aggiunta label `lblTrenoSelezionato` in `prenotazione.fxml` che mostra "Treno selezionato: [codice]"; pulsante Prenota disabilitato finché non si sceglie riga |
+| UI16 | Click su biglietto acquistato causa IndexOutOfBoundsException | Aggiunti controlli di validità indice nella cell factory `colPasseggeri` di `BigliettiController` prima di accedere a `getTableView().getItems().get(idx)` |
 
 ---
 
