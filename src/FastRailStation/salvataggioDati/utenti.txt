@@ -1,4 +1,4 @@
 Admin+Sistema+admin+01/01/1990+admin+0000000000+Italia+Milano+Via Admin 1+0000000000000000+12/99+ADMIN+
-Luca+Bertoldini+berts@gmail.com+18/03/2008+password+3331234567+Italia+Premania+Via Roma+1234561234561234+12/26+USER+
+Luca+Bertoldini+berts@gmail.com+18/03/2008+password+3331234567+Italia+Premana+Via Roma+1234561234561234+12/26+USER+
 Lorenzo+Giannattasio+gianna@gmail.com+13/06/2008+password+3991234567+Italia+Valmadrera+Via Roma 123+1234543231234543+06/27+USER+
 Chiara+Gianola+chiara@gmail.com+14/08/2008+password+123456789+Italia+Premana+Via Roma 5+1234561234561234+03/28+USER+
