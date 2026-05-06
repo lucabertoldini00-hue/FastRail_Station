@@ -26,6 +26,7 @@ public class UserMainController {
     @FXML private Label navArrivi;
     @FXML private Label navPartenze;
     @FXML private Label navPrenota;
+    @FXML private Label navBiglietti;
     @FXML private Label navProfilo;
 
     // ── Sidebar ───────────────────────────────────────────────────────────────
@@ -148,6 +149,7 @@ public class UserMainController {
     public void handleArrivi() {
         mostraPartenze = false;
         lblTitoloTabellone.setText("◉  ARRIVI");
+        setActiveNav(navArrivi, navPartenze);
 
         // Orario = ora di arrivo
         colOrario.setCellValueFactory(cd -> {
@@ -163,6 +165,7 @@ public class UserMainController {
     public void handlePartenze() {
         mostraPartenze = true;
         lblTitoloTabellone.setText("◉  PARTENZE");
+        setActiveNav(navPartenze, navArrivi);
 
         // Orario = ora di partenza
         colOrario.setCellValueFactory(cd -> {
@@ -273,6 +276,7 @@ public class UserMainController {
             gu.setSchermataPrecedente("PrenotaPage");
             navigateTo("../GUI/prenotazione.fxml", "Prenotazione");
         });
+        wire(navBiglietti, this::openBiglietti);
         wire(navProfilo, () -> {
             if (gu.isLogged()) navigateTo("../GUI/profilo.fxml", "Il mio profilo");
             else { gu.setSchermataPrecedente("UserMainPageA"); navigateTo("../GUI/login.fxml", "Login"); }
@@ -284,6 +288,15 @@ public class UserMainController {
             if (idx >= 0 && idx < gu.getUtenti().size())
                 navProfilo.setText("👤 " + gu.getUtenti().get(idx).getNome());
         }
+    }
+
+    private void openBiglietti() {
+        if (!gu.isLogged()) {
+            gu.setSchermataPrecedente("Biglietti");
+            navigateTo("../GUI/login.fxml", "Login");
+            return;
+        }
+        navigateTo("../GUI/biglietti.fxml", "I miei biglietti");
     }
 
     private void wire(Label lbl, Runnable action) {
@@ -330,5 +343,16 @@ public class UserMainController {
             }
         };
         timer.start();
+    }
+
+    @FXML
+    private void handleLogoClick() {
+        navigateTo("../GUI/user.fxml", "FastRail Station");
+    }
+
+    private void setActiveNav(Label active, Label inactive) {
+        if (active != null && !active.getStyleClass().contains("nav-item-active"))
+            active.getStyleClass().add("nav-item-active");
+        if (inactive != null) inactive.getStyleClass().remove("nav-item-active");
     }
 }

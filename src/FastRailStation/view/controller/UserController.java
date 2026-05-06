@@ -183,4 +183,9 @@ public class UserController {
         if (src != null && src.getScene() != null)
             ((Stage) src.getScene().getWindow()).close();
     }
+
+    @FXML
+    private void handleLogoClick() {
+        navigateTo("../GUI/user.fxml", "FastRail Station");
+    }
 }

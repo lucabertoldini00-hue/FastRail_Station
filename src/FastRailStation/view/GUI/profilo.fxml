@@ -29,6 +29,7 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
@@ -36,14 +37,15 @@
                 <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <ImageView fitHeight="60.0" fitWidth="200.0" onMouseClicked="#handleLogoClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <image><Image url="@../../immagini/Logo.png" /></image>
                 </ImageView>
                 <Label fx:id="navHome" alignment="CENTER" styleClass="nav-item" text="Home" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <Label fx:id="navArrivi" alignment="CENTER" styleClass="nav-item" text="Arrivi" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                 <Label fx:id="navPartenze" alignment="CENTER" styleClass="nav-item" text="Partenze" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                 <Label fx:id="navPrenota" alignment="CENTER" styleClass="nav-item" text="Prenota" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                <Label fx:id="navProfilo" alignment="CENTER" styleClass="nav-item, nav-item-active" text="Profilo" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                <Label fx:id="navBiglietti" alignment="CENTER" styleClass="nav-item" text="Biglietti" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                <Label fx:id="navProfilo" alignment="CENTER" styleClass="nav-item, nav-item-active" text="Profilo" GridPane.columnIndex="7" GridPane.rowIndex="1" />
             </children>
         </GridPane>
     </top>

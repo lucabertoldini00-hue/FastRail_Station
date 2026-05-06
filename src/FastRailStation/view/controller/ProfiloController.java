@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 public class ProfiloController {
 
-    @FXML private Label navHome, navArrivi, navPartenze, navPrenota, navProfilo;
+    @FXML private Label navHome, navArrivi, navPartenze, navPrenota, navBiglietti, navProfilo;
 
     // Dati personali
     @FXML private TextField tfNome, tfCognome, tfMail, tfNascita;
@@ -119,6 +119,11 @@ public class ProfiloController {
 
     @FXML private void handleLogout() { gu.logout(); navigateTo("../GUI/user.fxml", "FastRail Station"); }
 
+    @FXML
+    private void handleLogoClick() {
+        navigateTo("../GUI/user.fxml", "FastRail Station");
+    }
+
     // ── Storico ──────────────────────────────────────────────────────────────
 
     private void setupStorico() {
@@ -189,7 +194,17 @@ public class ProfiloController {
         wire(navArrivi,   () -> navigateTo("../GUI/userMain.fxml",     "Arrivi"));
         wire(navPartenze, () -> navigateTo("../GUI/userMain.fxml",     "Partenze"));
         wire(navPrenota,  () -> navigateTo("../GUI/prenotazione.fxml", "Prenotazione"));
+        wire(navBiglietti, this::openBiglietti);
         wire(navProfilo,  () -> {});
+    }
+
+    private void openBiglietti() {
+        if (!gu.isLogged()) {
+            gu.setSchermataPrecedente("Biglietti");
+            navigateTo("../GUI/login.fxml", "Login");
+            return;
+        }
+        navigateTo("../GUI/biglietti.fxml", "I miei biglietti");
     }
 
     private void wire(Label l, Runnable r) { if (l != null) l.setOnMouseClicked(e -> r.run()); }

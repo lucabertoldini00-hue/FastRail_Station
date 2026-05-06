@@ -18,7 +18,7 @@
 
     <!-- ══ TOP BAR ══ -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="16.0" style="-fx-background-color: 9597a0; -fx-border-color: #800303; -fx-border-width: 0 0 2 0; -fx-padding: 14 22 14 22;" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER_LEFT" spacing="16.0" style="-fx-background-color: #9597a0; -fx-border-color: #800303; -fx-border-width: 0 0 2 0; -fx-padding: 14 22 14 22;" BorderPane.alignment="CENTER">
             <Label fx:id="orologio" styleClass="timeLabel" text="00:00:00" />
             <HBox HBox.hgrow="ALWAYS" />
             <Pane prefHeight="20.0" prefWidth="3.0" style="-fx-background-color: #800303; -fx-background-radius: 2;" />
@@ -28,7 +28,7 @@
 
     <!-- ══ CENTER ══ -->
     <center>
-        <VBox spacing="0.0" style="-fx-background-color: 9597a0;" BorderPane.alignment="CENTER">
+        <VBox spacing="0.0" style="-fx-background-color: #9597a0;" BorderPane.alignment="CENTER">
             <padding><Insets bottom="22.0" left="22.0" right="22.0" top="22.0" /></padding>
 
             <!-- Section label -->

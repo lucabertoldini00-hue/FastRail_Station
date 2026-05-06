@@ -23,13 +23,17 @@
     <top>
         <GridPane prefHeight="117.0" prefWidth="1100.0" styleClass="header-nav" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="30.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="523.0" minWidth="10.0" prefWidth="523.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="0.0" prefWidth="47.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="80.0" prefWidth="100.0" />
+                <!-- 0: margine sinistro -->
+                <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+                <!-- 1: logo -->
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="340.0" minWidth="140.0" prefWidth="240.0" />
+                <!-- 2-7: voci nav tutte uguali -->
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="75.0" prefWidth="90.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="75.0" prefWidth="90.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="85.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="75.0" prefWidth="90.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="90.0" prefWidth="110.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="75.0" prefWidth="90.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
@@ -37,14 +41,15 @@
                 <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fitHeight="73.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <ImageView fitHeight="73.0" fitWidth="242.0" onMouseClicked="#handleLogoClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <image><Image url="@../../immagini/Logo.png" /></image>
                 </ImageView>
-                <Label fx:id="navHome" alignment="CENTER" styleClass="nav-item" text="Home" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Label fx:id="navArrivi" alignment="CENTER" styleClass="nav-item, nav-item-active" text="Arrivi" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <Label fx:id="navPartenze" alignment="CENTER" styleClass="nav-item" text="Partenze" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                <Label fx:id="navPrenota" alignment="CENTER" styleClass="nav-item" text="Prenota" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                <Label fx:id="navProfilo" alignment="CENTER" styleClass="nav-item" text="Profilo" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                <Label fx:id="navHome" alignment="CENTER" styleClass="nav-item" text="🏠 Home" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label fx:id="navArrivi" alignment="CENTER" styleClass="nav-item, nav-item-active" text="▼ Arrivi" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <Label fx:id="navPartenze" alignment="CENTER" styleClass="nav-item" text="▲ Partenze" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                <Label fx:id="navPrenota" alignment="CENTER" styleClass="nav-item" text="💰 Prenota" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                <Label fx:id="navBiglietti" alignment="CENTER" styleClass="nav-item" text="🎟 Biglietti" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                <Label fx:id="navProfilo" alignment="CENTER" styleClass="nav-item" text="➡ Profilo" GridPane.columnIndex="7" GridPane.rowIndex="1" />
             </children>
         </GridPane>
     </top>
@@ -112,7 +117,7 @@
             </Label>
 
             <!-- Counter -->
-            <Label fx:id="lblContatore" style="-fx-font-size: 11px; -fx-padding: 0 0 0 2px;" styleClass="labelCustom1" text="0 treni" />
+            <Label fx:id="lblContatore" alignment="CENTER" prefWidth="258.0" style="-fx-text-fill: #800303; -fx-font-size: 16px; -fx-font-weight: bold;" text="0 treni" />
         </VBox>
     </left>
 
@@ -129,7 +134,7 @@
             </HBox>
 
             <!-- Table -->
-            <TableView fx:id="tblTabellone" style="-fx-background-color: 9597a0;" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tblTabellone" style="-fx-background-color: #9597a0;" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colOrario" minWidth="70.0" prefWidth="90.0" text="Orario" />
                     <TableColumn fx:id="colProvenienza" minWidth="120.0" prefWidth="170.0" text="Provenienza" />

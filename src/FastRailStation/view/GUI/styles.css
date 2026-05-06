@@ -262,7 +262,7 @@
 
 /* ── Prenotazione sidebar buttons ─────────────────────────── */
 .plusButton, .minusButton {
-    -fx-background-color: #9a9aa3;
+    -fx-background-color: #67696f;
     -fx-text-fill: #800303;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
@@ -274,7 +274,7 @@
 }
 
 .plusButton:hover, .minusButton:hover {
-    -fx-background-color: #9a9aa3;
+    -fx-background-color: #9597a0;
 }
 
 .prenotaButton {
